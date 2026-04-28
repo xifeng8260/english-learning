@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>四下英语 · 句子朗读</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, "PingFang SC", "Noto Sans SC", sans-serif;
+  background: linear-gradient(160deg, #e0f2fe 0%, #f0fdf4 50%, #fef9ee 100%);
+  min-height: 100vh;
+  padding: 14px;
+  padding-bottom: 40px;
+}
+.header {
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  border-radius: 18px;
+  padding: 18px 16px;
+  color: white;
+  margin-bottom: 13px;
+}
+.header-label { font-size: 0.62rem; opacity: .75; letter-spacing: 1px; margin-bottom: 4px; }
+.header-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 2px; }
+.header-sub   { font-size: 0.7rem; opacity: .8; }
+.tabs { display: flex; gap: 8px; margin-bottom: 12px; }
+.tab {
+  flex: 1; padding: 11px 8px; border: none; border-radius: 12px;
+  cursor: pointer; font-size: 0.76rem; font-weight: 500;
+  font-family: inherit; line-height: 1.4; transition: all .2s;
+  background: white; color: #64748b;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+.tab.active { font-weight: 700; color: white; box-shadow: 0 4px 14px rgba(0,0,0,.2); }
+.tab.p1.active { background: #2563eb; }
+.tab.p2.active { background: #7c3aed; }
+.card { background: white; border-radius: 14px; padding: 12px 14px; margin-bottom: 12px; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+.voice-bar { display: flex; align-items: center; gap: 8px; }
+.voice-name { font-size: 0.75rem; font-weight: 700; color: #1a1a2e; flex: 1; }
+.rate-btns  { display: flex; gap: 5px; }
+.rate-btn { padding: 4px 9px; border-radius: 8px; border: 1.5px solid #e2e8f0; background: white; color: #94a3b8; font-size: 0.65rem; cursor: pointer; font-family: inherit; }
+.rate-btn.active { border-color: var(--c); background: var(--c-light); color: var(--c); font-weight: 700; }
+.voice-toggle { padding: 5px 10px; background: #f1f5f9; border: none; border-radius: 8px; cursor: pointer; font-size: 0.68rem; color: #475569; font-weight: 600; font-family: inherit; }
+.voice-list { display: none; flex-direction: column; gap: 5px; margin-top: 10px; max-height: 200px; overflow-y: auto; }
+.voice-list.open { display: flex; }
+.voice-item { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 9px; border: 1.5px solid #e2e8f0; background: #fafafa; cursor: pointer; }
+.voice-item.selected { border-color: var(--c); background: var(--c-light); }
+.voice-dot { width: 7px; height: 7px; border-radius: 50%; background: #cbd5e1; flex-shrink: 0; }
+.voice-item.selected .voice-dot { background: var(--c); }
+.voice-item-name { font-size: 0.76rem; color: #334155; flex: 1; }
+.voice-item.selected .voice-item-name { font-weight: 700; color: #1e40af; }
+.voice-item-lang { font-size: 0.62rem; color: #94a3b8; }
+.page-title { font-size: 0.88rem; font-weight: 800; color: #1a1a2e; }
+.page-sub   { font-size: 0.7rem; color: #64748b; margin-top: 2px; }
+.title-card { border-left: 4px solid var(--c); }
+.group { background: white; border-radius: 16px; margin-bottom: 12px; overflow: hidden; box-shadow: 0 3px 16px rgba(0,0,0,.07); display: none; }
+.group.visible { display: block; }
+.group-header { padding: 11px 16px; background: var(--c-light); border-bottom: 1px solid var(--c-xlight); }
+.group-label { font-size: 0.82rem; font-weight: 700; color: var(--c); }
+.group-count { font-size: 0.65rem; color: #94a3b8; margin-top: 1px; }
+.group-body  { padding: 10px 13px; }
+.row { display: flex; align-items: flex-start; gap: 9px; padding: 11px 0; border-bottom: 1px solid #f1f5f9; }
+.row:last-child { border-bottom: none; }
+.row-num { width: 22px; height: 22px; border-radius: 6px; background: var(--c-light); color: var(--c); display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+.row-body { flex: 1; min-width: 0; }
+.row-en   { display: flex; align-items: flex-start; gap: 7px; margin-bottom: 5px; }
+.en-text  { font-size: 0.85rem; color: #1e293b; line-height: 1.55; font-weight: 500; flex: 1; }
+.zh-text  { font-size: 0.78rem; color: #475569; line-height: 1.55; padding-left: 8px; border-left: 2px solid var(--c-xlight); }
+.speak-btn { width: 30px; height: 30px; border-radius: 50%; border: none; cursor: pointer; font-size: 0.9rem; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: var(--c-light); color: var(--c); }
+.speak-btn.playing { background: var(--c); color: white; box-shadow: 0 2px 10px var(--c-shadow); }
+.footer { text-align: center; font-size: 0.72rem; color: #94a3b8; padding-top: 4px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-label">📖 英文句子翻译 · 点 🔊 听朗读</div>
+  <div class="header-title">四下英语 · 两份作业全部英文</div>
+  <div class="header-sub">共44句 · 逐句中英对照 · 苹果/安卓/电脑全支持</div>
+</div>
+<div class="tabs">
+  <button class="tab p1 active" onclick="switchTab('p1')">📄 作业一<br>U3A练习</button>
+  <button class="tab p2"        onclick="switchTab('p2')">📄 作业二<br>Listen &amp; do</button>
+</div>
+<div class="card title-card" id="pageTitle">
+  <div class="page-title">作业一：四下 U3A 练习</div>
+  <div class="page-sub">Meet Binbin's day（认识环球小使者斌斌的一天）</div>
+</div>
+<div class="card">
+  <div class="voice-bar">
+    <div><div class="voice-name" id="voiceName">🎙️ 加载声音中…</div></div>
+    <div class="rate-btns">
+      <button class="rate-btn" onclick="setRate(0.7,this)">慢</button>
+      <button class="rate-btn active" onclick="setRate(0.85,this)">正常</button>
+      <button class="rate-btn" onclick="setRate(1.1,this)">快</button>
+    </div>
+    <button class="voice-toggle" onclick="toggleVoiceList()">换声音</button>
+  </div>
+  <div class="voice-list" id="voiceList"></div>
+</div>
+<div class="group visible p1"><div class="group-header"><div class="group-label">第一部分：判断正误</div><div class="group-count">共 5 句</div></div><div class="group-body" id="b1"></div></div>
+<div class="group visible p1"><div class="group-header"><div class="group-label">第二部分：时间信息选择题</div><div class="group-count">共 8 句</div></div><div class="group-body" id="b2"></div></div>
+<div class="group visible p1"><div class="group-header"><div class="group-label">第三部分：时差阅读（DeepSeek短文）</div><div class="group-count">共 10 句</div></div><div class="group-body" id="b3"></div></div>
+<div class="group p2"><div class="group-header"><div class="group-label">第一部分：选词填空</div><div class="group-count">共 7 句</div></div><div class="group-body" id="b4"></div></div>
+<div class="group p2"><div class="group-header"><div class="group-label">第二部分：图片匹配</div><div class="group-count">共 5 句</div></div><div class="group-body" id="b5"></div></div>
+<div class="group p2"><div class="group-header"><div class="group-label">第三部分：Amy的周六计划表</div><div class="group-count">共 12 句</div></div><div class="group-body" id="b6"></div></div>
+<div class="footer">🔊 点每句旁边的喇叭，跟着读！多读几遍记得更牢 💪</div>
+<script>
+const DATA = {
+  b1:[
+    ["It's 7 o'clock. It's time for dinner.","现在7点。是吃晚饭的时间。"],
+    ["It's 5:00 p.m. Time to go home.","现在下午5点。是回家的时间了。"],
+    ["It's 7:20 a.m. It's time for breakfast.","现在早上7点20分。是吃早饭的时间。"],
+    ["School is over. It's 4:30 p.m. Time to go to the playground.","放学了。现在下午4点30分。是去操场玩的时间了。"],
+    ["OK. Let's go!","好的，我们走吧！"],
+  ],
+  b2:[
+    ["What time is it in New York, Sarah?","纽约现在几点了，Sarah？"],
+    ["What time is it in your city, Ben?","你那边的城市现在几点了，Ben？"],
+    ["What time is it in London, Amy?","伦敦现在几点了，Amy？"],
+    ["It's 9:00 p.m. It's time for bed.","现在晚上9点。是睡觉的时间了。"],
+    ["It's 7 o'clock in the morning.","现在是早上7点。"],
+    ["It's 12 o'clock. I'm sleeping. Good night!","现在是12点。我正在睡觉。晚安！"],
+    ["For Binbin, it's time for breakfast.","对斌斌来说，现在是吃早饭的时间。"],
+    ["In Beijing and London, it's night.","在北京和伦敦，现在是夜晚。"],
+  ],
+  b3:[
+    ["Hi, DeepSeek. What's the time difference?","你好，DeepSeek。什么是时差？"],
+    ["Good question!","问得好！"],
+    ["Time difference means that the clocks show different times in different places.","时差是指不同地方的时钟显示不同的时间。"],
+    ["Our world is like a big ball.","我们的世界就像一个大球。"],
+    ["When one part of the world has day, another part has night.","当世界的一部分是白天时，另一部分就是夜晚。"],
+    ["For example, in China, it's ten o'clock in the morning.","比如，在中国是早上十点。"],
+    ["But in New York, it's ten o'clock in the evening.","但在纽约，却是晚上十点。"],
+    ["The time difference between New York and Beijing is usually 12 hours.","纽约和北京之间的时差通常是12个小时。"],
+    ["The phrase time difference means blank.","短语 time difference 的意思是什么？"],
+    ["It's 2:00 p.m. in Beijing. But in New York, it's blank.","北京是下午2点。那么纽约是几点？"],
+  ],
+  b4:[
+    ["It's 7:00 a.m. I'm hungry. I'd like some jiaozi for breakfast.","现在早上7点。我饿了。我想吃些饺子当早饭。"],
+    ["It's 6:30 p.m. Let's eat West Lake Vinegar Fish for dinner.","现在下午6点30分。我们来吃西湖醋鱼当晚饭吧。"],
+    ["It's 11:30 a.m. It's time for lunch.","现在上午11点30分。是吃午饭的时间了。"],
+    ["It's time for art class. Let's go to the art room.","是美术课的时间了。我们去美术室吧。"],
+    ["How many birds are there? We count and write in maths class.","有几只鸟？我们在数学课上数数并写下来。"],
+    ["The students are singing Twinkle Twinkle Little Star.","同学们正在唱《一闪一闪亮晶晶》。"],
+    ["They're having an English class.","他们正在上英语课。"],
+  ],
+  b5:[
+    ["It's time for breakfast. Let's drink some milk.","是早饭时间了。我们来喝些牛奶吧。"],
+    ["It's time for English class. Let's read and write.","是英语课时间了。我们来读写吧。"],
+    ["It's time for art class. Let's draw a picture.","是美术课时间了。我们来画一幅画吧。"],
+    ["It's time for lunch. Let's have some chicken.","是午饭时间了。我们来吃些鸡肉吧。"],
+    ["It's time for maths class. Let's count and write.","是数学课时间了。我们来数数写数字吧。"],
+  ],
+  b6:[
+    ["Timetable for Saturday","周六时间表"],
+    ["8:00 a.m. eat breakfast","早上8点 吃早饭"],
+    ["9:40 a.m. do homework","上午9点40分 做作业"],
+    ["2:15 p.m. have a piano class","下午2点15分 上钢琴课"],
+    ["4:30 p.m. play basketball with Dad","下午4点30分 和爸爸打篮球"],
+    ["6:00 p.m. have dinner with grandparents","下午6点 和祖父母吃晚饭"],
+    ["9:30 p.m. time for bed","晚上9点30分 睡觉时间"],
+    ["It's 8 o'clock in the morning. I'm eating breakfast.","早上8点，我正在吃早饭。"],
+    ["I do my homework at 9:40 a.m.","我在上午9点40分做作业。"],
+    ["It's 2:15 p.m. It's time for art class.","下午2点15分，是美术课时间。"],
+    ["I play ping-pong with my sister in the afternoon.","下午我和妹妹打乒乓球。"],
+    ["I eat some noodles for dinner.","我晚饭吃些面条。"],
+  ],
+};
+let currentVoice=null,currentRate=0.85,playingBtn=null,allVoices=[];
+const COLORS={p1:{c:'#2563eb',light:'#eff6ff',xlight:'#bfdbfe',shadow:'rgba(37,99,235,0.35)'},p2:{c:'#7c3aed',light:'#f5f3ff',xlight:'#ddd6fe',shadow:'rgba(124,58,237,0.35)'}};
+function applyColors(tab){const{c,light,xlight,shadow}=COLORS[tab];document.documentElement.style.setProperty('--c',c);document.documentElement.style.setProperty('--c-light',light);document.documentElement.style.setProperty('--c-xlight',xlight);document.documentElement.style.setProperty('--c-shadow',shadow);}
+function buildRows(){Object.entries(DATA).forEach(([bodyId,sentences])=>{const container=document.getElementById(bodyId);container.innerHTML=sentences.map(([en,zh],i)=>{const safe=en.replace(/&/g,'&amp;').replace(/"/g,'&quot;');return`<div class="row"><div class="row-num">${i+1}</div><div class="row-body"><div class="row-en"><div class="en-text">${en}</div><button class="speak-btn" data-text="${safe}" onclick="speakSentence(this)">🔊</button></div><div class="zh-text">${zh}</div></div></div>`;}).join('');});}
+function switchTab(tab){applyColors(tab);document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelector('.tab.'+tab).classList.add('active');document.querySelectorAll('.group').forEach(g=>g.classList.toggle('visible',g.classList.contains(tab)));const titles={p1:['作业一：四下 U3A 练习','Meet Binbin\'s day（认识环球小使者斌斌的一天）'],p2:['作业二：A. Let\'s learn &amp; Listen and do','Time manager（争做时间管理者）']};document.getElementById('pageTitle').innerHTML=`<div class="page-title">${titles[tab][0]}</div><div class="page-sub">${titles[tab][1]}</div>`;}
+function speakSentence(btn){const text=btn.getAttribute('data-text');if(!window.speechSynthesis){alert('浏览器不支持语音');return;}if(playingBtn===btn){window.speechSynthesis.cancel();btn.classList.remove('playing');btn.textContent='🔊';playingBtn=null;return;}if(playingBtn){window.speechSynthesis.cancel();playingBtn.classList.remove('playing');playingBtn.textContent='🔊';}const u=new SpeechSynthesisUtterance(text);u.lang='en-US';u.rate=currentRate;u.pitch=1.1;if(currentVoice)u.voice=currentVoice;u.onstart=()=>{btn.classList.add('playing');btn.textContent='⏹';playingBtn=btn;};u.onend=u.onerror=()=>{btn.classList.remove('playing');btn.textContent='🔊';if(playingBtn===btn)playingBtn=null;};window.speechSynthesis.speak(u);}
+function setRate(rate,btn){currentRate=rate;document.querySelectorAll('.rate-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+function toggleVoiceList(){document.getElementById('voiceList').classList.toggle('open');}
+function buildVoiceList(){document.getElementById('voiceList').innerHTML=allVoices.map((v,i)=>`<div class="voice-item ${currentVoice&&currentVoice.name===v.name?'selected':''}" onclick="selectVoice(${i})"><div class="voice-dot"></div><div class="voice-item-name">${v.name}</div><div class="voice-item-lang">${v.lang}</div></div>`).join('');}
+function selectVoice(i){currentVoice=allVoices[i];document.getElementById('voiceName').textContent='🎙️ '+currentVoice.name;buildVoiceList();document.getElementById('voiceList').classList.remove('open');const u=new SpeechSynthesisUtterance("Hello! It's time for English class!");u.lang='en-US';u.rate=currentRate;u.pitch=1.1;u.voice=currentVoice;window.speechSynthesis.cancel();window.speechSynthesis.speak(u);}
+function loadVoices(){const raw=window.speechSynthesis.getVoices();const en=raw.filter(v=>v.lang.startsWith('en'));if(!en.length)return;allVoices=en;const prefer=['Samantha','Zira','Jenny','Aria','Emma','Karen','Moira','Fiona','Nicky'];let picked=null;for(const name of prefer){picked=en.find(v=>v.name.includes(name));if(picked)break;}if(!picked)picked=en.find(v=>v.lang==='en-US')||en[0];currentVoice=picked;document.getElementById('voiceName').textContent='🎙️ '+picked.name;buildVoiceList();}
+applyColors('p1');buildRows();
+if(window.speechSynthesis){window.speechSynthesis.addEventListener('voiceschanged',loadVoices);loadVoices();}else{document.getElementById('voiceName').textContent='⚠️ 浏览器不支持语音';}
+</script>
+</body>
+</html>
