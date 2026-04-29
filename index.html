@@ -12,15 +12,20 @@ body { font-family: -apple-system,"PingFang SC","Noto Sans SC",sans-serif; backg
 .header-title { font-size: 1.3rem; font-weight: 800; margin-bottom: 4px; }
 .header-sub { font-size: 0.75rem; opacity: .8; }
 .section-label { font-size: 0.75rem; font-weight: 700; color: #64748b; margin-bottom: 10px; letter-spacing: 0.5px; }
-.card { display: block; background: white; border-radius: 18px; padding: 18px; margin-bottom: 12px; box-shadow: 0 4px 20px rgba(0,0,0,.08); text-decoration: none; border-left: 5px solid #e2e8f0; }
+.card { display: block; background: white; border-radius: 18px; padding: 18px; margin-bottom: 12px; box-shadow: 0 4px 20px rgba(0,0,0,.08); text-decoration: none; border-left: 5px solid #e2e8f0; transition: transform .15s; }
+.card:active { transform: scale(0.98); }
 .card.blue   { border-left-color: #2563eb; }
 .card.purple { border-left-color: #7c3aed; }
 .card.green  { border-left-color: #059669; }
+.card.teal   { border-left-color: #0d9488; }
+.card.rose   { border-left-color: #e11d48; }
 .card-top { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
 .card-icon { width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
 .card-icon.blue   { background: #eff6ff; }
 .card-icon.purple { background: #f5f3ff; }
 .card-icon.green  { background: #f0fdf4; }
+.card-icon.teal   { background: #f0fdfa; }
+.card-icon.rose   { background: #fff1f2; }
 .card-title    { font-size: 0.95rem; font-weight: 800; color: #1a1a2e; margin-bottom: 2px; }
 .card-subtitle { font-size: 0.68rem; color: #64748b; }
 .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
@@ -28,17 +33,22 @@ body { font-family: -apple-system,"PingFang SC","Noto Sans SC",sans-serif; backg
 .tag.blue   { background: #eff6ff; color: #2563eb; }
 .tag.purple { background: #f5f3ff; color: #7c3aed; }
 .tag.green  { background: #f0fdf4; color: #059669; }
+.tag.teal   { background: #f0fdfa; color: #0d9488; }
+.tag.rose   { background: #fff1f2; color: #e11d48; }
 .tag.gray   { background: #f1f5f9; color: #64748b; }
 .tag.red    { background: #fee2e2; color: #dc2626; }
 .card-footer { display: flex; align-items: center; justify-content: space-between; }
-.card-count { font-size: 0.72rem; color: #94a3b8; }
-.card.blue   .card-arrow { color: #2563eb; font-size: 1rem; }
-.card.purple .card-arrow { color: #7c3aed; font-size: 1rem; }
-.card.green  .card-arrow { color: #059669; font-size: 1rem; }
+.card-count  { font-size: 0.72rem; color: #94a3b8; }
+.card.blue   .arrow { color: #2563eb; }
+.card.purple .arrow { color: #7c3aed; }
+.card.green  .arrow { color: #059669; }
+.card.teal   .arrow { color: #0d9488; }
+.card.rose   .arrow { color: #e11d48; }
 .divider { height: 1px; background: #e2e8f0; margin: 16px 0; }
 .tip { background: white; border-radius: 14px; padding: 13px 15px; box-shadow: 0 2px 12px rgba(0,0,0,.06); display: flex; align-items: flex-start; gap: 10px; }
 .tip-title { font-size: 0.78rem; font-weight: 700; color: #1a1a2e; margin-bottom: 3px; }
 .tip-text  { font-size: 0.7rem; color: #64748b; line-height: 1.5; }
+.sub-label { font-size: 0.7rem; font-weight: 700; color: #94a3b8; margin: 14px 0 8px; letter-spacing: 0.5px; padding-left: 4px; }
 </style>
 </head>
 <body>
@@ -49,7 +59,8 @@ body { font-family: -apple-system,"PingFang SC","Noto Sans SC",sans-serif; backg
   <div class="header-sub">点击进入 · 听朗读 · 学发音 · 对翻译</div>
 </div>
 
-<div class="section-label">📄 全部作业</div>
+<!-- 练习作业 -->
+<div class="section-label">📄 课时练习</div>
 
 <a class="card blue" href="u3a.html">
   <div class="card-top">
@@ -67,7 +78,7 @@ body { font-family: -apple-system,"PingFang SC","Noto Sans SC",sans-serif; backg
   </div>
   <div class="card-footer">
     <span class="card-count">🔊 点击进入听朗读</span>
-    <span class="card-arrow">→</span>
+    <span class="arrow">→</span>
   </div>
 </a>
 
@@ -87,16 +98,19 @@ body { font-family: -apple-system,"PingFang SC","Noto Sans SC",sans-serif; backg
   </div>
   <div class="card-footer">
     <span class="card-count">🔊 点击进入听朗读</span>
-    <span class="card-arrow">→</span>
+    <span class="arrow">→</span>
   </div>
 </a>
+
+<!-- 阶段评估 -->
+<div class="section-label">📝 阶段素养评估（Unit 1–3）</div>
 
 <a class="card green" href="exam.html">
   <div class="card-top">
     <div class="card-icon green">📝</div>
     <div>
-      <div class="card-title">作业三：阶段素养评估</div>
-      <div class="card-subtitle">Rules and habits make our life better · Unit 1–3</div>
+      <div class="card-title">作业三：阶段素养评估 · 全卷</div>
+      <div class="card-subtitle">Rules and habits make our life better · 第一到十二大题</div>
     </div>
   </div>
   <div class="card-tags">
@@ -107,8 +121,29 @@ body { font-family: -apple-system,"PingFang SC","Noto Sans SC",sans-serif; backg
     <span class="tag gray">全卷批改</span>
   </div>
   <div class="card-footer">
-    <span class="card-count">🔊 全卷英文翻译+批改</span>
-    <span class="card-arrow">→</span>
+    <span class="card-count">🔊 全卷英文+翻译+解说</span>
+    <span class="arrow">→</span>
+  </div>
+</a>
+
+<a class="card teal" href="detail-11-12.html">
+  <div class="card-top">
+    <div class="card-icon teal">✉️</div>
+    <div>
+      <div class="card-title">作业三 精讲：第十一、十二题</div>
+      <div class="card-subtitle">Ann与Nina的邮件 + 书面表达 · 逐句详解</div>
+    </div>
+  </div>
+  <div class="card-tags">
+    <span class="tag teal">邮件全文翻译</span>
+    <span class="tag teal">逐句解说</span>
+    <span class="tag teal">选择题解析</span>
+    <span class="tag red">有错题</span>
+    <span class="tag gray">共26句</span>
+  </div>
+  <div class="card-footer">
+    <span class="card-count">🔊 每句都能朗读</span>
+    <span class="arrow">→</span>
   </div>
 </a>
 
