@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Are Your Class Rules? · 四年级英语</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{--bg:#f0f4ff;--surface:#fff;--surface2:#f7f8fc;--border:rgba(0,0,0,0.10);--border-mid:rgba(0,0,0,0.18);--text:#1a1a20;--text2:#4a4a5a;--text3:#8888a0;--ac:#4f46e5;--ac-bg:#eef2ff;--ac-t:#3730a3;--gr:#166534;--gr-bg:#dcfce7;--rd:#991b1b;--rd-bg:#fee2e2;--am:#92400e;--am-bg:#fef3c7;--tl:#0f766e;--tl-bg:#ccfbf1;--r:12px;--rs:8px;}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+.hdr{background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 100%);color:#fff;padding:20px 20px 18px;text-align:center;}
+.hdr-tag{display:inline-block;background:rgba(255,255,255,0.2);border-radius:20px;padding:3px 14px;font-size:11px;letter-spacing:.06em;margin-bottom:8px;}
+.hdr-title{font-size:22px;font-weight:700;margin-bottom:4px;}
+.hdr-sub{font-size:13px;opacity:.8;}
+.hdr-unit{margin-top:12px;background:rgba(255,255,255,0.15);border-radius:8px;padding:9px 16px;font-size:13px;display:inline-block;}
+.back{display:inline-flex;align-items:center;gap:6px;margin:12px 16px;padding:7px 14px;background:var(--surface);border-radius:20px;border:0.5px solid var(--border-mid);font-size:12px;color:var(--text2);text-decoration:none;transition:background .15s;}
+.back:hover{background:var(--ac-bg);color:var(--ac);}
+.spd-bar{background:var(--surface);border-bottom:0.5px solid var(--border);padding:9px 16px;display:flex;align-items:center;gap:8px;position:sticky;top:0;z-index:50;flex-wrap:wrap;}
+.spd-label{font-size:11px;color:var(--text3);}
+.spd-btn{padding:4px 12px;border-radius:20px;border:0.5px solid var(--border-mid);background:transparent;font-size:12px;cursor:pointer;color:var(--text2);font-family:inherit;transition:all .15s;}
+.spd-btn.on{background:var(--ac);color:#fff;border-color:var(--ac);}
+.voice-btn{margin-left:auto;padding:4px 12px;border-radius:20px;border:0.5px solid var(--border-mid);background:transparent;font-size:12px;cursor:pointer;color:var(--text2);font-family:inherit;}
+.tabs{display:flex;background:var(--surface);border-bottom:0.5px solid var(--border);overflow-x:auto;}
+.tab{flex-shrink:0;padding:11px 16px;font-size:12px;font-weight:500;border:none;background:transparent;cursor:pointer;color:var(--text3);border-bottom:2px solid transparent;transition:all .15s;font-family:inherit;white-space:nowrap;}
+.tab.on{color:var(--ac);border-bottom-color:var(--ac);}
+.page{display:none;}.page.on{display:block;}
+.sec{padding:16px 16px 24px;}
+.sec-hdr{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+.sec-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;}
+.sec-title{font-size:15px;font-weight:700;}
+.sec-en{font-size:11px;color:var(--text3);}
+.scene-tag{background:var(--tl-bg);border-radius:8px;padding:8px 13px;font-size:11px;color:var(--tl);margin-bottom:10px;font-weight:500;}
+.dlg-wrap{display:flex;flex-direction:column;gap:10px;margin-bottom:4px;}
+.dlg{display:flex;align-items:flex-start;gap:10px;}
+.dlg.right{flex-direction:row-reverse;}
+.avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.bubble-wrap{position:relative;max-width:80%;}
+.bubble{padding:10px 14px;}
+.dlg.left .bubble{background:#fff;border:0.5px solid var(--border-mid);border-radius:4px 12px 12px 12px;}
+.dlg.right .bubble{background:var(--ac-bg);border:0.5px solid rgba(79,70,229,.2);border-radius:12px 4px 12px 12px;}
+.bubble-en{font-size:14px;font-weight:500;color:var(--text);margin-bottom:3px;line-height:1.5;}
+.bubble-zh{font-size:12px;color:var(--text2);}
+.speak-btn{position:absolute;top:6px;right:-34px;width:26px;height:26px;border-radius:50%;border:none;background:transparent;cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center;transition:transform .15s;}
+.dlg.right .speak-btn{left:-34px;right:auto;}
+.speak-btn:hover{transform:scale(1.2);}
+.speak-btn.playing{animation:pulse .6s infinite alternate;}
+@keyframes pulse{from{opacity:.5;}to{opacity:1;transform:scale(1.1);}}
+.phrase-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.phrase-card{background:var(--surface);border-radius:var(--r);border:0.5px solid var(--border-mid);padding:14px 12px 12px;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;}
+.phrase-en{font-size:13px;font-weight:600;color:var(--text);text-align:center;}
+.phrase-zh{font-size:11px;color:var(--text2);text-align:center;}
+.phrase-rule{display:inline-block;padding:3px 10px;border-radius:12px;font-size:10px;font-weight:700;}
+.rule-dont{background:var(--rd-bg);color:var(--rd);}
+.rule-please{background:var(--gr-bg);color:var(--gr);}
+.pspk{position:absolute;top:8px;right:8px;background:none;border:none;cursor:pointer;font-size:15px;line-height:1;}
+.key-box{background:var(--ac-bg);border-radius:var(--r);border:0.5px solid rgba(79,70,229,.2);padding:14px 16px;margin-bottom:14px;}
+.key-label{font-size:10px;font-weight:700;color:var(--ac-t);letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;}
+.key-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.key-row:last-child{margin-bottom:0;}
+.key-spk{background:none;border:none;cursor:pointer;font-size:20px;flex-shrink:0;}
+.key-en{font-size:14px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.key-zh{font-size:12px;color:var(--text2);}
+.vocab-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surface);border-radius:var(--rs);border:0.5px solid var(--border-mid);margin-bottom:6px;}
+.vocab-spk{background:none;border:none;cursor:pointer;font-size:17px;flex-shrink:0;}
+.vocab-en{font-size:13px;font-weight:600;min-width:130px;}
+.vocab-zh{font-size:12px;color:var(--text2);}
+.tip{background:var(--am-bg);border-radius:var(--rs);padding:12px 14px;margin-top:14px;border-left:3px solid #f59e0b;}
+.tip-title{font-size:11px;font-weight:700;color:var(--am);margin-bottom:5px;}
+.tip-body{font-size:12px;color:#78350f;line-height:1.8;}
+.quiz-card{background:var(--surface);border-radius:var(--r);border:0.5px solid var(--border-mid);padding:14px;margin-bottom:10px;}
+.quiz-q{font-size:13px;font-weight:500;margin-bottom:10px;line-height:1.6;}
+.quiz-opts{display:flex;flex-direction:column;gap:6px;}
+.opt{padding:9px 13px;border-radius:var(--rs);border:0.5px solid var(--border-mid);font-size:12px;cursor:pointer;transition:all .15s;background:var(--surface2);line-height:1.5;text-align:left;font-family:inherit;}
+.opt:hover{border-color:var(--ac);background:var(--ac-bg);}
+.opt.correct{background:var(--gr-bg);border-color:#16a34a;color:var(--gr);font-weight:600;}
+.opt.wrong{background:var(--rd-bg);border-color:#dc2626;color:var(--rd);}
+#score-area{display:none;background:var(--ac-bg);border-radius:var(--r);padding:20px;text-align:center;margin-top:6px;border:0.5px solid rgba(79,70,229,.2);}
+#score-num{font-size:28px;font-weight:700;color:var(--ac);}
+#score-msg{font-size:13px;color:var(--ac-t);margin-top:6px;}
+.retry-btn{margin-top:14px;padding:9px 24px;border-radius:24px;border:none;background:var(--ac);color:#fff;font-family:inherit;font-size:13px;cursor:pointer;}
+@media(max-width:480px){.phrase-grid{grid-template-columns:1fr;}.hdr-title{font-size:18px;}}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-tag">📚 Grade 4 · PEP 人教版四年级</div>
+  <div class="hdr-title">What Are Your Class Rules?</div>
+  <div class="hdr-sub">你们班有什么课堂规则？</div>
+  <div class="hdr-unit">Unit A &nbsp;·&nbsp; Let's Talk &nbsp;+&nbsp; Choose, Talk and Group</div>
+</div>
+
+<a class="back" href="index.html">← 返回主页</a>
+
+<div class="spd-bar">
+  <span class="spd-label">🔊 语速 Speed：</span>
+  <button class="spd-btn" onclick="setSpd(0.7,this)">慢 Slow</button>
+  <button class="spd-btn on" onclick="setSpd(1,this)">正常 Normal</button>
+  <button class="spd-btn" onclick="setSpd(1.3,this)">快 Fast</button>
+  <button class="voice-btn" id="vbtn" onclick="cycleVoice()">🗣 Voice 1</button>
+</div>
+
+<div class="tabs">
+  <button class="tab on" onclick="showPage('p1',this)">🗣 Let's Talk · 对话</button>
+  <button class="tab" onclick="showPage('p2',this)">📋 Class Rules · 规则卡</button>
+  <button class="tab" onclick="showPage('p3',this)">💡 Key Phrases · 重点</button>
+  <button class="tab" onclick="showPage('p4',this)">✏️ Quiz · 练一练</button>
+</div>
+
+<!-- Page 1 -->
+<div class="page on" id="p1">
+<div class="sec">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#4f46e5;"></div><div class="sec-title">Let's Talk</div><div class="sec-en">· 情景对话 · 点 🔊 跟读</div></div>
+  <div class="scene-tag">📍 场景一 Scene 1 · 在学校门口 At the school gate</div>
+  <div class="dlg-wrap">
+    <div class="dlg left"><div class="avatar" style="background:#fef9c3;">👦</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Jack, you can't take toys to school.</div><div class="bubble-zh">杰克，你不能带玩具去学校。</div></div><button class="speak-btn" onclick="speak('Jack, you cannot take toys to school.',this)">🔊</button></div></div>
+    <div class="dlg right"><div class="avatar" style="background:#d1fae5;">👦</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Oh, sorry. Can I take this apple?</div><div class="bubble-zh">哦，对不起。我可以带这个苹果吗？</div></div><button class="speak-btn" onclick="speak('Oh, sorry. Can I take this apple?',this)">🔊</button></div></div>
+    <div class="dlg left"><div class="avatar" style="background:#fef9c3;">👦</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Yes, but don't eat it in class.</div><div class="bubble-zh">可以，但不要在课堂上吃。</div></div><button class="speak-btn" onclick="speak('Yes, but don\'t eat it in class.',this)">🔊</button></div></div>
+    <div class="dlg right"><div class="avatar" style="background:#d1fae5;">👦</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">OK.</div><div class="bubble-zh">好的。</div></div><button class="speak-btn" onclick="speak('OK.',this)">🔊</button></div></div>
+  </div>
+  <div class="scene-tag" style="margin-top:16px;">📍 场景二 Scene 2 · 上学路上 On the way to school</div>
+  <div class="dlg-wrap">
+    <div class="dlg left"><div class="avatar" style="background:#fef9c3;">👦</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Hurry up! Don't be late for class!</div><div class="bubble-zh">快点！不要上课迟到！</div></div><button class="speak-btn" onclick="speak('Hurry up! Don\'t be late for class!',this)">🔊</button></div></div>
+    <div class="dlg right"><div class="avatar" style="background:#d1fae5;">👦</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">I'm ready. Let's go!</div><div class="bubble-zh">我准备好了，走吧！</div></div><button class="speak-btn" onclick="speak('I\'m ready. Let\'s go!',this)">🔊</button></div></div>
+  </div>
+  <div class="tip"><div class="tip-title">📌 Grammar Tip · 语法小贴士</div><div class="tip-body"><b>Can I…?</b> — 表示请求许可："我可以……吗？"<br><b>Don't + 动词原形</b> — 表示禁止："不要……"<br><b>You can't + 动词原形</b> — 表示不允许："你不能……"<br><b>Please + 动词原形</b> — 礼貌请求："请……"</div></div>
+</div>
+</div>
+
+<!-- Page 2 -->
+<div class="page" id="p2">
+<div class="sec">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#0f766e;"></div><div class="sec-title">Choose, Talk and Group</div><div class="sec-en">· 判断："Please" 还是 "Don't"？</div></div>
+  <div style="font-size:11px;color:var(--text3);margin-bottom:14px;">点 🔊 听完整句子 · 绿色=Please（请……）· 红色=Don't（不要……）</div>
+  <div class="phrase-grid">
+    <div class="phrase-card"><div style="font-size:28px;">⏰🚪</div><div class="phrase-en">be late for class</div><div class="phrase-zh">上课迟到</div><span class="phrase-rule rule-dont">Don't be late for class</span><button class="pspk" onclick="speak('Don\'t be late for class.',this)">🔊</button></div>
+    <div class="phrase-card"><div style="font-size:28px;">🍎🚫</div><div class="phrase-en">eat in class</div><div class="phrase-zh">在课堂上吃东西</div><span class="phrase-rule rule-dont">Don't eat in class</span><button class="pspk" onclick="speak('Don\'t eat in class.',this)">🔊</button></div>
+    <div class="phrase-card"><div style="font-size:28px;">🤝😊</div><div class="phrase-en">be nice</div><div class="phrase-zh">友善待人</div><span class="phrase-rule rule-please">Please be nice</span><button class="pspk" onclick="speak('Please be nice.',this)">🔊</button></div>
+    <div class="phrase-card"><div style="font-size:28px;">🎮🚫</div><div class="phrase-en">take toys to school</div><div class="phrase-zh">带玩具去学校</div><span class="phrase-rule rule-dont">Don't take toys to school</span><button class="pspk" onclick="speak('Don\'t take toys to school.',this)">🔊</button></div>
+    <div class="phrase-card"><div style="font-size:28px;">🧹✨</div><div class="phrase-en">keep the classroom clean</div><div class="phrase-zh">保持教室整洁</div><span class="phrase-rule rule-please">Please keep the classroom clean</span><button class="pspk" onclick="speak('Please keep the classroom clean.',this)">🔊</button></div>
+    <div class="phrase-card"><div style="font-size:28px;">🏃🚫</div><div class="phrase-en">run in the classroom</div><div class="phrase-zh">在教室里跑动</div><span class="phrase-rule rule-dont">Don't run in the classroom</span><button class="pspk" onclick="speak('Don\'t run in the classroom.',this)">🔊</button></div>
+  </div>
+  <div class="tip"><div class="tip-title">💬 Practice · 这样练习说</div><div class="tip-body">问：<b>What's this? "Please" or "Don't"?</b>（这是"请"还是"不要"？）<br>答：<b>Please be nice.</b> / <b>Don't eat in class.</b></div></div>
+</div>
+</div>
+
+<!-- Page 3 -->
+<div class="page" id="p3">
+<div class="sec">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#9d174d;"></div><div class="sec-title">Key Language · 重点语言</div><div class="sec-en">· 核心句型 + 词汇</div></div>
+  <div class="key-box">
+    <div class="key-label">🔑 Sentence Patterns · 句型</div>
+    <div class="key-row"><button class="key-spk" onclick="speak('You cannot take toys to school.',this)">🔊</button><div><div class="key-en">You can't + <span style="color:#4f46e5;">动词原形</span></div><div class="key-zh">你不能…（强调规则）</div></div></div>
+    <div class="key-row"><button class="key-spk" onclick="speak('Don\'t be late for class.',this)">🔊</button><div><div class="key-en">Don't + <span style="color:#4f46e5;">动词原形</span></div><div class="key-zh">不要…（祈使句）</div></div></div>
+    <div class="key-row"><button class="key-spk" onclick="speak('Can I take this apple?',this)">🔊</button><div><div class="key-en">Can I + <span style="color:#4f46e5;">动词原形</span>?</div><div class="key-zh">我可以…吗？（请求允许）</div></div></div>
+    <div class="key-row"><button class="key-spk" onclick="speak('Please be nice.',this)">🔊</button><div><div class="key-en">Please + <span style="color:#4f46e5;">动词原形</span></div><div class="key-zh">请…（礼貌请求）</div></div></div>
+    <div class="key-row"><button class="key-spk" onclick="speak('Yes, but don\'t eat it in class.',this)">🔊</button><div><div class="key-en">Yes, but don't + <span style="color:#4f46e5;">动词原形</span>.</div><div class="key-zh">可以，但不要…（有条件许可）</div></div></div>
+  </div>
+  <div style="font-size:13px;font-weight:700;margin-bottom:10px;">📖 Vocabulary · 词汇表</div>
+  <div class="vocab-row"><button class="vocab-spk" onclick="speak('rule',this)">🔊</button><div class="vocab-en">rule</div><div class="vocab-zh">规则，规定（名词）</div></div>
+  <div class="vocab-row"><button class="vocab-spk" onclick="speak('classroom',this)">🔊</button><div class="vocab-en">classroom</div><div class="vocab-zh">教室（名词）</div></div>
+  <div class="vocab-row"><button class="vocab-spk" onclick="speak('hurry up',this)">🔊</button><div class="vocab-en">hurry up</div><div class="vocab-zh">快点，赶快（短语）</div></div>
+  <div class="vocab-row"><button class="vocab-spk" onclick="speak('late',this)">🔊</button><div class="vocab-en">late</div><div class="vocab-zh">迟到的，晚的（形容词）</div></div>
+  <div class="vocab-row"><button class="vocab-spk" onclick="speak('ready',this)">🔊</button><div class="vocab-en">ready</div><div class="vocab-zh">准备好的（形容词）</div></div>
+  <div class="vocab-row"><button class="vocab-spk" onclick="speak('nice',this)">🔊</button><div class="vocab-en">nice</div><div class="vocab-zh">友善的，好的（形容词）</div></div>
+  <div class="vocab-row"><button class="vocab-spk" onclick="speak('toy',this)">🔊</button><div class="vocab-en">toy</div><div class="vocab-zh">玩具（名词）</div></div>
+  <div class="vocab-row"><button class="vocab-spk" onclick="speak('clean',this)">🔊</button><div class="vocab-en">clean</div><div class="vocab-zh">整洁的；保持整洁（形容词/动词）</div></div>
+</div>
+</div>
+
+<!-- Page 4 -->
+<div class="page" id="p4">
+<div class="sec">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#f59e0b;"></div><div class="sec-title">Quiz · 练一练</div><div class="sec-en">· 点击选项 · 自动判断对错</div></div>
+  <div style="font-size:11px;color:var(--text3);margin-bottom:14px;">答完5题自动显示得分 🌟</div>
+  <div class="quiz-card"><div class="quiz-q">1. Jack wants to bring a toy to school. What does his friend say?<br><span style="color:var(--text3);font-size:12px;">杰克想带玩具去学校，朋友应该说？</span></div><div class="quiz-opts"><button class="opt" onclick="ans(this,false)">A. Please take toys to school.</button><button class="opt" onclick="ans(this,true)">B. You can't take toys to school.</button><button class="opt" onclick="ans(this,false)">C. Don't go to school.</button></div></div>
+  <div class="quiz-card"><div class="quiz-q">2. Jack asks "Can I take this apple?" — Best reply?<br><span style="color:var(--text3);font-size:12px;">最恰当的回答是？</span></div><div class="quiz-opts"><button class="opt" onclick="ans(this,false)">A. No, you can't.</button><button class="opt" onclick="ans(this,false)">B. Please take the apple.</button><button class="opt" onclick="ans(this,true)">C. Yes, but don't eat it in class.</button></div></div>
+  <div class="quiz-card"><div class="quiz-q">3. "Keep the classroom clean." — "Please" or "Don't"?<br><span style="color:var(--text3);font-size:12px;">这条规则用哪个？</span></div><div class="quiz-opts"><button class="opt" onclick="ans(this,true)">A. Please keep the classroom clean. ✅</button><button class="opt" onclick="ans(this,false)">B. Don't keep the classroom clean.</button></div></div>
+  <div class="quiz-card"><div class="quiz-q">4. Which sentence means "不要在教室里跑"?</div><div class="quiz-opts"><button class="opt" onclick="ans(this,false)">A. Please run in the classroom.</button><button class="opt" onclick="ans(this,true)">B. Don't run in the classroom.</button><button class="opt" onclick="ans(this,false)">C. You can run in the classroom.</button></div></div>
+  <div class="quiz-card"><div class="quiz-q">5. 用英文怎么说"我准备好了，走吧！"?</div><div class="quiz-opts"><button class="opt" onclick="ans(this,false)">A. Hurry up! Let's go!</button><button class="opt" onclick="ans(this,true)">B. I'm ready. Let's go!</button><button class="opt" onclick="ans(this,false)">C. I'm sorry. Let's go!</button></div></div>
+  <div id="score-area"><div id="score-num"></div><div id="score-msg"></div><button class="retry-btn" onclick="resetQuiz()">再来一次 Try Again 🔄</button></div>
+</div>
+</div>
+
+<div style="height:30px;"></div>
+<script>
+let spd=1,voices=[],vi=0,activBtn=null;
+function loadVoices(){voices=window.speechSynthesis.getVoices().filter(v=>v.lang.startsWith('en'));if(!voices.length)setTimeout(loadVoices,400);}
+if('speechSynthesis'in window){window.speechSynthesis.onvoiceschanged=loadVoices;loadVoices();}
+function speak(text,btn){
+  if(!window.speechSynthesis)return;
+  window.speechSynthesis.cancel();
+  if(activBtn===btn){activBtn=null;return;}
+  if(activBtn)activBtn.classList.remove('playing');
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='en-US';u.rate=spd;u.pitch=1;
+  if(voices.length)u.voice=voices[vi%voices.length];
+  if(btn){btn.classList.add('playing');activBtn=btn;u.onend=()=>{btn.classList.remove('playing');activBtn=null;};u.onerror=()=>{btn.classList.remove('playing');activBtn=null;};}
+  window.speechSynthesis.speak(u);
+}
+function setSpd(s,btn){spd=s;document.querySelectorAll('.spd-btn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');}
+function cycleVoice(){if(!voices.length)return;vi=(vi+1)%voices.length;document.getElementById('vbtn').textContent='🗣 Voice '+(vi+1);speak('Hello! Let\'s learn English!',null);}
+function showPage(id,btn){document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));document.getElementById(id).classList.add('on');btn.classList.add('on');}
+let answered=0,correct=0,total=5;
+function ans(el,isCorrect){
+  const opts=el.parentElement.querySelectorAll('.opt');
+  let done=false;opts.forEach(o=>{if(o.classList.contains('correct')||o.classList.contains('wrong'))done=true;});
+  if(done)return;
+  el.classList.add(isCorrect?'correct':'wrong');
+  if(!isCorrect){opts.forEach(o=>{const fn=o.getAttribute('onclick')||'';if(fn.includes('true'))o.classList.add('correct');});}
+  answered++;if(isCorrect)correct++;
+  if(answered===total){
+    const sa=document.getElementById('score-area');sa.style.display='block';
+    document.getElementById('score-num').textContent=correct+'/'+total+' ⭐';
+    const msgs=['继续努力！Keep going! 💪','还不错！Good try! 😊','做得好！Good job! 👍','很棒！Excellent! 🎉','满分！Perfect! 🏆'];
+    document.getElementById('score-msg').textContent=msgs[Math.min(correct,4)];
+    sa.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function resetQuiz(){document.querySelectorAll('.opt').forEach(o=>o.classList.remove('correct','wrong'));document.getElementById('score-area').style.display='none';answered=0;correct=0;}
+</script>
+</body>
+</html>

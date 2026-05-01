@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>十一、十二题 · 精讲</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system,"PingFang SC","Noto Sans SC",sans-serif; background: linear-gradient(160deg,#f5f3ff 0%,#f0fdf4 50%,#fef9ee 100%); min-height: 100vh; padding: 14px; padding-bottom: 40px; }
+a.back { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; background: white; border-radius: 20px; font-size: 0.78rem; font-weight: 600; color: #7c3aed; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,.08); text-decoration: none; }
+.hd { background: linear-gradient(135deg,#7c3aed,#2563eb); border-radius: 18px; padding: 18px 16px; color: white; margin-bottom: 13px; }
+.hd-label { font-size: 0.62rem; opacity: .75; letter-spacing: 1px; margin-bottom: 4px; }
+.hd-title { font-size: 1.05rem; font-weight: 800; margin-bottom: 2px; }
+.hd-sub { font-size: 0.7rem; opacity: .8; }
+
+/* voice */
+.vc { background: white; border-radius: 14px; padding: 12px 14px; margin-bottom: 12px; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+.vrow { display: flex; align-items: center; gap: 8px; }
+.vname { font-size: 0.75rem; font-weight: 700; color: #1a1a2e; flex: 1; }
+.rbtns { display: flex; gap: 5px; }
+.rbtn { padding: 4px 9px; border-radius: 8px; border: 1.5px solid #e2e8f0; background: white; color: #94a3b8; font-size: 0.65rem; cursor: pointer; font-family: inherit; }
+.rbtn.on { border-color: #7c3aed; background: #f5f3ff; color: #7c3aed; font-weight: 700; }
+.vtog { padding: 5px 10px; background: #f1f5f9; border: none; border-radius: 8px; cursor: pointer; font-size: 0.68rem; color: #475569; font-weight: 600; font-family: inherit; }
+.vlist { display: none; flex-direction: column; gap: 5px; margin-top: 10px; max-height: 200px; overflow-y: auto; }
+.vlist.open { display: flex; }
+.vi { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 9px; border: 1.5px solid #e2e8f0; background: #fafafa; cursor: pointer; }
+.vi.sel { border-color: #7c3aed; background: #f5f3ff; }
+.vdot { width: 7px; height: 7px; border-radius: 50%; background: #cbd5e1; flex-shrink: 0; }
+.vi.sel .vdot { background: #7c3aed; }
+.viname { font-size: 0.76rem; color: #334155; flex: 1; }
+.vi.sel .viname { font-weight: 700; color: #6d28d9; }
+.vilang { font-size: 0.62rem; color: #94a3b8; }
+
+/* email card */
+.email-wrap { background: white; border-radius: 16px; margin-bottom: 14px; overflow: hidden; box-shadow: 0 3px 18px rgba(0,0,0,.08); }
+.email-head { padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+.email-head.ann { background: #eff6ff; border-bottom: 1px solid #bfdbfe; }
+.email-head.nina { background: #f5f3ff; border-bottom: 1px solid #ddd6fe; }
+.email-head.q { background: #f0fdf4; border-bottom: 1px solid #bbf7d0; }
+.email-head.w12 { background: #fff7ed; border-bottom: 1px solid #fed7aa; }
+.etitle { font-size: 0.85rem; font-weight: 800; }
+.etitle.ann { color: #1d4ed8; }
+.etitle.nina { color: #6d28d9; }
+.etitle.q { color: #059669; }
+.etitle.w12 { color: #ea580c; }
+.esub { font-size: 0.65rem; color: #94a3b8; margin-top: 1px; }
+.earr { font-size: 0.75rem; color: #94a3b8; }
+.ebody { padding: 12px 14px; }
+.ebody.hidden { display: none; }
+
+/* meta row (To/From) */
+.meta { background: #f8fafc; border-radius: 8px; padding: 7px 10px; margin-bottom: 10px; font-size: 0.72rem; color: #64748b; }
+.meta b { color: #334155; }
+
+/* sentence row */
+.srow { display: flex; align-items: flex-start; gap: 8px; padding: 9px 0; border-bottom: 1px solid #f1f5f9; }
+.srow:last-child { border-bottom: none; }
+.snum { width: 20px; height: 20px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 0.62rem; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+.snum.ann { background: #eff6ff; color: #2563eb; }
+.snum.nina { background: #f5f3ff; color: #7c3aed; }
+.snum.q { background: #f0fdf4; color: #059669; }
+.snum.w12 { background: #fff7ed; color: #ea580c; }
+.sbody { flex: 1; min-width: 0; }
+.sen { display: flex; align-items: flex-start; gap: 6px; margin-bottom: 4px; }
+.etext { font-size: 0.84rem; color: #1e293b; line-height: 1.55; font-weight: 500; flex: 1; }
+.ztext { font-size: 0.75rem; color: #475569; line-height: 1.5; padding-left: 8px; margin-bottom: 5px; }
+.ztext.ann  { border-left: 2px solid #bfdbfe; }
+.ztext.nina { border-left: 2px solid #ddd6fe; }
+.ztext.q    { border-left: 2px solid #bbf7d0; }
+.ztext.w12  { border-left: 2px solid #fed7aa; }
+.explain { font-size: 0.7rem; color: #334155; padding: 6px 10px; background: #f0f9ff; border-radius: 8px; border-left: 3px solid #7dd3fc; line-height: 1.6; margin-top: 2px; }
+
+/* answer tags */
+.atags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 5px; margin-bottom: 3px; }
+.tag { font-size: 0.64rem; padding: 2px 8px; border-radius: 6px; font-weight: 600; }
+.ts { background: #e0f2fe; color: #0369a1; }
+.tc { background: #dcfce7; color: #15803d; }
+.tw { background: #fee2e2; color: #dc2626; }
+.tok { background: #dcfce7; color: #15803d; }
+
+/* options */
+.opts { display: flex; flex-direction: column; gap: 4px; margin: 5px 0; }
+.opt { display: flex; align-items: flex-start; gap: 6px; padding: 5px 8px; border-radius: 8px; background: #f8fafc; font-size: 0.75rem; color: #334155; }
+.opt.ok { background: #dcfce7; color: #15803d; font-weight: 600; }
+.opt.bad { background: #fee2e2; color: #dc2626; }
+.ol { font-weight: 700; flex-shrink: 0; }
+
+/* speak btn */
+.sp { width: 26px; height: 26px; border-radius: 50%; border: none; cursor: pointer; font-size: 0.8rem; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all .15s; }
+.sp.ann    { background: #eff6ff; color: #2563eb; }
+.sp.nina   { background: #f5f3ff; color: #7c3aed; }
+.sp.q      { background: #f0fdf4; color: #059669; }
+.sp.w12    { background: #fff7ed; color: #ea580c; }
+.sp.playing { color: white !important; }
+.sp.ann.playing  { background: #2563eb; }
+.sp.nina.playing { background: #7c3aed; }
+.sp.q.playing    { background: #059669; }
+.sp.w12.playing  { background: #ea580c; }
+
+/* fill blank */
+.fill-row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 10px; margin-bottom: 7px; }
+.fill-row.ok  { background: #f0fdf4; border: 1px solid #bbf7d0; }
+.fill-row.bad { background: #fff1f2; border: 1px solid #fecdd3; }
+.fill-num { width: 22px; height: 22px; border-radius: 6px; background: #fff7ed; color: #ea580c; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; flex-shrink: 0; }
+.fill-body { flex: 1; }
+.fill-en { font-size: 0.83rem; color: #1e293b; font-weight: 500; line-height: 1.5; }
+.fill-zh { font-size: 0.73rem; color: #64748b; margin-top: 2px; }
+.fill-ans { display: flex; gap: 6px; margin-top: 5px; align-items: center; flex-wrap: wrap; }
+.fill-word { font-size: 0.75rem; padding: 2px 10px; border-radius: 12px; font-weight: 700; }
+.fill-word.ok  { background: #dcfce7; color: #15803d; }
+.fill-word.bad { background: #fee2e2; color: #dc2626; text-decoration: line-through; }
+.fill-word.correct { background: #dcfce7; color: #15803d; }
+
+.note { font-size: 0.7rem; color: #92400e; padding: 6px 10px; background: #fef9c3; border-radius: 8px; line-height: 1.6; margin-top: 4px; }
+.wordbox { background: #f8fafc; border-radius: 10px; padding: 10px 12px; margin-bottom: 12px; font-size: 0.78rem; color: #334155; line-height: 1.8; border: 1px solid #e2e8f0; }
+.wordbox b { color: #7c3aed; }
+.footer { text-align: center; font-size: 0.72rem; color: #94a3b8; padding-top: 4px; }
+</style>
+</head>
+<body>
+
+<a class="back" href="exam.html">← 返回试卷</a>
+
+<div class="hd">
+  <div class="hd-label">📖 逐句翻译 · 知识点解说 · 点🔊听朗读</div>
+  <div class="hd-title">第十一、十二大题 · 精讲版</div>
+  <div class="hd-sub">Ann与Nina的邮件 · 书面表达填词 · 每句都有翻译和解说</div>
+</div>
+
+<!-- 声音控制 -->
+<div class="vc">
+  <div class="vrow">
+    <div><div class="vname" id="vname">🎙️ 加载声音中…</div></div>
+    <div class="rbtns">
+      <button class="rbtn" onclick="sr(0.7,this)">慢</button>
+      <button class="rbtn on" onclick="sr(0.85,this)">正常</button>
+      <button class="rbtn" onclick="sr(1.1,this)">快</button>
+    </div>
+    <button class="vtog" onclick="tvl()">换声音</button>
+  </div>
+  <div class="vlist" id="vlist"></div>
+</div>
+
+<!-- ══ 第十一题 Ann的邮件 ══ -->
+<div class="email-wrap">
+  <div class="email-head ann" onclick="tog('ann')">
+    <div><div class="etitle ann">✉️ Ann的邮件（北京 → Nina）</div><div class="esub">共10句 · 全部翻译+解说</div></div>
+    <div class="earr" id="arr_ann">▼</div>
+  </div>
+  <div class="ebody" id="bd_ann">
+    <div class="meta"><b>To:</b> nina@*****.cn &nbsp;|&nbsp; <b>From:</b> ann@*****.cn</div>
+    <div id="rows_ann"></div>
+  </div>
+</div>
+
+<!-- ══ Nina的邮件 ══ -->
+<div class="email-wrap">
+  <div class="email-head nina" onclick="tog('nina')">
+    <div><div class="etitle nina">✉️ Nina的邮件（新疆 → Ann）</div><div class="esub">共9句 · 全部翻译+解说</div></div>
+    <div class="earr" id="arr_nina">▼</div>
+  </div>
+  <div class="ebody" id="bd_nina">
+    <div class="meta"><b>To:</b> ann@*****.cn &nbsp;|&nbsp; <b>From:</b> nina@*****.cn</div>
+    <div id="rows_nina"></div>
+  </div>
+</div>
+
+<!-- ══ 选择题 ══ -->
+<div class="email-wrap">
+  <div class="email-head q" onclick="tog('q')">
+    <div><div class="etitle q">📝 阅读理解选择题（5题）</div><div class="esub">详细解析每道题</div></div>
+    <div class="earr" id="arr_q">▼</div>
+  </div>
+  <div class="ebody" id="bd_q">
+    <div id="rows_q"></div>
+  </div>
+</div>
+
+<!-- ══ 第十二题 ══ -->
+<div class="email-wrap">
+  <div class="email-head w12" onclick="tog('w12')">
+    <div><div class="etitle w12">✏️ 第十二题：书面表达（10分）</div><div class="esub">选词填空 · 逐句翻译+解说</div></div>
+    <div class="earr" id="arr_w12">▼</div>
+  </div>
+  <div class="ebody" id="bd_w12">
+    <div class="wordbox">
+      📦 词库：<b>lights</b>（灯）&nbsp; <b>get up</b>（起床）&nbsp; <b>blackboard</b>（黑板）&nbsp; <b>kitchen</b>（厨房）&nbsp; <b>lunch</b>（午饭）
+    </div>
+    <div id="rows_w12"></div>
+  </div>
+</div>
+
+<div class="footer">🔊 点每句旁边的喇叭，跟着读！多读几遍记得更牢 💪</div>
+
+<script>
+let cv=null, rate=0.85, pb=null, av=[];
+
+// ── DATA ────────────────────────────────────────────────────
+const ANN = [
+  {e:"Dear Nina,", z:"亲爱的Nina，", x:"写信的开头称呼，Dear+名字，后面加逗号。"},
+  {e:"How are you?", z:"你好吗？", x:"最常见的问候语，回答：I'm fine, thank you."},
+  {e:"I'm in Beijing now.", z:"我现在在北京。", x:"I'm in + 地点（我在某地）。now表示现在。"},
+  {e:"It's sunny and warm today.", z:"今天天气晴朗温暖。", x:"It's + 天气形容词。sunny（晴天）、warm（温暖）、cloudy（阴天）、rainy（下雨）。"},
+  {e:"I have some jiaozi for breakfast.", z:"我早饭吃了一些饺子。", x:"have + 食物 + for + 餐食（早/午/晚饭吃什么）。jiaozi是饺子的拼音，在英语中直接用。"},
+  {e:"I often go to school at 8:00.", z:"我经常8点去上学。", x:"often（经常）表示频率。go to school at + 时间（几点上学）。"},
+  {e:"We have 4 classes in the morning.", z:"我们上午有4节课。", x:"have + 数字 + classes（有几节课）。in the morning（上午）。"},
+  {e:"After classes, I eat lunch at school at 11:45.", z:"下课后，我在学校11点45分吃午饭。", x:"After classes（下课后）。eat lunch at school（在学校吃午饭）。注意：at school在学校，at 11:45在11:45。"},
+  {e:"And we have 2 classes from 1:30 p.m. to 3:10 p.m.", z:"下午1:30到3:10我们还有2节课。", x:"from...to...（从...到...）表示时间段。p.m.表示下午。"},
+  {e:"Then I go home.", z:"然后我回家。", x:"Then（然后）表示接下来发生的事情。go home（回家），注意不说go to home。"},
+  {e:"Dinner is at 6:00 p.m.", z:"晚饭在下午6点。", x:"Dinner is at + 时间（晚饭在几点）。这里用is表示时间安排。"},
+  {e:"And I often go to bed at 9:00.", z:"而且我经常9点睡觉。", x:"go to bed（去睡觉/上床睡觉）。at 9:00（在9点）。常见错误：不要说go to sleep，正确是go to bed。"},
+  {e:"This is my day.", z:"这就是我的一天。", x:"This is my day.（这是我的一天）是结尾总结句，常用于日记或邮件介绍自己的日常。"},
+  {e:"How about yours?", z:"你那边呢？", x:"How about yours?（你那边呢/你呢？）是询问对方情况的礼貌表达，yours=your day。"},
+  {e:"Love, Ann", z:"爱你的Ann", x:"Love,（爱你的）是英文书信/邮件结尾的亲切署名方式，常用于家人和好朋友之间。"},
+];
+
+const NINA = [
+  {e:"Dear Ann,", z:"亲爱的Ann，", x:"回信的开头称呼，格式和Ann的邮件相同。"},
+  {e:"We have different timetables.", z:"我们有不同的时间表。", x:"different（不同的），timetable（时间表/课程表）。这句是Nina邮件的主题句，说明两人作息不同。"},
+  {e:"In Xinjiang, I usually get up at 8:30.", z:"在新疆，我通常8点30分起床。", x:"In Xinjiang（在新疆）。usually（通常）表示频率，比often稍少。get up（起床）。注意：新疆和北京有时差，所以作息不同！"},
+  {e:"I have the first class at 10:00.", z:"我10点上第一节课。", x:"the first class（第一节课）。at 10:00（在10点）。比Ann晚了很多！"},
+  {e:"And we go home and have lunch at 1:30 p.m.", z:"我们下午1:30回家吃午饭。", x:"go home and have lunch（回家吃午饭），两个动作用and连接。比Ann的午饭（11:45）晚了近2个小时。"},
+  {e:"In the afternoon, classes start at 3:40.", z:"下午，课程在3:40开始。", x:"In the afternoon（在下午）。classes start at（课程在几点开始），注意start是动词。"},
+  {e:"School is over at 8:20.", z:"学校8:20放学。", x:"School is over（放学了/学校结束了）。be over表示结束。放学时间比北京晚很多！"},
+  {e:"We have seven classes in a day.", z:"我们一天有七节课。", x:"seven classes in a day（一天七节课）。比Ann多（Ann只有4+2=6节）。"},
+  {e:"I have dinner with my family at 9 o'clock.", z:"我9点和家人一起吃晚饭。", x:"have dinner with my family（和家人一起吃晚饭）。at 9 o'clock（在9点）。Ann是6点吃晚饭，Nina是9点！"},
+  {e:"And I go to bed after 11 o'clock.", z:"而且我11点之后才睡觉。", x:"after 11 o'clock（11点之后）。after表示在某时间之后。Ann是9点睡觉，Nina要11点后才睡！"},
+  {e:"This is my day.", z:"这就是我的一天。", x:"和Ann一样的结尾总结句。两封邮件结构相同，便于对比两人的作息。"},
+  {e:"Love, Nina", z:"爱你的Nina", x:"邮件结尾署名，和Ann的格式完全相同。"},
+];
+
+const QS = [
+  {
+    stem:"Nina is from ___.", stemz:"Nina来自___。",
+    opts:[{l:"A",e:"Hangzhou",z:"杭州"},{l:"B",e:"Xinjiang",z:"新疆 ✓"},{l:"C",e:"Beijing",z:"北京"}],
+    s:"B", c:"B", ok:true,
+    x:"📌 答案依据：Nina的邮件第一句 In Xinjiang, I usually get up at 8:30.（在新疆，我通常8:30起床）→ Nina来自新疆B ✓"
+  },
+  {
+    stem:"At Ann's school, there are ___ classes in the morning.", stemz:"在Ann的学校，上午有___节课。",
+    opts:[{l:"A",e:"four",z:"四节 ✓"},{l:"B",e:"six",z:"六节"},{l:"C",e:"seven",z:"七节"}],
+    s:"A", c:"A", ok:true,
+    x:"📌 答案依据：Ann的邮件：We have 4 classes in the morning.（我们上午有4节课）→ four A ✓。注意：下午还有2节，共6节，但题目问的是上午。"
+  },
+  {
+    stem:"At 9:00 p.m., Ann ___ and Nina ___.", stemz:"晚上9点，Ann___而Nina___。",
+    opts:[{l:"A",e:"goes to bed; has dinner",z:"去睡觉；吃晚饭"},{l:"B",e:"has dinner; goes to bed",z:"吃晚饭；去睡觉 ✓"},{l:"C",e:"goes to bed; goes to bed",z:"去睡觉；去睡觉"}],
+    s:"A", c:"B", ok:false,
+    x:"📌 Ann的邮件：Dinner is at 6:00 p.m.（晚饭6点），I go to bed at 9:00（9点睡觉）→ Ann在9点睡觉。Nina的邮件：I have dinner...at 9 o'clock（9点吃晚饭），go to bed after 11（11点后睡）→ Nina在9点还在吃晚饭。所以选B：Ann goes to bed; Nina has dinner ✓ 学生选A错了，把两人搞反了！"
+  },
+  {
+    stem:"Which one is true about Nina?", stemz:"关于Nina哪一项是正确的？",
+    opts:[{l:"A",e:"Nina has lunch at school.",z:"Nina在学校吃午饭。"},{l:"B",e:"Nina has a class at 1:30 p.m.",z:"Nina下午1:30有课。"},{l:"C",e:"Nina goes home at 8:20 p.m.",z:"Nina在晚上8:20回家。 ✓"}],
+    s:"A", c:"C", ok:false,
+    x:"📌 逐项分析：A. Nina回家吃午饭（go home and have lunch），不是在学校 ❌；B. 1:30是Nina回家吃午饭的时间，不是上课 ❌；C. School is over at 8:20（8:20放学）→ Nina 8:20回家 ✓。学生选A错了，A项和Nina的实际情况相反！"
+  },
+  {
+    stem:"What's the topic(主题) of the emails?", stemz:"这两封邮件的主题是什么？",
+    opts:[{l:"A",e:"Different Places",z:"不同的地方"},{l:"B",e:"Different Students",z:"不同的学生"},{l:"C",e:"Different Timetables",z:"不同的时间表 ✓"}],
+    s:"C", c:"C", ok:true,
+    x:"📌 Nina邮件第一句：We have different timetables.（我们有不同的时间表）直接点明了主题。两封邮件都在描述各自每天的时间安排，所以主题是Different Timetables ✓"
+  },
+];
+
+const W12_ANN = [
+  {n:"1", e:"It's sunny today. In the morning, I ___ at 7 o'clock.", z:"今天天晴。早上，我7点___。", blank:"get up", s:"get up", ok:true, x:"get up（起床）✓ 7点起床，符合早上的逻辑。注意：get up是动词短语，不能写成gets up（那是第三人称）。"},
+  {n:"2", e:"After breakfast, I clean the house with my family. I can tidy my room and help Mum clean the ___.", z:"早饭后，我和家人打扫房子。我能整理我的房间，帮妈妈打扫___。", blank:"kitchen", s:"kitchen", ok:true, x:"kitchen（厨房）✓ 帮妈妈打扫厨房，符合家务分工的逻辑。kitchen是词库中唯一的地点词。"},
+  {n:"3", e:"At 12 o'clock, it's time for ___.", z:"12点了，是___的时间了。", blank:"lunch", s:"lunch", ok:true, x:"lunch（午饭）✓ 12点是午饭时间。It's time for lunch.是本单元重点句型，固定搭配用for。"},
+  {n:" ", e:"I have to wash my hands first.", z:"我必须先洗手。", blank:"", s:"", ok:true, x:"这句不用填词。have to（必须）表示义务，wash hands（洗手）是饭前必做的卫生习惯。first（首先/先）放句尾。"},
+];
+
+const W12_DAVE = [
+  {n:"4", e:"At school, I'm a good student. I turn off the ___ after school.", z:"在学校，我是个好学生。放学后我关掉___。", blank:"lights", s:"lights", ok:true, x:"lights（灯）✓ turn off the lights（关灯）是节能环保的好行为。turn off（关掉）↔ turn on（打开）。lights是light的复数。"},
+  {n:"5", e:"And I often clean the ___.", z:"而且我经常擦___。", blank:"blackboard", s:"blackboad", ok:false, x:"⚠️ 正确答案：blackboard（黑板）。学生写成了blackboad，少了字母r！正确拼写：b-l-a-c-k-b-o-a-r-d。black（黑色）+ board（板）= blackboard（黑板）。"},
+  {n:" ", e:"At home, I'm a good child. After school, I often do my homework first.", z:"在家，我是个好孩子。放学后，我经常先做作业。", blank:"", s:"", ok:true, x:"do my homework first（先做作业）。这句不需要填词，是最后的总结句。体现了良好的学习习惯。"},
+  {n:" ", e:"Then I cook dinner for my family.", z:"然后我为家人做晚饭。", blank:"", s:"", ok:true, x:"cook dinner（做晚饭）。Then（然后）表示先做作业，再做晚饭的顺序。cook（烹饪/做饭）是动词。"},
+];
+
+// ── Render ───────────────────────────────────────────────────
+function row(item, col) {
+  const safe = (item.e||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+  return `<div class="srow">
+    <div class="snum ${col}">${item.n||'·'}</div>
+    <div class="sbody">
+      <div class="sen">
+        <div class="etext">${item.e}</div>
+        <button class="sp ${col}" data-text="${safe}" onclick="sp(this)">🔊</button>
+      </div>
+      <div class="ztext ${col}">${item.z}</div>
+      ${item.x?`<div class="explain">${item.x}</div>`:''}
+    </div>
+  </div>`;
+}
+
+function buildEmails(){
+  // Ann
+  document.getElementById('rows_ann').innerHTML = ANN.map((it,i)=>row({...it,n:i+1},'ann')).join('');
+  // Nina
+  document.getElementById('rows_nina').innerHTML = NINA.map((it,i)=>row({...it,n:i+1},'nina')).join('');
+  // Questions
+  document.getElementById('rows_q').innerHTML = QS.map((q,i)=>{
+    const ss = (q.stem||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+    const optsHtml = q.opts.map(o=>{
+      let cls='opt';
+      if(o.z.includes('✓')) cls='opt ok';
+      else if(q.s===o.l && !q.ok) cls='opt bad';
+      const os=(o.e||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+      return `<div class="${cls}">
+        <span class="ol">${o.l}.</span>
+        <span>${o.e} — ${o.z}</span>
+        <button class="sp q" style="margin-left:auto;width:22px;height:22px;font-size:0.7rem" data-text="${os}" onclick="sp(this)">🔊</button>
+      </div>`;
+    }).join('');
+    return `<div class="srow">
+      <div class="snum q">${i+1}</div>
+      <div class="sbody">
+        <div class="sen">
+          <div class="etext">${q.stem}</div>
+          <button class="sp q" data-text="${ss}" onclick="sp(this)">🔊</button>
+        </div>
+        <div class="ztext q">${q.stemz}</div>
+        <div class="opts">${optsHtml}</div>
+        <div class="atags">
+          <span class="tag ts">学生：${q.s}</span>
+          ${!q.ok?`<span class="tag tc">正确：${q.c}</span>`:''}
+          <span class="tag ${q.ok?'tok':'tw'}">${q.ok?'✓ 正确':'✗ 错误'}</span>
+        </div>
+        ${q.x?`<div class="explain">${q.x}</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+
+  // W12
+  let html = '<div style="font-size:0.78rem;font-weight:700;color:#ea580c;margin-bottom:8px;padding:6px 10px;background:#fff7ed;border-radius:8px;">👧 Ann的日记</div>';
+  html += W12_ANN.map((it,i)=>{
+    const safe=(it.e||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+    const ansHtml = it.blank ? `<div class="fill-ans">
+      <span class="fill-word ${it.ok?'ok':'bad'}">${it.s||'未填'}</span>
+      ${!it.ok?`<span class="fill-word correct">✓ ${it.blank}</span>`:''}
+    </div>` : '';
+    return `<div class="fill-row ${it.ok||!it.blank?'ok':'bad'}">
+      <div class="fill-num">${it.n||'·'}</div>
+      <div class="fill-body">
+        <div class="sen">
+          <div class="fill-en">${it.e}</div>
+          <button class="sp w12" data-text="${safe}" onclick="sp(this)">🔊</button>
+        </div>
+        <div class="fill-zh">${it.z}</div>
+        ${ansHtml}
+        ${it.x?`<div class="explain" style="margin-top:4px">${it.x}</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+
+  html += '<div style="font-size:0.78rem;font-weight:700;color:#ea580c;margin:10px 0 8px;padding:6px 10px;background:#fff7ed;border-radius:8px;">👦 Dave的日记</div>';
+  html += W12_DAVE.map((it,i)=>{
+    const safe=(it.e||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+    const ansHtml = it.blank ? `<div class="fill-ans">
+      <span class="fill-word ${it.ok?'ok':'bad'}">${it.s||'未填'}</span>
+      ${!it.ok?`<span class="fill-word correct">✓ ${it.blank}</span>`:''}
+    </div>` : '';
+    return `<div class="fill-row ${it.ok||!it.blank?'ok':'bad'}">
+      <div class="fill-num">${it.n||'·'}</div>
+      <div class="fill-body">
+        <div class="sen">
+          <div class="fill-en">${it.e}</div>
+          <button class="sp w12" data-text="${safe}" onclick="sp(this)">🔊</button>
+        </div>
+        <div class="fill-zh">${it.z}</div>
+        ${ansHtml}
+        ${it.x?`<div class="explain" style="margin-top:4px">${it.x}</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('rows_w12').innerHTML = html;
+}
+
+function tog(id){
+  const b=document.getElementById('bd_'+id);
+  const a=document.getElementById('arr_'+id);
+  b.classList.toggle('hidden');
+  a.textContent=b.classList.contains('hidden')?'▶':'▼';
+}
+
+function sp(btn){
+  const text=btn.getAttribute('data-text');
+  if(!text||!window.speechSynthesis)return;
+  if(pb===btn){window.speechSynthesis.cancel();btn.classList.remove('playing');btn.textContent='🔊';pb=null;return;}
+  if(pb){window.speechSynthesis.cancel();pb.classList.remove('playing');pb.textContent='🔊';}
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='en-US';u.rate=rate;u.pitch=1.1;
+  if(cv)u.voice=cv;
+  u.onstart=()=>{btn.classList.add('playing');btn.textContent='⏹';pb=btn;};
+  u.onend=u.onerror=()=>{btn.classList.remove('playing');btn.textContent='🔊';if(pb===btn)pb=null;};
+  window.speechSynthesis.speak(u);
+}
+function sr(r,btn){rate=r;document.querySelectorAll('.rbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');}
+function tvl(){document.getElementById('vlist').classList.toggle('open');}
+function bvl(){document.getElementById('vlist').innerHTML=av.map((v,i)=>`<div class="vi ${cv&&cv.name===v.name?'sel':''}" onclick="sv(${i})"><div class="vdot"></div><div class="viname">${v.name}</div><div class="vilang">${v.lang}</div></div>`).join('');}
+function sv(i){cv=av[i];document.getElementById('vname').textContent='🎙️ '+cv.name;bvl();document.getElementById('vlist').classList.remove('open');const u=new SpeechSynthesisUtterance("Dear Nina, how are you? I'm in Beijing now.");u.lang='en-US';u.rate=rate;u.voice=cv;window.speechSynthesis.cancel();window.speechSynthesis.speak(u);}
+function lv(){const raw=window.speechSynthesis.getVoices();const en=raw.filter(v=>v.lang.startsWith('en'));if(!en.length)return;av=en;const p=['Samantha','Zira','Jenny','Aria','Emma','Karen','Moira','Fiona'];let pk=null;for(const n of p){pk=en.find(v=>v.name.includes(n));if(pk)break;}if(!pk)pk=en.find(v=>v.lang==='en-US')||en[0];cv=pk;document.getElementById('vname').textContent='🎙️ '+pk.name;bvl();}
+
+buildEmails();
+if(window.speechSynthesis){window.speechSynthesis.addEventListener('voiceschanged',lv);lv();}
+else document.getElementById('vname').textContent='⚠️ 浏览器不支持语音';
+</script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>四下英语 · 作业二</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system,"PingFang SC","Noto Sans SC",sans-serif; background: linear-gradient(160deg,#f5f3ff 0%,#faf5ff 50%,#fef9ee 100%); min-height: 100vh; padding: 14px; padding-bottom: 40px; }
+a.back-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; background: white; border-radius: 20px; font-size: 0.78rem; font-weight: 600; color: #7c3aed; margin-bottom: 13px; box-shadow: 0 2px 8px rgba(0,0,0,.08); text-decoration: none; }
+.header { background: linear-gradient(135deg,#7c3aed,#a855f7); border-radius: 18px; padding: 18px 16px; color: white; margin-bottom: 13px; }
+.header-label { font-size: 0.62rem; opacity: .75; letter-spacing: 1px; margin-bottom: 4px; }
+.header-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 2px; }
+.header-sub { font-size: 0.7rem; opacity: .8; }
+.card { background: white; border-radius: 14px; padding: 12px 14px; margin-bottom: 12px; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+.voice-bar { display: flex; align-items: center; gap: 8px; }
+.voice-name { font-size: 0.75rem; font-weight: 700; color: #1a1a2e; flex: 1; }
+.rate-btns { display: flex; gap: 5px; }
+.rate-btn { padding: 4px 9px; border-radius: 8px; border: 1.5px solid #e2e8f0; background: white; color: #94a3b8; font-size: 0.65rem; cursor: pointer; font-family: inherit; }
+.rate-btn.active { border-color: #7c3aed; background: #f5f3ff; color: #7c3aed; font-weight: 700; }
+.voice-toggle { padding: 5px 10px; background: #f1f5f9; border: none; border-radius: 8px; cursor: pointer; font-size: 0.68rem; color: #475569; font-weight: 600; font-family: inherit; }
+.voice-list { display: none; flex-direction: column; gap: 5px; margin-top: 10px; max-height: 200px; overflow-y: auto; }
+.voice-list.open { display: flex; }
+.voice-item { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 9px; border: 1.5px solid #e2e8f0; background: #fafafa; cursor: pointer; }
+.voice-item.selected { border-color: #7c3aed; background: #f5f3ff; }
+.voice-dot { width: 7px; height: 7px; border-radius: 50%; background: #cbd5e1; flex-shrink: 0; }
+.voice-item.selected .voice-dot { background: #7c3aed; }
+.voice-item-name { font-size: 0.76rem; color: #334155; flex: 1; }
+.voice-item.selected .voice-item-name { font-weight: 700; color: #6d28d9; }
+.voice-item-lang { font-size: 0.62rem; color: #94a3b8; }
+.group { background: white; border-radius: 16px; margin-bottom: 12px; overflow: hidden; box-shadow: 0 3px 16px rgba(0,0,0,.07); }
+.group-header { padding: 11px 16px; background: #f5f3ff; border-bottom: 1px solid #ddd6fe; }
+.group-label { font-size: 0.82rem; font-weight: 700; color: #7c3aed; }
+.group-count { font-size: 0.65rem; color: #94a3b8; margin-top: 1px; }
+.group-body { padding: 10px 13px; }
+.row { display: flex; align-items: flex-start; gap: 9px; padding: 11px 0; border-bottom: 1px solid #f1f5f9; }
+.row:last-child { border-bottom: none; }
+.row-num { width: 22px; height: 22px; border-radius: 6px; background: #f5f3ff; color: #7c3aed; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+.row-body { flex: 1; min-width: 0; }
+.row-en { display: flex; align-items: flex-start; gap: 7px; margin-bottom: 5px; }
+.en-text { font-size: 0.85rem; color: #1e293b; line-height: 1.55; font-weight: 500; flex: 1; }
+.zh-text { font-size: 0.78rem; color: #475569; line-height: 1.55; padding-left: 8px; border-left: 2px solid #ddd6fe; }
+.speak-btn { width: 30px; height: 30px; border-radius: 50%; border: none; cursor: pointer; font-size: 0.9rem; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #f5f3ff; color: #7c3aed; }
+.speak-btn.playing { background: #7c3aed; color: white; box-shadow: 0 2px 10px rgba(124,58,237,0.4); }
+.footer { text-align: center; font-size: 0.72rem; color: #94a3b8; padding-top: 4px; }
+</style>
+</head>
+<body>
+
+<a class="back-btn" href="index.html">← 返回主页</a>
+
+<div class="header">
+  <div class="header-label">📖 英文句子翻译 · 点 🔊 听朗读</div>
+  <div class="header-title">作业二：A. Let's learn &amp; Listen and do</div>
+  <div class="header-sub">Time manager（争做时间管理者）· 共24句</div>
+</div>
+
+<div class="card">
+  <div class="voice-bar">
+    <div><div class="voice-name" id="voiceName">🎙️ 加载声音中…</div></div>
+    <div class="rate-btns">
+      <button class="rate-btn" onclick="setRate(0.7,this)">慢</button>
+      <button class="rate-btn active" onclick="setRate(0.85,this)">正常</button>
+      <button class="rate-btn" onclick="setRate(1.1,this)">快</button>
+    </div>
+    <button class="voice-toggle" onclick="toggleVoiceList()">换声音</button>
+  </div>
+  <div class="voice-list" id="voiceList"></div>
+</div>
+
+<div class="group"><div class="group-header"><div class="group-label">第一部分：选词填空</div><div class="group-count">共 7 句</div></div><div class="group-body" id="b1"></div></div>
+<div class="group"><div class="group-header"><div class="group-label">第二部分：图片匹配</div><div class="group-count">共 5 句</div></div><div class="group-body" id="b2"></div></div>
+<div class="group"><div class="group-header"><div class="group-label">第三部分：Amy的周六计划表判断题</div><div class="group-count">共 12 句</div></div><div class="group-body" id="b3"></div></div>
+
+<div class="footer">🔊 点每句旁边的喇叭，跟着读！多读几遍记得更牢 💪</div>
+
+<script>
+const DATA={
+  b1:[
+    ["It's 7:00 a.m. I'm hungry. I'd like some jiaozi for breakfast.","现在早上7点。我饿了。我想吃些饺子当早饭。"],
+    ["It's 6:30 p.m. Let's eat West Lake Vinegar Fish for dinner.","现在下午6点30分。我们来吃西湖醋鱼当晚饭吧。"],
+    ["It's 11:30 a.m. It's time for lunch.","现在上午11点30分。是吃午饭的时间了。"],
+    ["It's time for art class. Let's go to the art room.","是美术课的时间了。我们去美术室吧。"],
+    ["How many birds are there? We count and write in maths class.","有几只鸟？我们在数学课上数数并写下来。"],
+    ["The students are singing Twinkle Twinkle Little Star.","同学们正在唱《一闪一闪亮晶晶》。"],
+    ["They're having an English class.","他们正在上英语课。"],
+  ],
+  b2:[
+    ["It's time for breakfast. Let's drink some milk.","是早饭时间了。我们来喝些牛奶吧。"],
+    ["It's time for English class. Let's read and write.","是英语课时间了。我们来读写吧。"],
+    ["It's time for art class. Let's draw a picture.","是美术课时间了。我们来画一幅画吧。"],
+    ["It's time for lunch. Let's have some chicken.","是午饭时间了。我们来吃些鸡肉吧。"],
+    ["It's time for maths class. Let's count and write.","是数学课时间了。我们来数数写数字吧。"],
+  ],
+  b3:[
+    ["Timetable for Saturday","周六时间表"],
+    ["8:00 a.m. eat breakfast","早上8点 吃早饭"],
+    ["9:40 a.m. do homework","上午9点40分 做作业"],
+    ["2:15 p.m. have a piano class","下午2点15分 上钢琴课"],
+    ["4:30 p.m. play basketball with Dad","下午4点30分 和爸爸打篮球"],
+    ["6:00 p.m. have dinner with grandparents","下午6点 和祖父母吃晚饭"],
+    ["9:30 p.m. time for bed","晚上9点30分 睡觉时间"],
+    ["It's 8 o'clock in the morning. I'm eating breakfast.","早上8点，我正在吃早饭。"],
+    ["I do my homework at 9:40 a.m.","我在上午9点40分做作业。"],
+    ["It's 2:15 p.m. It's time for art class.","下午2点15分，是美术课时间。"],
+    ["I play ping-pong with my sister in the afternoon.","下午我和妹妹打乒乓球。"],
+    ["I eat some noodles for dinner.","我晚饭吃些面条。"],
+  ],
+};
+let currentVoice=null,currentRate=0.85,playingBtn=null,allVoices=[];
+function buildRows(){Object.entries(DATA).forEach(([id,ss])=>{const c=document.getElementById(id);c.innerHTML=ss.map(([en,zh],i)=>{const s=en.replace(/&/g,'&amp;').replace(/"/g,'&quot;');return`<div class="row"><div class="row-num">${i+1}</div><div class="row-body"><div class="row-en"><div class="en-text">${en}</div><button class="speak-btn" data-text="${s}" onclick="speakIt(this)">🔊</button></div><div class="zh-text">${zh}</div></div></div>`;}).join('');});}
+function speakIt(btn){const text=btn.getAttribute('data-text');if(!window.speechSynthesis){alert('浏览器不支持语音');return;}if(playingBtn===btn){window.speechSynthesis.cancel();btn.classList.remove('playing');btn.textContent='🔊';playingBtn=null;return;}if(playingBtn){window.speechSynthesis.cancel();playingBtn.classList.remove('playing');playingBtn.textContent='🔊';}const u=new SpeechSynthesisUtterance(text);u.lang='en-US';u.rate=currentRate;u.pitch=1.1;if(currentVoice)u.voice=currentVoice;u.onstart=()=>{btn.classList.add('playing');btn.textContent='⏹';playingBtn=btn;};u.onend=u.onerror=()=>{btn.classList.remove('playing');btn.textContent='🔊';if(playingBtn===btn)playingBtn=null;};window.speechSynthesis.speak(u);}
+function setRate(r,btn){currentRate=r;document.querySelectorAll('.rate-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+function toggleVoiceList(){document.getElementById('voiceList').classList.toggle('open');}
+function buildVoiceList(){document.getElementById('voiceList').innerHTML=allVoices.map((v,i)=>`<div class="voice-item ${currentVoice&&currentVoice.name===v.name?'selected':''}" onclick="selectVoice(${i})"><div class="voice-dot"></div><div class="voice-item-name">${v.name}</div><div class="voice-item-lang">${v.lang}</div></div>`).join('');}
+function selectVoice(i){currentVoice=allVoices[i];document.getElementById('voiceName').textContent='🎙️ '+currentVoice.name;buildVoiceList();document.getElementById('voiceList').classList.remove('open');const u=new SpeechSynthesisUtterance("Hello! It's time for English class!");u.lang='en-US';u.rate=currentRate;u.pitch=1.1;u.voice=currentVoice;window.speechSynthesis.cancel();window.speechSynthesis.speak(u);}
+function loadVoices(){const raw=window.speechSynthesis.getVoices();const en=raw.filter(v=>v.lang.startsWith('en'));if(!en.length)return;allVoices=en;const prefer=['Samantha','Zira','Jenny','Aria','Emma','Karen','Moira','Fiona','Nicky'];let picked=null;for(const n of prefer){picked=en.find(v=>v.name.includes(n));if(picked)break;}if(!picked)picked=en.find(v=>v.lang==='en-US')||en[0];currentVoice=picked;document.getElementById('voiceName').textContent='🎙️ '+picked.name;buildVoiceList();}
+buildRows();
+if(window.speechSynthesis){window.speechSynthesis.addEventListener('voiceschanged',loadVoices);loadVoices();}
+else{document.getElementById('voiceName').textContent='⚠️ 浏览器不支持语音';}
+</script>
+</body>
+</html>

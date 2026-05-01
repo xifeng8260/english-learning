@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>四下英语 · 阶段素养评估</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system,"PingFang SC","Noto Sans SC",sans-serif; background: linear-gradient(160deg,#fef9ee 0%,#f0fdf4 50%,#e0f2fe 100%); min-height: 100vh; padding: 14px; padding-bottom: 40px; }
+a.back-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; background: white; border-radius: 20px; font-size: 0.78rem; font-weight: 600; color: #059669; margin-bottom: 13px; box-shadow: 0 2px 8px rgba(0,0,0,.08); text-decoration: none; }
+.header { background: linear-gradient(135deg,#059669,#0284c7); border-radius: 18px; padding: 18px 16px; color: white; margin-bottom: 13px; }
+.header-label { font-size: 0.62rem; opacity: .75; letter-spacing: 1px; margin-bottom: 4px; }
+.header-title { font-size: 1.05rem; font-weight: 800; margin-bottom: 2px; }
+.header-sub { font-size: 0.7rem; opacity: .8; }
+.score-bar { display: flex; gap: 8px; margin-top: 12px; }
+.score-item { background: rgba(255,255,255,.2); border-radius: 10px; padding: 8px 10px; text-align: center; flex: 1; }
+.score-num { font-size: 1.3rem; font-weight: 900; line-height: 1; }
+.score-label { font-size: 0.58rem; opacity: .85; margin-top: 2px; }
+
+.tip-banner { background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 10px 14px; margin-bottom: 12px; font-size: 0.75rem; color: #92400e; line-height: 1.6; }
+
+.card { background: white; border-radius: 14px; padding: 12px 14px; margin-bottom: 12px; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+.voice-bar { display: flex; align-items: center; gap: 8px; }
+.voice-name { font-size: 0.75rem; font-weight: 700; color: #1a1a2e; flex: 1; }
+.rate-btns { display: flex; gap: 5px; }
+.rate-btn { padding: 4px 9px; border-radius: 8px; border: 1.5px solid #e2e8f0; background: white; color: #94a3b8; font-size: 0.65rem; cursor: pointer; font-family: inherit; }
+.rate-btn.active { border-color: #059669; background: #f0fdf4; color: #059669; font-weight: 700; }
+.voice-toggle { padding: 5px 10px; background: #f1f5f9; border: none; border-radius: 8px; cursor: pointer; font-size: 0.68rem; color: #475569; font-weight: 600; font-family: inherit; }
+.voice-list { display: none; flex-direction: column; gap: 5px; margin-top: 10px; max-height: 200px; overflow-y: auto; }
+.voice-list.open { display: flex; }
+.voice-item { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 9px; border: 1.5px solid #e2e8f0; background: #fafafa; cursor: pointer; }
+.voice-item.selected { border-color: #059669; background: #f0fdf4; }
+.voice-dot { width: 7px; height: 7px; border-radius: 50%; background: #cbd5e1; flex-shrink: 0; }
+.voice-item.selected .voice-dot { background: #059669; }
+.voice-item-name { font-size: 0.76rem; color: #334155; flex: 1; }
+.voice-item.selected .voice-item-name { font-weight: 700; color: #065f46; }
+.voice-item-lang { font-size: 0.62rem; color: #94a3b8; }
+
+.errors-card { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 14px; padding: 13px 15px; margin-bottom: 12px; }
+.errors-title { font-size: 0.8rem; font-weight: 700; color: #ea580c; margin-bottom: 8px; }
+.error-item { font-size: 0.72rem; color: #7c2d12; margin-bottom: 5px; padding-left: 8px; border-left: 3px solid #fb923c; line-height: 1.5; }
+
+.group { background: white; border-radius: 16px; margin-bottom: 12px; overflow: hidden; box-shadow: 0 3px 16px rgba(0,0,0,.07); }
+.gh { padding: 12px 16px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; }
+.gh.green  { background: #f0fdf4; border-bottom: 1px solid #bbf7d0; }
+.gh.orange { background: #fff7ed; border-bottom: 1px solid #fed7aa; }
+.gh.blue   { background: #eff6ff; border-bottom: 1px solid #bfdbfe; }
+.gh.purple { background: #f5f3ff; border-bottom: 1px solid #ddd6fe; }
+.gh.teal   { background: #f0fdfa; border-bottom: 1px solid #99f6e4; }
+.gh.rose   { background: #fff1f2; border-bottom: 1px solid #fecdd3; }
+.gl { font-size: 0.82rem; font-weight: 700; }
+.gl.green  { color: #059669; }
+.gl.orange { color: #ea580c; }
+.gl.blue   { color: #2563eb; }
+.gl.purple { color: #7c3aed; }
+.gl.teal   { color: #0d9488; }
+.gl.rose   { color: #e11d48; }
+.gc { font-size: 0.63rem; color: #94a3b8; margin-top: 1px; }
+.garr { font-size: 0.75rem; color: #94a3b8; }
+.gb { padding: 10px 13px; }
+.gb.hidden { display: none; }
+
+/* Section intro box */
+.sec-intro { background: #f8fafc; border-radius: 10px; padding: 10px 12px; margin-bottom: 10px; font-size: 0.74rem; color: #475569; line-height: 1.6; border-left: 3px solid #94a3b8; }
+
+.row { display: flex; align-items: flex-start; gap: 9px; padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
+.row:last-child { border-bottom: none; }
+.rn { width: 22px; height: 22px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+.rn.green  { background: #f0fdf4; color: #059669; }
+.rn.orange { background: #fff7ed; color: #ea580c; }
+.rn.blue   { background: #eff6ff; color: #2563eb; }
+.rn.purple { background: #f5f3ff; color: #7c3aed; }
+.rn.teal   { background: #f0fdfa; color: #0d9488; }
+.rn.rose   { background: #fff1f2; color: #e11d48; }
+.rb { flex: 1; min-width: 0; }
+.re { display: flex; align-items: flex-start; gap: 7px; margin-bottom: 4px; }
+.et { font-size: 0.85rem; color: #1e293b; line-height: 1.55; font-weight: 500; flex: 1; }
+.zt { font-size: 0.76rem; color: #475569; line-height: 1.55; padding-left: 8px; margin-bottom: 5px; }
+.zt.green  { border-left: 2px solid #bbf7d0; }
+.zt.orange { border-left: 2px solid #fed7aa; }
+.zt.blue   { border-left: 2px solid #bfdbfe; }
+.zt.purple { border-left: 2px solid #ddd6fe; }
+.zt.teal   { border-left: 2px solid #99f6e4; }
+.zt.rose   { border-left: 2px solid #fecdd3; }
+
+/* Options */
+.opts { display: flex; flex-direction: column; gap: 4px; margin-bottom: 6px; }
+.opt { display: flex; align-items: flex-start; gap: 6px; padding: 5px 8px; border-radius: 8px; background: #f8fafc; font-size: 0.75rem; color: #334155; }
+.opt.correct { background: #dcfce7; color: #15803d; font-weight: 600; }
+.opt.selected-wrong { background: #fee2e2; color: #dc2626; }
+.opt-label { font-weight: 700; flex-shrink: 0; }
+
+.ar { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-top: 4px; }
+.tag { font-size: 0.65rem; padding: 2px 8px; border-radius: 6px; font-weight: 600; }
+.ts { background: #e0f2fe; color: #0369a1; }
+.tc { background: #dcfce7; color: #15803d; }
+.tw { background: #fee2e2; color: #dc2626; }
+.tok { background: #dcfce7; color: #15803d; }
+
+.note { font-size: 0.7rem; color: #1e293b; margin-top: 6px; padding: 7px 10px; background: #fef9c3; border-radius: 8px; line-height: 1.6; }
+.note b { color: #92400e; }
+.explain { font-size: 0.7rem; color: #334155; margin-top: 6px; padding: 7px 10px; background: #f0f9ff; border-radius: 8px; line-height: 1.6; border-left: 3px solid #7dd3fc; }
+
+.speak-btn { width: 28px; height: 28px; border-radius: 50%; border: none; cursor: pointer; font-size: 0.85rem; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all .15s; }
+.speak-btn.green  { background: #f0fdf4; color: #059669; }
+.speak-btn.orange { background: #fff7ed; color: #ea580c; }
+.speak-btn.blue   { background: #eff6ff; color: #2563eb; }
+.speak-btn.purple { background: #f5f3ff; color: #7c3aed; }
+.speak-btn.teal   { background: #f0fdfa; color: #0d9488; }
+.speak-btn.rose   { background: #fff1f2; color: #e11d48; }
+.speak-btn.playing { color: white !important; }
+.speak-btn.green.playing  { background: #059669; }
+.speak-btn.orange.playing { background: #ea580c; }
+.speak-btn.blue.playing   { background: #2563eb; }
+.speak-btn.purple.playing { background: #7c3aed; }
+.speak-btn.teal.playing   { background: #0d9488; }
+.speak-btn.rose.playing   { background: #e11d48; }
+
+.footer { text-align: center; font-size: 0.72rem; color: #94a3b8; padding-top: 4px; }
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<a class="back-btn" href="index.html">← 返回主页</a>
+
+<div class="header">
+  <div class="header-label">📝 阶段素养评估 · Unit 1–3</div>
+  <div class="header-title">Rules and habits make our life better.</div>
+  <div class="header-sub">规则和习惯让我们的生活更美好 · 四年级下册 PEP</div>
+  <div class="score-bar">
+    <div class="score-item"><div class="score-num">38</div><div class="score-label">听力(40分)</div></div>
+    <div class="score-item"><div class="score-num">?</div><div class="score-label">读写(60分)</div></div>
+    <div class="score-item"><div class="score-num">100</div><div class="score-label">总分</div></div>
+  </div>
+</div>
+
+<div class="tip-banner">
+  🎧 <b>听力部分（第一、二大题）</b>：试卷上没有英文原文，这里列出所有<b>选项英文+翻译</b>，点 🔊 可以听每个选项的发音，帮助理解和记忆。<br>
+  📖 <b>读写部分（第三题起）</b>：完整还原英文原文，每句都有翻译+解说+朗读。
+</div>
+
+<div class="card">
+  <div class="voice-bar">
+    <div><div class="voice-name" id="voiceName">🎙️ 加载声音中…</div></div>
+    <div class="rate-btns">
+      <button class="rate-btn" onclick="setRate(0.7,this)">慢</button>
+      <button class="rate-btn active" onclick="setRate(0.85,this)">正常</button>
+      <button class="rate-btn" onclick="setRate(1.1,this)">快</button>
+    </div>
+    <button class="voice-toggle" onclick="toggleVoiceList()">换声音</button>
+  </div>
+  <div class="voice-list" id="voiceList"></div>
+</div>
+
+<div class="errors-card">
+  <div class="errors-title">⚠️ 错题汇总（需要重点复习）</div>
+  <div class="error-item"><b>三-1：</b>classroom应是big and nice → 选A，学生答B ❌</div>
+  <div class="error-item"><b>三-2：</b>男孩晚饭后watch TV → 选A，学生答C ❌</div>
+  <div class="error-item"><b>三-4：</b>art class在8:50 → 选C，学生答A ❌</div>
+  <div class="error-item"><b>四B-3：</b>David gets up at 7:30 → 选A，学生答B ❌</div>
+  <div class="error-item"><b>七-2：</b>on duty可以sweep the floor → 选C，学生答B ❌</div>
+  <div class="error-item"><b>七-4：</b>9:20睡觉时间回答Just a minute → 选B，学生答错 ❌</div>
+  <div class="error-item"><b>七-5：</b>Don't be late回答I will do it now → 选C，学生答B ❌</div>
+  <div class="error-item"><b>八-2、3、4：</b>图文匹配3题答错 ❌</div>
+  <div class="error-item"><b>十一-3、4：</b>邮件阅读2题答错 ❌</div>
+  <div class="error-item"><b>十二：</b>blackboard拼写错误（写成blackboad，少字母r） ❌</div>
+</div>
+
+<!-- ══ 第一大题 ══ -->
+<div class="group" id="g1">
+  <div class="gh teal" onclick="tog('g1')">
+    <div><div class="gl teal">一、听句子选择（10分）</div><div class="gc">共10题 · 每题1分 · 点选项可朗读</div></div>
+    <div class="garr" id="a_g1">▼</div>
+  </div>
+  <div class="gb" id="b_g1">
+    <div class="sec-intro">🎧 听录音选图片或词语。这里列出每题的两个选项，点 🔊 听发音。<b>加绿色底色的是正确答案</b>，红色是学生答错的选项。</div>
+    <div id="bd_g1"></div>
+  </div>
+</div>
+
+<!-- ══ 第二大题 ══ -->
+<div class="group" id="g2">
+  <div class="gh rose" onclick="tog('g2')">
+    <div><div class="gl rose">二、听句子给图片排序（10分）</div><div class="gc">共5张图 · 听录音排顺序</div></div>
+    <div class="garr" id="a_g2">▼</div>
+  </div>
+  <div class="gb" id="b_g2">
+    <div class="sec-intro">🎧 听5个句子，根据句子描述给图片编号排序。这里列出5个场景描述句，点 🔊 听句子，理解每张图的内容。学生答案：图顺序为 4-2-1-5-3（从图片标注看）。</div>
+    <div id="bd_g2"></div>
+  </div>
+</div>
+
+<!-- ══ 第三大题 ══ -->
+<div class="group" id="g3">
+  <div class="gh blue" onclick="tog('g3')">
+    <div><div class="gl blue">三、听小对话选择（10分）</div><div class="gc">共5题 · 每题2分</div></div>
+    <div class="garr" id="a_g3">▼</div>
+  </div>
+  <div class="gb" id="b_g3">
+    <div class="sec-intro">🎧 听小对话，选择正确答案。对话内容在录音里，这里列出选项原文+翻译。</div>
+    <div id="bd_g3"></div>
+  </div>
+</div>
+
+<!-- ══ 第四大题 ══ -->
+<div class="group" id="g4">
+  <div class="gh orange" onclick="tog('g4')">
+    <div><div class="gl orange">四、听长对话或独白（10分）</div><div class="gc">共5题 · 每题2分</div></div>
+    <div class="garr" id="a_g4">▼</div>
+  </div>
+  <div class="gb" id="b_g4">
+    <div class="sec-intro">🎧 听较长的对话或独白，选择正确答案。这里列出所有选项原文+翻译。</div>
+    <div id="bd_g4"></div>
+  </div>
+</div>
+
+<!-- ══ 第五大题 ══ -->
+<div class="group" id="g5">
+  <div class="gh green" onclick="tog('g5')">
+    <div><div class="gl green">五、判断划线部分发音是否相同（5分）</div><div class="gc">共5题 · 每题1分</div></div>
+    <div class="garr" id="a_g5">▼</div>
+  </div>
+  <div class="gb" id="b_g5">
+    <div class="sec-intro">📖 判断两个画线单词的发音是否相同。T=相同，F=不同。点 🔊 听完整句子。</div>
+    <div id="bd_g5"></div>
+  </div>
+</div>
+
+<!-- ══ 第六大题 ══ -->
+<div class="group" id="g6">
+  <div class="gh blue" onclick="tog('g6')">
+    <div><div class="gl blue">六、选出与画线部分同类的选项（5分）</div><div class="gc">共5题 · 每题1分</div></div>
+    <div class="garr" id="a_g6">▼</div>
+  </div>
+  <div class="gb" id="b_g6">
+    <div class="sec-intro">📖 找出与句子中画线词语同类的选项。考查词汇分类能力。</div>
+    <div id="bd_g6"></div>
+  </div>
+</div>
+
+<!-- ══ 第七大题 ══ -->
+<div class="group" id="g7">
+  <div class="gh purple" onclick="tog('g7')">
+    <div><div class="gl purple">七、读一读选择合适选项（5分）</div><div class="gc">共5题 · 每题1分</div></div>
+    <div class="garr" id="a_g7">▼</div>
+  </div>
+  <div class="gb" id="b_g7">
+    <div class="sec-intro">📖 读题目选择最合适的回答。考查日常对话理解能力。</div>
+    <div id="bd_g7"></div>
+  </div>
+</div>
+
+<!-- ══ 第八大题 ══ -->
+<div class="group" id="g8">
+  <div class="gh orange" onclick="tog('g8')">
+    <div><div class="gl orange">八、图文匹配（5分）</div><div class="gc">共5题 · 每题1分</div></div>
+    <div class="garr" id="a_g8">▼</div>
+  </div>
+  <div class="gb" id="b_g8">
+    <div class="sec-intro">📖 读句子或对话，选择合适的图片（A-E）。</div>
+    <div id="bd_g8"></div>
+  </div>
+</div>
+
+<!-- ══ 第九大题 ══ -->
+<div class="group" id="g9">
+  <div class="gh green" onclick="tog('g9')">
+    <div><div class="gl green">九、Dave与妈妈聊天（10分）</div><div class="gc">完整对话 · 选句子填空</div></div>
+    <div class="garr" id="a_g9">▼</div>
+  </div>
+  <div class="gb" id="b_g9">
+    <div class="sec-intro">📖 阅读Dave和妈妈的完整对话，从选项A-E中选合适的句子填入空白处。</div>
+    <div id="bd_g9"></div>
+  </div>
+</div>
+
+<!-- ══ 第十大题 ══ -->
+<div class="group" id="g10">
+  <div class="gh blue" onclick="tog('g10')">
+    <div><div class="gl blue">十、游泳池海报阅读（10分）</div><div class="gc">共5题 · 图文阅读</div></div>
+    <div class="garr" id="a_g10">▼</div>
+  </div>
+  <div class="gb" id="b_g10">
+    <div class="sec-intro">📖 阅读红星游泳池的海报，回答问题。考查实际阅读理解能力。</div>
+    <div id="bd_g10"></div>
+  </div>
+</div>
+
+<!-- ══ 第十一大题 ══ -->
+<div class="group" id="g11">
+  <div class="gh purple" onclick="tog('g11')">
+    <div><div class="gl purple">十一、Ann和Nina的邮件（10分）</div><div class="gc">共5题 · 阅读理解</div></div>
+    <div class="garr" id="a_g11">▼</div>
+  </div>
+  <div class="gb" id="b_g11">
+    <div class="sec-intro">📖 阅读Ann和Nina互写的邮件，回答问题。Ann在北京，Nina在新疆，他们分享各自的日常生活。</div>
+    <div id="bd_g11"></div>
+  </div>
+</div>
+
+<!-- ══ 第十二大题 ══ -->
+<div class="group" id="g12">
+  <div class="gh orange" onclick="tog('g12')">
+    <div><div class="gl orange">十二、书面表达（10分）</div><div class="gc">选词填空完成日记</div></div>
+    <div class="garr" id="a_g12">▼</div>
+  </div>
+  <div class="gb" id="b_g12">
+    <div class="sec-intro">📖 从词库中选词填入日记空白处：lights / get up / blackboard / kitchen / lunch。完整日记写两个人（Ann和Dave）的一天。</div>
+    <div id="bd_g12"></div>
+  </div>
+</div>
+
+<div class="footer">🔊 点每句旁边的喇叭跟着读！多读几遍记得更牢 💪</div>
+
+<script>
+// color helpers
+const CLR = {green:'#059669',orange:'#ea580c',blue:'#2563eb',purple:'#7c3aed',teal:'#0d9488',rose:'#e11d48'};
+
+const DATA = {
+  // ── 一 听句子选择 ──────────────────────────────────────────
+  g1: { color:'teal', items:[
+    {en:"A. floor  B. fan", zh:"A. 地板  B. 风扇", student:"B", correct:"B", ok:true,
+     opts:[{l:"A",e:"floor",z:"地板"},{l:"B",e:"fan",z:"风扇（正确）✓"}],
+     explain:"floor（地板）和fan（风扇）是两个不同的名词，听发音区分fl-和f-开头的词。"},
+    {en:"A. bedroom  B. bathroom", zh:"A. 卧室  B. 浴室", student:"A", correct:"A", ok:true,
+     opts:[{l:"A",e:"bedroom",z:"卧室（正确）✓"},{l:"B",e:"bathroom",z:"浴室"}],
+     explain:"bedroom=卧室（bed床+room房间），bathroom=浴室（bath洗澡+room房间）。"},
+    {en:"A. late  B. loud", zh:"A. 迟到的  B. 大声的", student:"B", correct:"B", ok:true,
+     opts:[{l:"A",e:"late",z:"迟到的/晚的"},{l:"B",e:"loud",z:"大声的（正确）✓"}],
+     explain:"late（迟到）和loud（大声）是常见形容词，注意区分发音。"},
+    {en:"A. work  B. words", zh:"A. 工作  B. 单词", student:"B", correct:"B", ok:true,
+     opts:[{l:"A",e:"work",z:"工作"},{l:"B",e:"words",z:"单词（正确）✓"}],
+     explain:"work（工作，动词）和words（单词，word的复数）。"},
+    {en:"A. study  B. kitchen", zh:"A. 书房/学习  B. 厨房", student:"B", correct:"B", ok:true,
+     opts:[{l:"A",e:"study",z:"书房/学习"},{l:"B",e:"kitchen",z:"厨房（正确）✓"}],
+     explain:"study可以是名词（书房）也可以是动词（学习）；kitchen=厨房。"},
+    {en:"A. maths  B. music", zh:"A. 数学  B. 音乐", student:"A", correct:"A", ok:true,
+     opts:[{l:"A",e:"maths",z:"数学（正确）✓"},{l:"B",e:"music",z:"音乐"}],
+     explain:"maths（数学，英式英语）= math（美式英语）；music（音乐）。"},
+    {en:"A. rule  B. run", zh:"A. 规则  B. 跑步", student:"B", correct:"B", ok:true,
+     opts:[{l:"A",e:"rule",z:"规则/规定"},{l:"B",e:"run",z:"跑步（正确）✓"}],
+     explain:"rule（规则）是本单元重点词汇，run（跑）注意别混淆。"},
+    {en:"A. classroom  B. class", zh:"A. 教室  B. 班级/课", student:"A", correct:"A", ok:true,
+     opts:[{l:"A",e:"classroom",z:"教室（正确）✓"},{l:"B",e:"class",z:"班级/课"}],
+     explain:"classroom=class（课/班）+room（房间）=教室。"},
+    {en:"A. watch TV  B. wash hands", zh:"A. 看电视  B. 洗手", student:"A", correct:"A", ok:true,
+     opts:[{l:"A",e:"watch TV",z:"看电视（正确）✓"},{l:"B",e:"wash hands",z:"洗手"}],
+     explain:"watch TV（看电视）和wash hands（洗手）都是本单元常见短语，注意watch和wash发音区别。"},
+    {en:"A. clean the door  B. clean the desk", zh:"A. 擦门  B. 擦桌子", student:"B", correct:"B", ok:true,
+     opts:[{l:"A",e:"clean the door",z:"擦门"},{l:"B",e:"clean the desk",z:"擦桌子（正确）✓"}],
+     explain:"clean（打扫/擦），door（门），desk（桌子）。clean the desk是值日常见任务。"},
+  ]},
+
+  // ── 二 图片排序 ────────────────────────────────────────────
+  g2: { color:'rose', items:[
+    {en:"It's 7:00 a.m. Time to get up.", zh:"早上7点，起床时间到了。", student:"4", correct:"4", ok:true,
+     explain:"get up（起床）是早晨第一件事，对应起床的图片。"},
+    {en:"It's 8:00 a.m. Time for school.", zh:"早上8点，上学时间到了。", student:"2", correct:"2", ok:true,
+     explain:"time for school（上学时间），对应去学校的图片。"},
+    {en:"It's 11:45 a.m. Time for lunch.", zh:"上午11:45，午饭时间到了。", student:"1", correct:"1", ok:true,
+     explain:"time for lunch（午饭时间），对应吃午饭的图片。"},
+    {en:"It's 4:30 p.m. Time to go home.", zh:"下午4:30，回家时间到了。", student:"5", correct:"5", ok:true,
+     explain:"go home（回家），下午放学后回家。"},
+    {en:"It's 9:00 p.m. Time for bed.", zh:"晚上9点，睡觉时间到了。", student:"3", correct:"3", ok:true,
+     explain:"time for bed（睡觉时间），对应睡觉的图片。这5句构成一天的时间线。"},
+  ]},
+
+  // ── 三 听小对话 ───────────────────────────────────────────
+  g3: { color:'blue', items:[
+    {en:"The girl's classroom is ___.", zh:"这个女孩的教室___。",
+     opts:[{l:"A",e:"big and nice",z:"又大又漂亮"},{l:"B",e:"small but clean",z:"小但整洁"},{l:"C",e:"clean and big",z:"干净又大"}],
+     student:"B", correct:"A", ok:false,
+     explain:"📌 知识点：big and nice（又大又漂亮）。形容教室常用：big（大的）、nice（漂亮的）、clean（干净的）、small（小的）。"},
+    {en:"The boy will ___ after dinner.", zh:"这个男孩晚饭后会___。",
+     opts:[{l:"A",e:"watch TV",z:"看电视"},{l:"B",e:"do homework",z:"做作业"},{l:"C",e:"sweep the floor",z:"扫地"}],
+     student:"C", correct:"A", ok:false,
+     explain:"📌 知识点：after dinner（晚饭后）接活动。watch TV（看电视），sweep the floor（扫地）。"},
+    {en:"Sally is sweeping the floor in the ___.", zh:"Sally正在___里扫地。",
+     opts:[{l:"A",e:"bedroom",z:"卧室"},{l:"B",e:"bathroom",z:"浴室"},{l:"C",e:"living room",z:"客厅"}],
+     student:"B", correct:"B", ok:true,
+     explain:"📌 知识点：sweep the floor（扫地），房间名称：bedroom卧室、bathroom浴室、living room客厅。"},
+    {en:"They have an art class at ___.", zh:"他们在___上美术课。",
+     opts:[{l:"A",e:"8:40",z:"8点40分"},{l:"B",e:"8:15",z:"8点15分"},{l:"C",e:"8:50",z:"8点50分"}],
+     student:"A", correct:"C", ok:false,
+     explain:"📌 知识点：时间表达。8:50读作eight fifty，注意听清forty(40)和fifty(50)的区别！"},
+    {en:"In New York, it's time for ___ now.", zh:"在纽约，现在是___时间。",
+     opts:[{l:"A",e:"breakfast",z:"早饭"},{l:"B",e:"lunch",z:"午饭"},{l:"C",e:"dinner",z:"晚饭"}],
+     student:"B", correct:"B", ok:true,
+     explain:"📌 知识点：时差概念，结合时间判断是哪顿饭。breakfast早饭、lunch午饭、dinner晚饭。"},
+  ]},
+
+  // ── 四 听长对话 ───────────────────────────────────────────
+  g4: { color:'orange', items:[
+    {en:"Mike can clean the ___.", zh:"Mike能擦___。",
+     opts:[{l:"A",e:"floor",z:"地板"},{l:"B",e:"blackboard",z:"黑板"},{l:"C",e:"A&B",z:"两者都能"}],
+     student:"B", correct:"B", ok:true,
+     explain:"📌 clean the blackboard（擦黑板）是值日常见任务，blackboard=black（黑）+board（板）。"},
+    {en:"The children go home at ___.", zh:"孩子们在___回家。",
+     opts:[{l:"A",e:"5 o'clock",z:"5点整"},{l:"B",e:"5:40 p.m.",z:"下午5:40"},{l:"C",e:"4:50 p.m.",z:"下午4:50"}],
+     student:"B", correct:"B", ok:true,
+     explain:"📌 5:40读作five forty。注意区分5:00（five o'clock）和5:40（five forty）。"},
+    {en:"David ___ at 7:30 a.m.", zh:"David在早上7:30___。",
+     opts:[{l:"A",e:"gets up",z:"起床"},{l:"B",e:"has breakfast",z:"吃早饭"},{l:"C",e:"goes to school",z:"去上学"}],
+     student:"B", correct:"A", ok:false,
+     explain:"📌 知识点：gets up（起床，第三人称单数）。get up的三单形式是gets up，注意加s。"},
+    {en:"There are ___ rules at school and ___ at home.", zh:"学校有___条规定，家里有___条。",
+     opts:[{l:"A",e:"two; three",z:"两条；三条"},{l:"B",e:"three; two",z:"三条；两条"},{l:"C",e:"three; three",z:"三条；三条"}],
+     student:"A", correct:"A", ok:true,
+     explain:"📌 数字辨析：two（2）和three（3）。学校规定多，家里规定少，所以是two; three。"},
+    {en:"The rules are ___ for David.", zh:"这些规定对David___。",
+     opts:[{l:"A",e:"😊 good",z:"有好处的"},{l:"B",e:"😐 OK",z:"还行"},{l:"C",e:"😢 bad",z:"没好处的"}],
+     student:"C", correct:"C", ok:true,
+     explain:"📌 rules are good for sb.（规则对某人有好处）是本单元重要句型。"},
+  ]},
+
+  // ── 五 判断发音 ───────────────────────────────────────────
+  g5: { color:'green', items:[
+    {en:"It's windy today. The farmer works on the farm.", zh:"今天刮风。这个农民在农场干活。",
+     student:"T", correct:"T", ok:true,
+     explain:"📌 farm（农场）和farmer（农民）中画线部分ar发音相同，都读 /ɑːr/。T=相同 ✓"},
+    {en:"I drink some water after dinner.", zh:"我晚饭后喝些水。",
+     student:"T", correct:"T", ok:true,
+     explain:"📌 water（水）和after（后）中画线部分发音相同，都含有 /ə/ 音。T=相同 ✓"},
+    {en:"Lord often does sports in the morning.", zh:"Lord经常在早上做运动。",
+     student:"X", correct:"T", ok:false,
+     explain:"📌 often中的o和morning中的o画线部分发音，在英式英语中发音类似，应为T。注意：often中的t通常不发音。"},
+    {en:"My brother has some rulers and erasers.", zh:"我弟弟有一些尺子和橡皮。",
+     student:"X", correct:"F", ok:true,
+     explain:"📌 rulers（尺子）和erasers（橡皮）画线部分发音不同：ruler的u读/uː/，eraser的a读/eɪ/。F=不同 ✓"},
+    {en:"York is short. But he works hard.", zh:"York个子矮。但他工作努力。",
+     student:"T", correct:"F", ok:false,
+     explain:"📌 short中or读/ɔːr/，works中or也读/ɜːr/，实际发音不同。F=不同。注意short和works中or的发音区别！"},
+  ]},
+
+  // ── 六 选同类词 ───────────────────────────────────────────
+  g6: { color:'blue', items:[
+    {en:"It's time to have PE class. Let's play football.", zh:"是上体育课的时间了，我们来踢足球吧。",
+     opts:[{l:"A",e:"China",z:"中国"},{l:"B",e:"art",z:"美术（正确）✓"},{l:"C",e:"clock",z:"时钟"}],
+     student:"B", correct:"B", ok:true,
+     explain:"📌 PE class（体育课），同类词找科目类：art（美术课）。China是国家，clock是物品，都不是科目。"},
+    {en:"My grandparents often get up at 6 o'clock.", zh:"我的祖父母经常6点起床。",
+     opts:[{l:"A",e:"art class",z:"美术课"},{l:"B",e:"music room",z:"音乐室"},{l:"C",e:"go to school",z:"去上学（正确）✓"}],
+     student:"A", correct:"C", ok:false,
+     explain:"📌 get up（起床）是动词短语，同类找动词短语：go to school（去上学）✓。art class和music room是名词短语，不同类。"},
+    {en:"Please turn off the fan after class.", zh:"下课后请关掉风扇。",
+     opts:[{l:"A",e:"study",z:"书房/学习"},{l:"B",e:"light",z:"灯（正确）✓"},{l:"C",e:"classroom",z:"教室"}],
+     student:"B", correct:"B", ok:true,
+     explain:"📌 fan（风扇）是电器，同类找电器：light（灯）✓。study是书房，classroom是教室，都不是电器。"},
+    {en:"Jack is tall. He can clean the door.", zh:"Jack个子高。他能擦门。",
+     opts:[{l:"A",e:"chair",z:"椅子"},{l:"B",e:"rule",z:"规则"},{l:"C",e:"tidy",z:"整理（正确）✓"}],
+     student:"B", correct:"C", ok:false,
+     explain:"📌 clean（打扫/擦）是动词，同类找动词：tidy（整理）✓。chair是名词，rule是名词，不同类。"},
+    {en:"Don't run on the wet floor. It's not safe.", zh:"不要在湿地板上跑。这不安全。",
+     opts:[{l:"A",e:"loud",z:"大声的"},{l:"B",e:"sleep",z:"睡觉"},{l:"C",e:"late",z:"迟到的（正确）✓"}],
+     student:"C", correct:"C", ok:true,
+     explain:"📌 safe（安全的）是形容词，同类找形容词：late（迟到的）✓。loud也是形容词，但sleep是动词，late更符合语境。"},
+  ]},
+
+  // ── 七 选择 ──────────────────────────────────────────────
+  g7: { color:'purple', items:[
+    {en:"It's time for English class. Let's read and write.", zh:"是英语课时间了。我们来读写吧。",
+     opts:[{l:"A",e:"to",z:"to"},{l:"B",e:"for",z:"for（正确）✓"},{l:"C",e:"of",z:"of"}],
+     student:"B", correct:"B", ok:true,
+     explain:"📌 It's time for + 名词（到...的时间了）。It's time for English class. 注意介词用for，不用to或of。"},
+    {en:"—Who's on duty today? —I am. I can ___.", zh:"今天谁值日？是我。我能___。",
+     opts:[{l:"A",e:"wash my hands",z:"洗手"},{l:"B",e:"use kind words",z:"说礼貌用语"},{l:"C",e:"sweep the floor",z:"扫地（正确）✓"}],
+     student:"B", correct:"C", ok:false,
+     explain:"📌 on duty（值日）时做的事情：sweep the floor（扫地）、clean the blackboard（擦黑板）等。wash hands和use kind words不是值日内容。"},
+    {en:"—Can I read books now? —___ Tidy your room first.", zh:"我现在能看书吗？___先整理你的房间。",
+     opts:[{l:"A",e:"No, you can't.",z:"不，你不能。（正确）✓"},{l:"B",e:"Excuse me?",z:"对不起，什么？"},{l:"C",e:"Yes, I can.",z:"是的，我能。"}],
+     student:"A", correct:"A", ok:true,
+     explain:"📌 先整理房间才能看书，所以回答No, you can't.（不能），然后说先做什么。Tidy your room first体现了条件关系。"},
+    {en:"—It's 9:20. Time for bed. —___", zh:"现在9:20，该睡觉了。___",
+     opts:[{l:"A",e:"Thank you.",z:"谢谢你。"},{l:"B",e:"Just a minute.",z:"等一下。（正确）✓"},{l:"C",e:"Be careful!",z:"小心！"}],
+     student:"X", correct:"B", ok:false,
+     explain:"📌 Just a minute.（等一下/稍等）是本单元重点句型，表示还需要一点时间，常用于被催促时回答。"},
+    {en:"—Don't be late for class, Sam. —___", zh:"Sam，上课不要迟到。___",
+     opts:[{l:"A",e:"Have a nice day!",z:"祝你有美好的一天！"},{l:"B",e:"I'm ready.",z:"我准备好了。"},{l:"C",e:"I will do it now.",z:"我现在就去做。（正确）✓"}],
+     student:"B", correct:"C", ok:false,
+     explain:"📌 被提醒不要迟到，应该回答I will do it now.（我现在就去做）表示会马上行动。I'm ready表示已经准备好，不太符合语境。"},
+  ]},
+
+  // ── 八 图文匹配 ──────────────────────────────────────────
+  g8: { color:'orange', items:[
+    {en:"My family are cooking together in the kitchen.", zh:"我的家人正在厨房一起做饭。",
+     student:"D", correct:"D", ok:true,
+     explain:"📌 cook（做饭）in the kitchen（在厨房），对应厨房做饭的图片D。are cooking是现在进行时。"},
+    {en:"We have to keep our classroom clean.", zh:"我们必须保持教室干净。",
+     student:"C", correct:"B", ok:false,
+     explain:"📌 keep...clean（保持...干净），对应打扫教室的图片B。have to（必须）表示义务。"},
+    {en:"It's 9:30 now. It's time to go to bed.", zh:"现在9:30了，是时候去睡觉了。",
+     student:"E", correct:"C", ok:false,
+     explain:"📌 time to go to bed（睡觉时间），对应9:30睡觉的图片C。It's time to+动词（是...的时间了）。"},
+    {en:"Put your hand up to speak in class.", zh:"课堂上举手发言。",
+     student:"X", correct:"A", ok:false,
+     explain:"📌 put your hand up（举手），对应课堂举手的图片A。这是课堂规则的重要表达。"},
+    {en:"—Where is Tom? —He's in the library. He's reading books.", zh:"Tom在哪里？他在图书馆里。他正在看书。",
+     student:"-", correct:"E", ok:true,
+     explain:"📌 in the library（在图书馆），He's reading books.（他正在看书）对应图书馆阅读的图片E。"},
+  ]},
+
+  // ── 九 Dave对话 ──────────────────────────────────────────
+  g9: { color:'green', items:[
+    {en:"Dave: Mum, I'm so hungry.", zh:"Dave：妈妈，我好饿啊。",
+     student:"1=E", correct:"E", ok:false,
+     opts:[{l:"E",e:"What time is it now?",z:"现在几点了？"}],
+     explain:"📌 Dave说饿了，妈妈问What time is it now?（现在几点了？）来判断是否到饭点，符合逻辑。"},
+    {en:"Mum: It's 11:30 a.m.", zh:"妈妈：现在是上午11:30。",
+     student:"2=B", correct:"B", ok:true,
+     opts:[{l:"B",e:"Time for lunch.",z:"午饭时间到了。"}],
+     explain:"📌 11:30是午饭时间，妈妈说Time for lunch.（午饭时间到了）。这是时间+活动的固定表达。"},
+    {en:"Dave: I see.", zh:"Dave：我明白了。",
+     student:"3=A", correct:"A", ok:false,
+     opts:[{l:"A",e:"I have to wash my hands first.",z:"我必须先洗手。"}],
+     explain:"📌 吃饭前要先洗手。I have to wash my hands first.（我必须先洗手）体现了良好的生活习惯。"},
+    {en:"Dave: Can I go to the park with my friends after lunch?", zh:"Dave：午饭后我能和朋友去公园吗？",
+     student:"4=BD", correct:"BD", ok:false,
+     opts:[{l:"B",e:"Time for lunch.",z:"午饭时间。"},{l:"D",e:"But please help clean the house first.",z:"但请先帮忙打扫房子。"}],
+     explain:"📌 妈妈先说午饭，再说先帮忙打扫房子才能去。选BD，体现先做家务再玩的规则。"},
+    {en:"Dave: Then our house will be clean and tidy.", zh:"Dave：那我们的房子就会干净整洁了。",
+     student:"5=C", correct:"C", ok:false,
+     opts:[{l:"C",e:"I can clean the windows.",z:"我能擦窗户。"}],
+     explain:"📌 Dave表示愿意擦窗户，所以房子会干净整洁。clean and tidy（干净整洁）是固定搭配。"},
+  ]},
+
+  // ── 十 游泳池 ────────────────────────────────────────────
+  g10: { color:'blue', items:[
+    {en:"Welcome to our swimming pool! RED STAR SWIMMING POOL", zh:"欢迎来到我们的游泳池！红星游泳池",
+     student:"-", correct:"-", ok:true,
+     explain:"📌 Pool Hours: 9:00 a.m.–8:00 p.m.（开放时间早9到晚8）Price: 30 yuan/child, 60 yuan/adult（儿童30元，成人60元）"},
+    {en:"For Children: You must go with your parents or adults!", zh:"儿童须知：你必须和父母或成人一起入场！",
+     student:"-", correct:"-", ok:true,
+     explain:"📌 must（必须）表示强制要求。儿童游泳必须有大人陪同，这是安全规则。"},
+    {en:"We can swim at ___ in this pool.", zh:"我们可以在___在这个游泳池游泳。",
+     opts:[{l:"A",e:"8:00 a.m.",z:"早上8点"},{l:"B",e:"9:00 p.m.",z:"晚上9点"},{l:"C",e:"10:00 a.m.",z:"早上10点（正确）✓"}],
+     student:"C", correct:"C", ok:true,
+     explain:"📌 开放时间9am-8pm，所以10:00 a.m.（早上10点）在开放时间内✓。8:00 a.m.还没开，9:00 p.m.已经关了。"},
+    {en:"Ann wants to swim with her mum. They need to pay ___.", zh:"Ann想和她妈妈一起游泳。他们需要支付___。",
+     opts:[{l:"A",e:"60 yuan",z:"60元"},{l:"B",e:"90 yuan",z:"90元（正确）✓"},{l:"C",e:"120 yuan",z:"120元"}],
+     student:"B", correct:"B", ok:true,
+     explain:"📌 Ann是儿童30元+妈妈是成人60元=90元。注意：儿童必须和成人一起，所以两人都要买票。"},
+    {en:"NO LITTERING means ___.", zh:"禁止乱扔垃圾的意思是___。",
+     opts:[{l:"A",e:"Don't take toys to the pool.",z:"不要把玩具带到游泳池。（学生答）"},{l:"B",e:"Wash your hands.",z:"洗手。"},{l:"C",e:"Keep the pool clean.",z:"保持游泳池干净。（正确）✓"}],
+     student:"A", correct:"C", ok:false,
+     explain:"📌 litter（乱扔垃圾），NO LITTERING=禁止乱扔垃圾，目的是keep the pool clean（保持游泳池干净）✓。"},
+  ]},
+
+  // ── 十一 邮件 ────────────────────────────────────────────
+  g11: { color:'purple', items:[
+    {en:"Ann's email: I'm in Beijing. I have jiaozi for breakfast. I go to school at 8:00. We have 4 classes in the morning. I eat lunch at school at 11:45.", zh:"Ann的邮件：我在北京。我早饭吃饺子。我8点上学。我们上午有4节课。我11:45在学校吃午饭。",
+     student:"-", correct:"-", ok:true,
+     explain:"📌 Ann的作息：上学8:00，上午4节课，11:45吃午饭，下午1:30-3:10还有2节课，6:00晚饭，9:00睡觉。"},
+    {en:"Nina's email: In Xinjiang, I get up at 8:30. I have the first class at 10:00. We go home and have lunch at 1:30 p.m. Classes start at 3:40. School is over at 8:20.", zh:"Nina的邮件：在新疆，我8:30起床。我10:00上第一节课。我们1:30回家吃午饭。下午3:40开始上课。学校8:20放学。",
+     student:"-", correct:"-", ok:true,
+     explain:"📌 Nina在新疆的作息和北京完全不同！起床更晚（8:30），上课更晚（10:00），放学也更晚（8:20）。这是地域时差造成的。"},
+    {en:"Nina is from ___.", zh:"Nina来自___。",
+     opts:[{l:"A",e:"Hangzhou",z:"杭州"},{l:"B",e:"Xinjiang",z:"新疆（正确）✓"},{l:"C",e:"Beijing",z:"北京"}],
+     student:"B", correct:"B", ok:true,
+     explain:"📌 Nina的邮件第一句：In Xinjiang, I get up at 8:30.（在新疆，我8:30起床）所以Nina来自新疆。"},
+    {en:"At Ann's school, there are ___ classes in the morning.", zh:"在Ann的学校，上午有___节课。",
+     opts:[{l:"A",e:"four",z:"四节（正确）✓"},{l:"B",e:"six",z:"六节"},{l:"C",e:"seven",z:"七节"}],
+     student:"A", correct:"A", ok:true,
+     explain:"📌 Ann的邮件：We have 4 classes in the morning.（我们上午有4节课）选A: four ✓"},
+    {en:"At 9:00 p.m., Ann ___ and Nina ___.", zh:"晚上9点，Ann___，Nina___。",
+     opts:[{l:"A",e:"goes to bed; has dinner",z:"去睡觉；吃晚饭"},{l:"B",e:"has dinner; goes to bed",z:"吃晚饭；去睡觉（正确）✓"},{l:"C",e:"goes to bed; goes to bed",z:"去睡觉；去睡觉"}],
+     student:"A", correct:"B", ok:false,
+     explain:"📌 Ann的邮件：Dinner is at 6:00 p.m. And I go to bed at 9:00.（晚饭6点，9点睡觉）；Nina：I go to bed after 11 o'clock.（11点后才睡，9点还没睡，在吃晚饭）所以选B ✓"},
+  ]},
+
+  // ── 十二 书面表达 ─────────────────────────────────────────
+  g12: { color:'orange', items:[
+    {en:"It's sunny today. In the morning, I _1_ at 7 o'clock.", zh:"今天天晴。早上，我7点___。",
+     student:"get up", correct:"get up", ok:true,
+     explain:"📌 词库：get up（起床）✓ 填入空1。早上7点起床，符合逻辑。"},
+    {en:"After breakfast, I clean the house with my family. I can tidy my room and help Mum clean the _2_.", zh:"早饭后，我和家人打扫房子。我能整理我的房间，帮妈妈打扫___。",
+     student:"kitchen", correct:"kitchen", ok:true,
+     explain:"📌 kitchen（厨房）✓ 填入空2。帮妈妈打扫厨房，符合做家务的语境。"},
+    {en:"At 12 o'clock, it's time for _3_.", zh:"12点了，是___时间了。",
+     student:"lunch", correct:"lunch", ok:true,
+     explain:"📌 lunch（午饭）✓ 填入空3。12点是午饭时间，It's time for lunch."},
+    {en:"I have to wash my hands first.", zh:"我必须先洗手。",
+     student:"-", correct:"-", ok:true,
+     explain:"📌 这句不需要填词。have to wash hands first（必须先洗手）是饭前卫生习惯的重要表达。"},
+    {en:"At school, I turn off the _4_ after school.", zh:"在学校，放学后我关掉___。",
+     student:"lights", correct:"lights", ok:true,
+     explain:"📌 lights（灯）✓ 填入空4。turn off the lights（关灯）是节能环保的好习惯。turn off（关掉）↔ turn on（打开）。"},
+    {en:"And I often clean the _5_.", zh:"而且我经常擦___。",
+     student:"blackboad ❌", correct:"blackboard", ok:false,
+     explain:"📌 blackboard（黑板）✓ 填入空5。⚠️ 注意拼写：black-BOARD，不要漏掉字母r！blackboad是错误的，正确是blackboard。"},
+  ]},
+};
+
+let currentVoice=null, currentRate=0.85, playingBtn=null, allVoices=[];
+
+function tog(id){
+  const b=document.getElementById('b_'+id);
+  const a=document.getElementById('a_'+id);
+  b.classList.toggle('hidden');
+  a.textContent=b.classList.contains('hidden')?'▶':'▼';
+}
+
+function buildAll(){
+  Object.entries(DATA).forEach(([gid,sec])=>{
+    const col=sec.color;
+    const container=document.getElementById('bd_'+gid);
+    if(!container)return;
+    container.innerHTML=sec.items.map((item,i)=>{
+      const safe=(item.en||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+      // options html
+      const optsHtml = item.opts ? `<div class="opts">${item.opts.map(o=>{
+        let cls='opt';
+        if(o.z.includes('✓')) cls='opt correct';
+        else if(item.student===o.l&&!item.ok) cls='opt selected-wrong';
+        const os=(o.e||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+        return `<div class="${cls}">
+          <span class="opt-label">${o.l}.</span>
+          <span>${o.e} <span style="color:#94a3b8;font-size:0.68rem">— ${o.z}</span></span>
+          <button class="speak-btn ${col}" style="margin-left:auto;width:22px;height:22px;font-size:0.7rem" data-text="${os}" data-col="${col}" onclick="speakIt(this)">🔊</button>
+        </div>`;
+      }).join('')}</div>` : '';
+      // answer tags
+      const showAns = item.student && item.student!=='-';
+      const ansHtml = showAns ? `<div class="ar">
+        <span class="tag ts">学生：${item.student}</span>
+        ${!item.ok?`<span class="tag tc">正确：${item.correct}</span>`:''}
+        <span class="tag ${item.ok?'tok':'tw'}">${item.ok?'✓ 正确':'✗ 错误'}</span>
+      </div>` : '';
+      return `
+      <div class="row">
+        <div class="rn ${col}">${i+1}</div>
+        <div class="rb">
+          <div class="re">
+            <div class="et">${item.en}</div>
+            ${item.en?`<button class="speak-btn ${col}" data-text="${safe}" data-col="${col}" onclick="speakIt(this)">🔊</button>`:''}
+          </div>
+          <div class="zt ${col}">${item.zh}</div>
+          ${optsHtml}
+          ${ansHtml}
+          ${item.explain?`<div class="explain">${item.explain}</div>`:''}
+        </div>
+      </div>`;
+    }).join('');
+  });
+}
+
+function speakIt(btn){
+  const text=btn.getAttribute('data-text');
+  if(!text||!window.speechSynthesis)return;
+  if(playingBtn===btn){window.speechSynthesis.cancel();btn.classList.remove('playing');btn.textContent='🔊';playingBtn=null;return;}
+  if(playingBtn){window.speechSynthesis.cancel();playingBtn.classList.remove('playing');playingBtn.textContent='🔊';}
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='en-US';u.rate=currentRate;u.pitch=1.1;
+  if(currentVoice)u.voice=currentVoice;
+  u.onstart=()=>{btn.classList.add('playing');btn.textContent='⏹';playingBtn=btn;};
+  u.onend=u.onerror=()=>{btn.classList.remove('playing');btn.textContent='🔊';if(playingBtn===btn)playingBtn=null;};
+  window.speechSynthesis.speak(u);
+}
+function setRate(r,btn){currentRate=r;document.querySelectorAll('.rate-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+function toggleVoiceList(){document.getElementById('voiceList').classList.toggle('open');}
+function buildVoiceList(){document.getElementById('voiceList').innerHTML=allVoices.map((v,i)=>`<div class="voice-item ${currentVoice&&currentVoice.name===v.name?'selected':''}" onclick="selectVoice(${i})"><div class="voice-dot"></div><div class="voice-item-name">${v.name}</div><div class="voice-item-lang">${v.lang}</div></div>`).join('');}
+function selectVoice(i){currentVoice=allVoices[i];document.getElementById('voiceName').textContent='🎙️ '+currentVoice.name;buildVoiceList();document.getElementById('voiceList').classList.remove('open');const u=new SpeechSynthesisUtterance("Rules and habits make our life better!");u.lang='en-US';u.rate=currentRate;u.voice=currentVoice;window.speechSynthesis.cancel();window.speechSynthesis.speak(u);}
+function loadVoices(){const raw=window.speechSynthesis.getVoices();const en=raw.filter(v=>v.lang.startsWith('en'));if(!en.length)return;allVoices=en;const prefer=['Samantha','Zira','Jenny','Aria','Emma','Karen','Moira','Fiona','Nicky'];let p=null;for(const n of prefer){p=en.find(v=>v.name.includes(n));if(p)break;}if(!p)p=en.find(v=>v.lang==='en-US')||en[0];currentVoice=p;document.getElementById('voiceName').textContent='🎙️ '+p.name;buildVoiceList();}
+
+buildAll();
+if(window.speechSynthesis){window.speechSynthesis.addEventListener('voiceschanged',loadVoices);loadVoices();}
+else document.getElementById('voiceName').textContent='⚠️ 浏览器不支持语音';
+</script>
+</body>
+</html>
