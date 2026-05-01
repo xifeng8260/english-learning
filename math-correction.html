@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>四年级数学期中 · 批改报告</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ok: #16a34a; --ok-bg: #f0fdf4; --ok-border: #bbf7d0;
+  --err: #dc2626; --err-bg: #fff1f2; --err-border: #fecdd3;
+  --warn: #d97706; --warn-bg: #fffbeb; --warn-border: #fde68a;
+  --blue: #2563eb; --blue-bg: #eff6ff; --blue-border: #bfdbfe;
+  --ink: #1a1a2e; --mist: #64748b; --pale: #f8fafc;
+}
+body {
+  font-family: 'Noto Sans SC', -apple-system, sans-serif;
+  background: #f0f4f8;
+  color: var(--ink);
+  padding: 12px;
+  padding-bottom: 40px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ── Header ── */
+.hd {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 60%, #7c3aed 100%);
+  border-radius: 20px;
+  padding: 22px 18px;
+  color: white;
+  margin-bottom: 16px;
+}
+.hd-tag { font-size: 0.62rem; letter-spacing: 2px; opacity: .7; margin-bottom: 6px; }
+.hd-title { font-size: 1.15rem; font-weight: 900; margin-bottom: 4px; }
+.hd-sub { font-size: 0.72rem; opacity: .8; margin-bottom: 14px; }
+.hd-scores { display: flex; gap: 10px; }
+.sc { background: rgba(255,255,255,.15); border-radius: 12px; padding: 10px 14px; flex: 1; text-align: center; backdrop-filter: blur(4px); }
+.sc-n { font-size: 1.6rem; font-weight: 900; line-height: 1; }
+.sc-l { font-size: 0.6rem; opacity: .8; margin-top: 2px; }
+
+/* ── Error summary ── */
+.err-sum {
+  background: #fff7ed;
+  border: 1.5px solid #fed7aa;
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+.err-sum-title { font-size: 0.82rem; font-weight: 800; color: #c2410c; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+.err-item { font-size: 0.78rem; color: #7c2d12; padding: 5px 0 5px 12px; border-left: 3px solid #fb923c; margin-bottom: 6px; line-height: 1.5; }
+.err-item:last-child { margin-bottom: 0; }
+
+/* ── Section ── */
+.sec {
+  background: white;
+  border-radius: 18px;
+  margin-bottom: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(0,0,0,.07);
+}
+.sec-hd {
+  padding: 13px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+}
+.sec-hd.blue   { background: var(--blue-bg); border-bottom: 1px solid var(--blue-border); }
+.sec-hd.green  { background: var(--ok-bg);   border-bottom: 1px solid var(--ok-border); }
+.sec-hd.orange { background: var(--warn-bg); border-bottom: 1px solid var(--warn-border); }
+.sec-hd.red    { background: var(--err-bg);  border-bottom: 1px solid var(--err-border); }
+.sec-title { font-size: 0.88rem; font-weight: 800; }
+.sec-hd.blue   .sec-title { color: var(--blue); }
+.sec-hd.green  .sec-title { color: var(--ok); }
+.sec-hd.orange .sec-title { color: var(--warn); }
+.sec-hd.red    .sec-title { color: var(--err); }
+.sec-meta { font-size: 0.62rem; color: var(--mist); margin-top: 1px; }
+.sec-arr { font-size: 0.75rem; color: #94a3b8; }
+.sec-body { padding: 12px 14px; }
+.sec-body.hidden { display: none; }
+
+/* ── Question ── */
+.q { border-radius: 12px; padding: 12px 13px; margin-bottom: 10px; border: 1.5px solid transparent; }
+.q:last-child { margin-bottom: 0; }
+.q.ok  { background: var(--ok-bg);   border-color: var(--ok-border); }
+.q.err { background: var(--err-bg);  border-color: var(--err-border); }
+.q.warn { background: var(--warn-bg); border-color: var(--warn-border); }
+
+.q-top { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
+.q-num {
+  width: 24px; height: 24px; border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.68rem; font-weight: 800; flex-shrink: 0; margin-top: 1px;
+}
+.q.ok   .q-num { background: var(--ok);   color: white; }
+.q.err  .q-num { background: var(--err);  color: white; }
+.q.warn .q-num { background: var(--warn); color: white; }
+.q-stem { font-size: 0.85rem; font-weight: 600; color: var(--ink); line-height: 1.5; flex: 1; }
+
+.badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+.badge { font-size: 0.65rem; padding: 2px 9px; border-radius: 20px; font-weight: 700; }
+.badge.student { background: #e0f2fe; color: #0369a1; }
+.badge.correct { background: var(--ok-bg); color: var(--ok); border: 1px solid var(--ok-border); }
+.badge.wrong   { background: var(--err-bg); color: var(--err); border: 1px solid var(--err-border); }
+.badge.ok-mark { background: var(--ok-bg); color: var(--ok); }
+
+.solution {
+  background: white;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-top: 8px;
+  border-left: 4px solid #7dd3fc;
+  font-size: 0.78rem;
+  color: #0c4a6e;
+  line-height: 1.7;
+}
+.solution-title { font-weight: 800; color: #0369a1; margin-bottom: 5px; font-size: 0.75rem; }
+.solution code {
+  background: #f0f9ff;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.82rem;
+  color: #1d4ed8;
+}
+
+.tip {
+  background: #fef9c3;
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-size: 0.73rem;
+  color: #713f12;
+  line-height: 1.55;
+  margin-top: 7px;
+}
+
+/* ── Calc table ── */
+.calc-table { width: 100%; border-collapse: collapse; font-size: 0.76rem; margin-top: 8px; border-radius: 10px; overflow: hidden; }
+.calc-table th { background: #f1f5f9; padding: 7px 8px; text-align: left; font-weight: 700; color: var(--mist); border-bottom: 1px solid #e2e8f0; }
+.calc-table td { padding: 7px 8px; border-bottom: 1px solid #f1f5f9; vertical-align: top; }
+.calc-table tr:last-child td { border-bottom: none; }
+.calc-table .ok-cell  { color: var(--ok); font-weight: 700; }
+.calc-table .err-cell { color: var(--err); font-weight: 700; }
+
+/* ── Steps ── */
+.steps { margin-top: 6px; }
+.step { display: flex; gap: 8px; align-items: flex-start; padding: 4px 0; font-size: 0.77rem; color: #334155; }
+.step-n { width: 18px; height: 18px; border-radius: 50%; background: #e0f2fe; color: #0369a1; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: 800; flex-shrink: 0; margin-top: 1px; }
+
+/* ── Footer ── */
+.footer { text-align: center; font-size: 0.7rem; color: #94a3b8; margin-top: 8px; }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="hd">
+  <div class="hd-tag">📝 数学批改报告</div>
+  <div class="hd-title">2024学年第二学期四年级<br>数学期中素养卷</div>
+  <div class="hd-sub">时间60分钟 · 满分100分 · 逐题批改</div>
+  <div class="hd-scores">
+    <div class="sc"><div class="sc-n">~72</div><div class="sc-l">估算得分</div></div>
+    <div class="sc"><div class="sc-n">100</div><div class="sc-l">满分</div></div>
+    <div class="sc"><div class="sc-n">11</div><div class="sc-l">错题数</div></div>
+  </div>
+</div>
+
+<!-- 错题汇总 -->
+<div class="err-sum">
+  <div class="err-sum-title">⚠️ 错题汇总（重点复习）</div>
+  <div class="err-item"><b>填空(6)：</b>○-△=14，14×○-△×14 应用提取公因数 = <b>196</b></div>
+  <div class="err-item"><b>填空(10)：</b>计数单位相同的两个小数是 <b>0.080 和 0.008</b></div>
+  <div class="err-item"><b>填空(11)：</b>☆=8，正确结果是 <b>792</b>，不是693</div>
+  <div class="err-item"><b>选择(14)：</b>乘法分配律是①③，选 <b>B</b></div>
+  <div class="err-item"><b>选择(15)：</b>结果不正确的是C（=90），选 <b>C</b></div>
+  <div class="err-item"><b>选择(19)：</b>一位小数共 <b>7个</b>，不是无数个</div>
+  <div class="err-item"><b>直接写得数：</b>25×44=<b>1100</b>，517-209=<b>308</b>，25×14-25×10=<b>100</b>，1000÷25÷4=<b>10</b></div>
+  <div class="err-item"><b>脱式(7)：</b>1500÷25×4=<b>240</b>，同级从左到右算！不能先乘</div>
+  <div class="err-item"><b>填空(17)：</b>□=<b>150</b>，不是30</div>
+  <div class="err-item"><b>应用(8)：</b>分开购票2640元更省，不是团体票3200元</div>
+  <div class="err-item"><b>应用(9)：</b>6辆大巴+1辆中巴=<b>5400元</b>最省</div>
+</div>
+
+<!-- ══ 一、基础知识 ══ -->
+<div class="sec" id="s1">
+  <div class="sec-hd blue" onclick="tog('s1')">
+    <div><div class="sec-title">一、基础知识（30分）</div><div class="sec-meta">填空题22分 + 选择题8分</div></div>
+    <div class="sec-arr" id="a_s1">▼</div>
+  </div>
+  <div class="sec-body" id="b_s1">
+
+    <!-- 填空 1-5 全对 -->
+    <div class="q ok">
+      <div class="q-top"><div class="q-num">1</div><div class="q-stem">(1) 有一个两位小数，十位和百分位都是7，个位和十分位都是0</div></div>
+      <div class="badges"><span class="badge student">学生：70.07</span><span class="badge ok-mark">✓ 正确</span></div>
+    </div>
+
+    <div class="q ok">
+      <div class="q-top"><div class="q-num">2</div><div class="q-stem">(2) 0.78的计数单位是___，再加___个得到1</div></div>
+      <div class="badges"><span class="badge student">百分之一，22</span><span class="badge ok-mark">✓ 正确</span></div>
+      <div class="tip">0.78 + 0.22 = 1.00，还差22个百分之一</div>
+    </div>
+
+    <div class="q ok">
+      <div class="q-top"><div class="q-num">3</div><div class="q-stem">(4) 把23×5=115，142-115=27，162÷27=6合并成综合算式</div></div>
+      <div class="badges"><span class="badge student">162÷[142-(23×5)]=6</span><span class="badge ok-mark">✓ 正确</span></div>
+    </div>
+
+    <div class="q ok">
+      <div class="q-top"><div class="q-num">4</div><div class="q-stem">(5) 填写比较符号（5个比较）</div></div>
+      <div class="badges"><span class="badge ok-mark">✓ 全部正确</span></div>
+    </div>
+
+    <!-- 填空(6) 错 -->
+    <div class="q err">
+      <div class="q-top"><div class="q-num">6</div><div class="q-stem">(6) 如果○-△=14，那么14×○-△×14=（ ）</div></div>
+      <div class="badges"><span class="badge student">学生：空白</span><span class="badge wrong">✗ 错误</span><span class="badge correct">正确：196</span></div>
+      <div class="solution">
+        <div class="solution-title">📐 解题方法：提取公因数</div>
+        <div class="steps">
+          <div class="step"><div class="step-n">1</div><span>原式 = 14×<b>○</b> - 14×<b>△</b></span></div>
+          <div class="step"><div class="step-n">2</div><span>= 14 × (<b>○ - △</b>)　← 提取公因数14</span></div>
+          <div class="step"><div class="step-n">3</div><span>= 14 × <b>14</b>　← 代入○-△=14</span></div>
+          <div class="step"><div class="step-n">4</div><span>= <b>196</b> ✓</span></div>
+        </div>
+        <div class="tip" style="margin-top:8px">💡 关键：看到 a×m - b×m，可以提取公因数 m×(a-b)</div>
+      </div>
+    </div>
+
+    <div class="q ok">
+      <div class="q-top"><div class="q-num">7</div><div class="q-stem">(7) 游泳池长25米，游8个来回</div></div>
+      <div class="badges"><span class="badge student">400米</span><span class="badge ok-mark">✓ 正确</span></div>
+      <div class="tip">25×2（来回）×8=400米</div>
+    </div>
+
+    <div class="q ok">
+      <div class="q-top"><div class="q-num">8</div><div class="q-stem">(8) a-15=180，a=？；180÷b=25…5，b=？</div></div>
+      <div class="badges"><span class="badge student">a=195，b=7</span><span class="badge ok-mark">✓ 正确</span></div>
+      <div class="tip">验证b：180÷7=25余5 ✓</div>
+    </div>
+
+    <div class="q ok">
+      <div class="q-top"><div class="q-num">9</div><div class="q-stem">(9) 三个立体图形从正面/上面看的图形</div></div>
+      <div class="badges"><span class="badge student">正面①⑤，上面①②</span><span class="badge ok-mark">✓ 正确</span></div>
+    </div>
+
+    <!-- 填空(10) 错 -->
+    <div class="q err">
+      <div class="q-top"><div class="q-num">10</div><div class="q-stem">(10) 0.08、0.008、0.080中，计数单位相同但大小不同的两个小数</div></div>
+      <div class="badges"><span class="badge student">学生：0.08和0.080</span><span class="badge wrong">✗ 错误</span><span class="badge correct">正确：0.080和0.008</span></div>
+      <div class="solution">
+        <div class="solution-title">📐 分析三个数的计数单位</div>
+        <div class="steps">
+          <div class="step"><div class="step-n">1</div><span><b>0.08</b> → 计数单位是<b>百分之一</b>（小数点后2位）</span></div>
+          <div class="step"><div class="step-n">2</div><span><b>0.080</b> → 计数单位是<b>千分之一</b>（小数点后3位）</span></div>
+          <div class="step"><div class="step-n">3</div><span><b>0.008</b> → 计数单位是<b>千分之一</b>（小数点后3位）</span></div>
+          <div class="step"><div class="step-n">4</div><span>0.080和0.008计数单位相同（都是千分之一）</span></div>
+          <div class="step"><div class="step-n">5</div><span>但0.080=0.08 &gt; 0.008，大小不同 ✓</span></div>
+        </div>
+        <div class="tip">💡 0.08和0.080大小相等，不符合"大小不同"的条件</div>
+      </div>
+    </div>
+
+    <!-- 填空(11) 错 -->
+    <div class="q err">
+      <div class="q-top"><div class="q-num">11</div><div class="q-stem">(11) ☆×99错算成☆×100-1，结果比正确结果大7，正确结果是多少？</div></div>
+      <div class="badges"><span class="badge student">学生：693</span><span class="badge wrong">✗ 错误</span><span class="badge correct">正确：792</span></div>
+      <div class="solution">
+        <div class="solution-title">📐 解题步骤</div>
+        <div class="steps">
+          <div class="step"><div class="step-n">1</div><span>错误结果 - 正确结果 = 7</span></div>
+          <div class="step"><div class="step-n">2</div><span>(☆×100-1) - ☆×99 = 7</span></div>
+          <div class="step"><div class="step-n">3</div><span>☆×100 - ☆×99 - 1 = 7</span></div>
+          <div class="step"><div class="step-n">4</div><span>☆×(100-99) = 7+1 = 8</span></div>
+          <div class="step"><div class="step-n">5</div><span>☆ = <b>8</b></span></div>
+          <div class="step"><div class="step-n">6</div><span>正确结果 = 8×99 = <b>792</b> ✓</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="q ok">
+      <div class="q-top"><div class="q-num">12</div><div class="q-stem">(12) 用2、3、6、10经过运算得到24</div></div>
+      <div class="badges"><span class="badge ok-mark">✓ 方法正确</span></div>
+      <div class="tip">参考：(10-6)×(3×2÷1) 或 (3-2)×(10+6×?)，多种方法均可</div>
+    </div>
+
+    <!-- 选择(13) 对 -->
+    <div class="q ok">
+      <div class="q-top"><div class="q-num">13</div><div class="q-stem">(13) 要读出两个"零"的数是（C）</div></div>
+      <div class="badges"><span class="badge student">C（403.02）</span><span class="badge ok-mark">✓ 正确</span></div>
+      <div class="tip">403.02读作：四百<b>零</b>三点<b>零</b>二，中间一个零+小数部分一个零</div>
+    </div>
+
+    <!-- 选择(14) 错 -->
+    <div class="q err">
+      <div class="q-top"><div class="q-num">14</div><div class="q-stem">(14) 下列算式中运用了乘法分配律的是</div></div>
+      <div class="badges"><span class="badge student">学生：C（②③）</span><span class="badge wrong">✗ 错误</span><span class="badge correct">正确：B（①③）</span></div>
+      <div class="solution">
+        <div class="solution-title">📐 乘法分配律：(a±b)×c = a×c ± b×c</div>
+        <div class="steps">
+          <div class="step"><div class="step-n">①</div><span>(□+○)×△=□×△+○×△ → <b>分配律 ✓</b></span></div>
+          <div class="step"><div class="step-n">②</div><span>(□×○)×△=□×(○×△) → <b>结合律 ✗</b></span></div>
+          <div class="step"><div class="step-n">③</div><span>(□-○)×△=□×△-○×△ → <b>分配律（减法）✓</b></span></div>
+          <div class="step"><div class="step-n">④</div><span>(□÷○)×△=□×△÷○×△ → <b>结合律变形 ✗</b></span></div>
+        </div>
+        <div class="tip">💡 分配律特征：括号外面的数要分别乘括号里的每一项</div>
+      </div>
+    </div>
+
+    <!-- 选择(15) 错 -->
+    <div class="q err">
+      <div class="q-top"><div class="q-num">15</div><div class="q-stem">(15) 四(1)班计算660÷12，哪个结果不正确？</div></div>
+      <div class="badges"><span class="badge student">学生：A</span><span class="badge wrong">✗ 错误</span><span class="badge correct">正确：C</span></div>
+      <div class="solution">
+        <div class="solution-title">📐 逐项验证（660÷12=55）</div>
+        <div class="steps">
+          <div class="step"><div class="step-n">A</div><span>600÷12+60÷12 = 50+5 = <b>55</b> ✓ 正确</span></div>
+          <div class="step"><div class="step-n">B</div><span>660÷6÷2 = 110÷2 = <b>55</b> ✓ 正确</span></div>
+          <div class="step"><div class="step-n">C</div><span>600÷10+60÷2 = 60+30 = <b>90</b> ✗ <b>不正确！</b></span></div>
+          <div class="step"><div class="step-n">D</div><span>(660×5)÷(12×5) = 3300÷60 = <b>55</b> ✓ 正确</span></div>
+        </div>
+        <div class="tip">💡 C选项把660÷12拆成了600÷10和60÷2，但这样拆法是错的，分子分母要同比例拆分</div>
+      </div>
+    </div>
+
+    <div class="q ok">
+      <div class="q-top"><div class="q-num">16</div><div class="q-stem">(16) 阴影部分用小数表示（C）0.65</div></div>
+      <div class="badges"><span class="badge ok-mark">✓ 正确</span></div>
+    </div>
+
+    <div class="q ok">
+      <div class="q-top"><div class="q-num">17</div><div class="q-stem">(17) 多多第二名，成绩可能是（A）15.86秒</div></div>
+      <div class="badges"><span class="badge student">A（15.86）</span><span class="badge ok-mark">✓ 正确</span></div>
+      <div class="tip">明明15.35第一，多多第二需 15.35 &lt; 多多 &lt; 17.29，15.86符合 ✓</div>
+    </div>
+
+    <div class="q ok">
+      <div class="q-top"><div class="q-num">18</div><div class="q-stem">(18) 甲是乙的10倍，乙左移两位=0.48，甲=（D）480</div></div>
+      <div class="badges"><span class="badge ok-mark">✓ 正确</span></div>
+      <div class="tip">乙÷100=0.48 → 乙=48 → 甲=48×10=480 ✓</div>
+    </div>
+
+    <!-- 选择(19) 错 -->
+    <div class="q err">
+      <div class="q-top"><div class="q-num">19</div><div class="q-stem">(19) 大于1.1小于1.9的一位小数有（）个</div></div>
+      <div class="badges"><span class="badge student">D（无数）</span><span class="badge wrong">✗ 错误</span><span class="badge correct">正确：A（7个）</span></div>
+      <div class="solution">
+        <div class="solution-title">📐 一位小数：小数点后只有1位数字</div>
+        <div class="steps">
+          <div class="step"><div class="step-n">✓</div><span>1.2、1.3、1.4、1.5、1.6、1.7、1.8</span></div>
+          <div class="step"><div class="step-n">共</div><span><b>7个</b></span></div>
+        </div>
+        <div class="tip">💡 "一位小数"是有限制的，小数点后只能有1位（0-9），所以是有限个。无数个是"小数"的概念，不是"一位小数"。</div>
+      </div>
+    </div>
+
+    <div class="q ok">
+      <div class="q-top"><div class="q-num">20</div><div class="q-stem">(20) 用去最少的剩最多，小兰1.9最少（C）</div></div>
+      <div class="badges"><span class="badge ok-mark">✓ 正确</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ 二、基本技能 ══ -->
+<div class="sec" id="s2">
+  <div class="sec-hd orange" onclick="tog('s2')">
+    <div><div class="sec-title">二、基本技能（30分）</div><div class="sec-meta">直接写数4分 + 脱式6分 + 简便12分 + 列式4分 + 填空3分</div></div>
+    <div class="sec-arr" id="a_s2">▼</div>
+  </div>
+  <div class="sec-body" id="b_s2">
+
+    <!-- 直接写得数 -->
+    <div class="q err">
+      <div class="q-top"><div class="q-num">1</div><div class="q-stem">直接写出得数（部分错误）</div></div>
+      <table class="calc-table">
+        <tr><th>算式</th><th>学生答</th><th>正确答</th><th>结果</th></tr>
+        <tr><td>960÷80</td><td>12</td><td>12</td><td class="ok-cell">✓</td></tr>
+        <tr><td>135÷9</td><td>15</td><td>15</td><td class="ok-cell">✓</td></tr>
+        <tr><td><b>25×44</b></td><td class="err-cell">4000</td><td class="ok-cell">1100</td><td class="err-cell">✗</td></tr>
+        <tr><td>5.08×10</td><td>50.8</td><td>50.8</td><td class="ok-cell">✓</td></tr>
+        <tr><td>0÷66.6</td><td>0</td><td>0</td><td class="ok-cell">✓</td></tr>
+        <tr><td>0.29÷10</td><td>0.029</td><td>0.029</td><td class="ok-cell">✓</td></tr>
+        <tr><td>0×7.5</td><td>0</td><td>0</td><td class="ok-cell">✓</td></tr>
+        <tr><td>300.6÷1000</td><td>0.3006</td><td>0.3006</td><td class="ok-cell">✓</td></tr>
+        <tr><td><b>517-209</b></td><td class="err-cell">303</td><td class="ok-cell">308</td><td class="err-cell">✗</td></tr>
+        <tr><td>746+134</td><td>880</td><td>880</td><td class="ok-cell">✓</td></tr>
+        <tr><td>25×4</td><td>100</td><td>100</td><td class="ok-cell">✓</td></tr>
+        <tr><td><b>25×14-25×10</b></td><td class="err-cell">310</td><td class="ok-cell">100</td><td class="err-cell">✗</td></tr>
+        <tr><td><b>1000÷25÷4</b></td><td class="err-cell">40</td><td class="ok-cell">10</td><td class="err-cell">✗</td></tr>
+        <tr><td>13×6÷13×6</td><td>1</td><td>36</td><td class="err-cell">✗</td></tr>
+        <tr><td>125×0+8</td><td>8</td><td>8</td><td class="ok-cell">✓</td></tr>
+      </table>
+      <div class="solution" style="margin-top:10px">
+        <div class="solution-title">📐 错题解析</div>
+        <div class="steps">
+          <div class="step"><div class="step-n">①</div><span><b>25×44</b>：25×44 = 25×4×11 = 100×11 = <b>1100</b>（不是4000）</span></div>
+          <div class="step"><div class="step-n">②</div><span><b>517-209</b>：517-200-9 = 317-9 = <b>308</b></span></div>
+          <div class="step"><div class="step-n">③</div><span><b>25×14-25×10</b>：= 25×(14-10) = 25×4 = <b>100</b>（分配律）</span></div>
+          <div class="step"><div class="step-n">④</div><span><b>1000÷25÷4</b>：= 1000÷(25×4) = 1000÷100 = <b>10</b></span></div>
+          <div class="step"><div class="step-n">⑤</div><span><b>13×6÷13×6</b>：从左到右 = 78÷13×6 = 6×6 = <b>36</b></span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 脱式计算 -->
+    <div class="q ok">
+      <div class="q-top"><div class="q-num">2</div><div class="q-stem">(5) 290+132÷12-22</div></div>
+      <div class="badges"><span class="badge student">=290+11-22=279</span><span class="badge ok-mark">✓ 正确</span></div>
+    </div>
+
+    <div class="q ok">
+      <div class="q-top"><div class="q-num">3</div><div class="q-stem">(6) 936÷[(35-17)×4]</div></div>
+      <div class="badges"><span class="badge student">=936÷72=13</span><span class="badge ok-mark">✓ 正确</span></div>
+    </div>
+
+    <!-- 脱式(7) 错 -->
+    <div class="q err">
+      <div class="q-top"><div class="q-num">4</div><div class="q-stem">(7) 1500÷25×4</div></div>
+      <div class="badges"><span class="badge student">学生：=1500÷100=15</span><span class="badge wrong">✗ 错误</span><span class="badge correct">正确：240</span></div>
+      <div class="solution">
+        <div class="solution-title">⚠️ 重要：同级运算从左到右！</div>
+        <div class="steps">
+          <div class="step"><div class="step-n">✓</div><span>1500÷25×4</span></div>
+          <div class="step"><div class="step-n">1</div><span>= <b>60</b> × 4　← 先算1500÷25=60</span></div>
+          <div class="step"><div class="step-n">2</div><span>= <b>240</b></span></div>
+        </div>
+        <div class="tip">💡 除法和乘法是同级运算，必须从左到右！只有加了括号才能先算25×4。1500÷(25×4)才等于15。</div>
+      </div>
+    </div>
+
+    <!-- 简便计算 -->
+    <div class="q ok">
+      <div class="q-top"><div class="q-num">5</div><div class="q-stem">(8) 645-249+155-51</div></div>
+      <div class="badges"><span class="badge ok-mark">✓ 正确 = 500</span></div>
+      <div class="tip">=(645+155)-(249+51)=800-300=500</div>
+    </div>
+
+    <div class="q ok">
+      <div class="q-top"><div class="q-num">6</div><div class="q-stem">(9) 47×48+47×51+47</div></div>
+      <div class="badges"><span class="badge ok-mark">✓ 正确 = 4700</span></div>
+      <div class="tip">=47×(48+51+1)=47×100=4700</div>
+    </div>
+
+    <div class="q ok">
+      <div class="q-top"><div class="q-num">7</div><div class="q-stem">(10) 4200÷25÷8</div></div>
+      <div class="badges"><span class="badge ok-mark">✓ 正确 = 21</span></div>
+      <div class="tip">=4200÷(25×8)=4200÷200=21</div>
+    </div>
+
+    <div class="q ok">
+      <div class="q-top"><div class="q-num">8</div><div class="q-stem">(12) 25×32×125</div></div>
+      <div class="badges"><span class="badge ok-mark">✓ 正确 = 100000</span></div>
+      <div class="tip">=（25×4）×（125×8）×（32÷4÷8）=100×1000×1=100000</div>
+    </div>
+
+    <div class="q ok">
+      <div class="q-top"><div class="q-num">9</div><div class="q-stem">(13) 79×99+79</div></div>
+      <div class="badges"><span class="badge ok-mark">✓ 正确 = 7900</span></div>
+      <div class="tip">=79×(99+1)=79×100=7900</div>
+    </div>
+
+    <div class="q ok">
+      <div class="q-top"><div class="q-num">10</div><div class="q-stem">(14)(15) 列式计算</div></div>
+      <div class="badges"><span class="badge ok-mark">✓ (15)正确=14</span></div>
+      <div class="tip">(14) 正确应为：(35+20)×(27-18)=55×9=<b>495</b>，注意检查乘法结果<br>(15) (1000÷20)-(12×3)=50-36=14 ✓</div>
+    </div>
+
+    <!-- 填空(17) 错 -->
+    <div class="q err">
+      <div class="q-top"><div class="q-num">11</div><div class="q-stem">(17) 280-(□÷5)×8=40</div></div>
+      <div class="badges"><span class="badge student">学生：□=30</span><span class="badge wrong">✗ 错误</span><span class="badge correct">正确：□=150</span></div>
+      <div class="solution">
+        <div class="solution-title">📐 逆推解题</div>
+        <div class="steps">
+          <div class="step"><div class="step-n">1</div><span>(□÷5)×8 = 280-40 = <b>240</b></span></div>
+          <div class="step"><div class="step-n">2</div><span>□÷5 = 240÷8 = <b>30</b></span></div>
+          <div class="step"><div class="step-n">3</div><span>□ = 30×5 = <b>150</b></span></div>
+        </div>
+        <div class="tip">💡 学生直接把30当答案，漏了最后一步×5！</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ 三、综合应用 ══ -->
+<div class="sec" id="s3">
+  <div class="sec-hd green" onclick="tog('s3')">
+    <div><div class="sec-title">三、综合应用（40分）</div><div class="sec-meta">共9道应用题</div></div>
+    <div class="sec-arr" id="a_s3">▼</div>
+  </div>
+  <div class="sec-body" id="b_s3">
+
+    <div class="q ok">
+      <div class="q-top"><div class="q-num">1</div><div class="q-stem">玩具厂计划5天产400个，实际每天85个，每天多产多少？</div></div>
+      <div class="badges"><span class="badge ok-mark">✓ 正确 = 5个</span></div>
+      <div class="tip">400÷5=80（计划），85-80=5个 ✓</div>
+    </div>
+
+    <div class="q ok">
+      <div class="q-top"><div class="q-num">2</div><div class="q-stem">5600箱苹果，8辆车每辆每次70箱，需几次？</div></div>
+      <div class="badges"><span class="badge ok-mark">✓ 正确 = 10次</span></div>
+      <div class="tip">每次：8×70=560箱；5600÷560=10次 ✓</div>
+    </div>
+
+    <div class="q ok">
+      <div class="q-top"><div class="q-num">3</div><div class="q-stem">25个书架×4层×150本，共多少本？</div></div>
+      <div class="badges"><span class="badge ok-mark">✓ 正确 = 15000本</span></div>
+      <div class="tip">25×4×150=100×150=15000本 ✓</div>
+    </div>
+
+    <div class="q ok">
+      <div class="q-top"><div class="q-num">4</div><div class="q-stem">每天60页看12天，提前3天看完，每天应多看多少页？</div></div>
+      <div class="badges"><span class="badge ok-mark">✓ 正确 = 20页</span></div>
+      <div class="tip">总页数=60×12=720；应在9天看完；720÷9=80；多看80-60=20页 ✓</div>
+    </div>
+
+    <div class="q ok">
+      <div class="q-top"><div class="q-num">5</div><div class="q-stem">男衬衫15箱+女衬衫25箱，每箱17件</div></div>
+      <div class="badges"><span class="badge ok-mark">✓ (1)680件 (2)6800元 均正确</span></div>
+      <div class="tip">(1)(15+25)×17=680件 ✓<br>(2)(66-56)×680=10×680=6800元 ✓（用了分配律简算）</div>
+    </div>
+
+    <div class="q warn">
+      <div class="q-top"><div class="q-num">6</div><div class="q-stem">L形菜地面积（24米×7米大矩形减去缺角）</div></div>
+      <div class="badges"><span class="badge student">需核对图形尺寸</span></div>
+      <div class="solution">
+        <div class="solution-title">📐 参考解法（L形面积）</div>
+        <div class="steps">
+          <div class="step"><div class="step-n">法1</div><span>大矩形 - 小矩形：24×7 - 缺口面积</span></div>
+          <div class="step"><div class="step-n">法2</div><span>分割成两个矩形分别计算再相加</span></div>
+        </div>
+        <div class="tip">需要对照图中具体尺寸计算，请核对图中的数据</div>
+      </div>
+    </div>
+
+    <div class="q ok">
+      <div class="q-top"><div class="q-num">7</div><div class="q-stem">100千克花生榨35千克油，1吨可榨多少？</div></div>
+      <div class="badges"><span class="badge ok-mark">✓ 正确 = 350千克</span></div>
+      <div class="tip">1吨=1000千克；1000÷100=10倍；35×10=350千克 ✓</div>
+    </div>
+
+    <!-- 应用(8) 错 -->
+    <div class="q err">
+      <div class="q-top"><div class="q-num">8</div><div class="q-stem">8名教师+72名学生共80人，成人60元，儿童30元，团体40元（20人以上），怎样最省？</div></div>
+      <div class="badges"><span class="badge student">学生：团体票3200元</span><span class="badge wrong">✗ 错误</span><span class="badge correct">正确：分开买2640元</span></div>
+      <div class="solution">
+        <div class="solution-title">📐 对比两种方案</div>
+        <div class="steps">
+          <div class="step"><div class="step-n">方案1</div><span>分开购票：8×60 + 72×30 = 480+2160 = <b>2640元</b></span></div>
+          <div class="step"><div class="step-n">方案2</div><span>团体票（80人）：80×40 = <b>3200元</b></span></div>
+          <div class="step"><div class="step-n">结论</div><span>2640 &lt; 3200，<b>分开购票更省560元</b> ✓</span></div>
+        </div>
+        <div class="tip">💡 团体票看起来便宜，但不一定是最省的！要先算出各自的总价再比较。</div>
+      </div>
+    </div>
+
+    <!-- 应用(9) 错 -->
+    <div class="q err">
+      <div class="q-top"><div class="q-num">9</div><div class="q-stem">11名教师+284名学生共295人，大巴45人/800元，中巴25人/600元，怎样最省？</div></div>
+      <div class="badges"><span class="badge student">学生：12辆中巴=7200元</span><span class="badge wrong">✗ 错误</span><span class="badge correct">正确：6辆大巴+1辆中巴=5400元</span></div>
+      <div class="solution">
+        <div class="solution-title">📐 对比多种方案</div>
+        <div class="steps">
+          <div class="step"><div class="step-n">方案1</div><span>全租大巴：295÷45=6辆余25人→需7辆；7×800=<b>5600元</b></span></div>
+          <div class="step"><div class="step-n">方案2</div><span>全租中巴：295÷25=11辆余20人→需12辆；12×600=<b>7200元</b></span></div>
+          <div class="step"><div class="step-n">方案3</div><span>混合：6辆大巴载270人，剩25人租1辆中巴</span></div>
+          <div class="step"><div class="step-n">✓</div><span>6×800+1×600 = 4800+600 = <b>5400元</b>（最省！）</span></div>
+        </div>
+        <div class="tip">💡 混合方案往往最省！先用大的装满，剩余用小的补充。5400 &lt; 5600 &lt; 7200</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- 总结 -->
+<div class="sec" id="s4">
+  <div class="sec-hd red" onclick="tog('s4')">
+    <div><div class="sec-title">📌 学习重点总结</div><div class="sec-meta">本次考试的核心知识点</div></div>
+    <div class="sec-arr" id="a_s4">▼</div>
+  </div>
+  <div class="sec-body" id="b_s4">
+    <div class="q err">
+      <div class="q-top"><div class="q-num">!</div><div class="q-stem">同级运算必须从左到右</div></div>
+      <div class="tip">1500÷25×4，必须先算1500÷25=60，再×4=240<br>不能先算25×4！除非有括号：1500÷(25×4)</div>
+    </div>
+    <div class="q err">
+      <div class="q-top"><div class="q-num">!</div><div class="q-stem">乘法分配律 vs 结合律</div></div>
+      <div class="tip">分配律：(a+b)×c = a×c + b×c（括号外的数乘括号内每一项）<br>结合律：(a×b)×c = a×(b×c)（改变运算顺序，不分开）</div>
+    </div>
+    <div class="q err">
+      <div class="q-top"><div class="q-num">!</div><div class="q-stem">一位小数的个数是有限的</div></div>
+      <div class="tip">1.1到1.9之间的一位小数：1.2、1.3、1.4、1.5、1.6、1.7、1.8，共7个<br>一位小数只能是有限个，"无数个"是多位小数的情况</div>
+    </div>
+    <div class="q err">
+      <div class="q-top"><div class="q-num">!</div><div class="q-stem">应用题：比较方案要全部列出再比较</div></div>
+      <div class="tip">购票/租车类问题，要考虑所有可能的方案（全买A、全买B、混合方案），计算出每种方案的总价，再选最小的。</div>
+    </div>
+    <div class="q ok">
+      <div class="q-top"><div class="q-num">✓</div><div class="q-stem">做得好的地方</div></div>
+      <div class="tip">✅ 简便计算思路清晰（提取公因数、凑整等）<br>✅ 应用题1-5解题方法正确<br>✅ 脱式计算(5)(6)步骤规范<br>✅ 比较大小全部正确</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">📝 批改完成 · 认真复习错题，下次更好！💪</div>
+
+<script>
+function tog(id) {
+  const b = document.getElementById('b_' + id);
+  const a = document.getElementById('a_' + id);
+  b.classList.toggle('hidden');
+  a.textContent = b.classList.contains('hidden') ? '▶' : '▼';
+}
+</script>
+</body>
+</html>
