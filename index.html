@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>学习资料本</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system,"PingFang SC","Noto Sans SC",sans-serif; background: linear-gradient(160deg,#e0f2fe 0%,#f0fdf4 50%,#fef9ee 100%); min-height: 100vh; padding: 16px; padding-bottom: 40px; }
+.header { background: linear-gradient(135deg,#1a6fb5,#8b5cf6); border-radius: 20px; padding: 24px 18px; color: white; margin-bottom: 20px; text-align: center; }
+.header-icon { font-size: 2.5rem; margin-bottom: 8px; }
+.header-title { font-size: 1.3rem; font-weight: 800; margin-bottom: 4px; }
+.header-sub { font-size: 0.75rem; opacity: .8; }
+.section-label { font-size: 0.72rem; font-weight: 800; color: #64748b; margin: 16px 0 8px; letter-spacing: 1px; text-transform: uppercase; padding-left: 4px; }
+.card { display: block; background: white; border-radius: 18px; padding: 18px; margin-bottom: 12px; box-shadow: 0 4px 20px rgba(0,0,0,.08); text-decoration: none; transition: transform .15s; }
+.card:active { transform: scale(0.98); }
+.card.blue   { border-left: 5px solid #2563eb; }
+.card.purple { border-left: 5px solid #7c3aed; }
+.card.green  { border-left: 5px solid #059669; }
+.card.teal   { border-left: 5px solid #0d9488; }
+.card.orange { border-left: 5px solid #ea580c; }
+.card-top { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.card-icon { width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
+.card-icon.blue   { background: #eff6ff; }
+.card-icon.purple { background: #f5f3ff; }
+.card-icon.green  { background: #f0fdf4; }
+.card-icon.teal   { background: #f0fdfa; }
+.card-icon.orange { background: #fff7ed; }
+.card-title    { font-size: 0.95rem; font-weight: 800; color: #1a1a2e; margin-bottom: 2px; }
+.card-subtitle { font-size: 0.68rem; color: #64748b; line-height: 1.4; }
+.card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.tag { font-size: 0.63rem; padding: 3px 9px; border-radius: 20px; font-weight: 600; }
+.tag.blue   { background: #eff6ff; color: #2563eb; }
+.tag.purple { background: #f5f3ff; color: #7c3aed; }
+.tag.green  { background: #f0fdf4; color: #059669; }
+.tag.teal   { background: #f0fdfa; color: #0d9488; }
+.tag.orange { background: #fff7ed; color: #ea580c; }
+.tag.gray   { background: #f1f5f9; color: #64748b; }
+.tag.red    { background: #fee2e2; color: #dc2626; }
+.card-footer { display: flex; align-items: center; justify-content: space-between; }
+.card-count  { font-size: 0.7rem; color: #94a3b8; }
+.card.blue   .arrow { color: #2563eb; font-weight: 700; }
+.card.purple .arrow { color: #7c3aed; font-weight: 700; }
+.card.green  .arrow { color: #059669; font-weight: 700; }
+.card.teal   .arrow { color: #0d9488; font-weight: 700; }
+.card.orange .arrow { color: #ea580c; font-weight: 700; }
+.divider { height: 1px; background: #e2e8f0; margin: 16px 0; }
+.tip { background: white; border-radius: 14px; padding: 13px 15px; box-shadow: 0 2px 12px rgba(0,0,0,.06); display: flex; align-items: flex-start; gap: 10px; }
+.tip-title { font-size: 0.78rem; font-weight: 700; color: #1a1a2e; margin-bottom: 3px; }
+.tip-text  { font-size: 0.7rem; color: #64748b; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-icon">📚</div>
+  <div class="header-title">学习资料本</div>
+  <div class="header-sub">英语 · 数学 · 听朗读 · 看批改 · 学知识</div>
+</div>
+
+<!-- 英语课时练习 -->
+<div class="section-label">📖 英语 · 课时练习</div>
+
+<a class="card blue" href="u3a.html">
+  <div class="card-top">
+    <div class="card-icon blue">🌍</div>
+    <div>
+      <div class="card-title">作业一：四下 U3A 练习</div>
+      <div class="card-subtitle">Meet Binbin's day · 认识环球小使者斌斌的一天</div>
+    </div>
+  </div>
+  <div class="card-tags">
+    <span class="tag blue">判断正误</span>
+    <span class="tag blue">选择题</span>
+    <span class="tag blue">时差阅读</span>
+    <span class="tag gray">共23句</span>
+  </div>
+  <div class="card-footer">
+    <span class="card-count">🔊 点击进入听朗读</span>
+    <span class="arrow">→</span>
+  </div>
+</a>
+
+<a class="card purple" href="listen.html">
+  <div class="card-top">
+    <div class="card-icon purple">⏰</div>
+    <div>
+      <div class="card-title">作业二：Let's learn &amp; Listen and do</div>
+      <div class="card-subtitle">Time manager · 争做时间管理者</div>
+    </div>
+  </div>
+  <div class="card-tags">
+    <span class="tag purple">选词填空</span>
+    <span class="tag purple">图片匹配</span>
+    <span class="tag purple">计划表判断</span>
+    <span class="tag gray">共24句</span>
+  </div>
+  <div class="card-footer">
+    <span class="card-count">🔊 点击进入听朗读</span>
+    <span class="arrow">→</span>
+  </div>
+</a>
+
+<!-- 英语阶段评估 -->
+<div class="section-label">📝 英语 · 阶段素养评估（Unit 1–3）</div>
+
+<a class="card green" href="exam.html">
+  <div class="card-top">
+    <div class="card-icon green">📝</div>
+    <div>
+      <div class="card-title">作业三：阶段素养评估 · 全卷</div>
+      <div class="card-subtitle">Rules and habits make our life better · 第一到十二大题</div>
+    </div>
+  </div>
+  <div class="card-tags">
+    <span class="tag green">听力选择</span>
+    <span class="tag green">发音判断</span>
+    <span class="tag green">阅读理解</span>
+    <span class="tag red">有错题</span>
+    <span class="tag gray">全卷批改</span>
+  </div>
+  <div class="card-footer">
+    <span class="card-count">🔊 全卷英文+翻译+解说</span>
+    <span class="arrow">→</span>
+  </div>
+</a>
+
+<a class="card teal" href="detail-11-12.html">
+  <div class="card-top">
+    <div class="card-icon teal">✉️</div>
+    <div>
+      <div class="card-title">作业三精讲：第十一、十二题</div>
+      <div class="card-subtitle">Ann与Nina的邮件 + 书面表达 · 逐句详解</div>
+    </div>
+  </div>
+  <div class="card-tags">
+    <span class="tag teal">邮件全文翻译</span>
+    <span class="tag teal">逐句解说</span>
+    <span class="tag teal">选择题解析</span>
+    <span class="tag red">有错题</span>
+    <span class="tag gray">共26句</span>
+  </div>
+  <div class="card-footer">
+    <span class="card-count">🔊 每句都能朗读</span>
+    <span class="arrow">→</span>
+  </div>
+</a>
+
+<!-- 数学 -->
+<div class="section-label">🔢 数学 · 期中素养评估</div>
+
+<a class="card orange" href="math-correction.html">
+  <div class="card-top">
+    <div class="card-icon orange">🔢</div>
+    <div>
+      <div class="card-title">数学期中素养卷 · 批改报告</div>
+      <div class="card-subtitle">2024学年第二学期 · 四年级 · 满分100分</div>
+    </div>
+  </div>
+  <div class="card-tags">
+    <span class="tag orange">逐题批改</span>
+    <span class="tag orange">解题步骤</span>
+    <span class="tag orange">知识点解说</span>
+    <span class="tag red">11道错题</span>
+    <span class="tag gray">估分72分</span>
+  </div>
+  <div class="card-footer">
+    <span class="card-count">📐 错题有详细解法</span>
+    <span class="arrow">→</span>
+  </div>
+</a>
+
+<div class="divider"></div>
+
+<div class="tip">
+  <div style="font-size:1.2rem;flex-shrink:0;margin-top:1px">💡</div>
+  <div>
+    <div class="tip-title">怎么用？</div>
+    <div class="tip-text">
+      英语作业：每句英文旁边有 🔊 喇叭，点一下听朗读，可调语速和换声音。<br>
+      数学批改：绿色=正确，红色=错误，点标题可折叠/展开，错题都有详细解题步骤。
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
