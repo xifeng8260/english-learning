@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class Rules · 课堂规则</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, "PingFang SC", "Helvetica Neue", Arial, sans-serif; background: #f0f4f8; color: #2d3748; }
+
+  /* 头部 */
+  .header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white; padding: 28px 20px 22px; text-align: center;
+  }
+  .header h1 { font-size: 1.8em; font-weight: 700; letter-spacing: 1px; }
+  .header .subtitle { font-size: 1em; opacity: 0.85; margin-top: 6px; }
+  .header .meta { margin-top: 12px; display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+  .badge { background: rgba(255,255,255,0.22); border-radius: 20px; padding: 4px 14px; font-size: 0.85em; }
+
+  /* 声音控制栏 */
+  .voice-bar {
+    background: white; border-bottom: 2px solid #e2e8f0;
+    padding: 10px 16px; display: flex; align-items: center; gap: 12px;
+    flex-wrap: wrap; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .voice-bar span { font-size: 0.82em; color: #718096; font-weight: 600; }
+  .speed-btn {
+    padding: 4px 12px; border-radius: 16px; border: 1.5px solid #cbd5e0;
+    background: white; cursor: pointer; font-size: 0.82em; color: #4a5568; transition: all .2s;
+  }
+  .speed-btn.active, .speed-btn:hover { background: #667eea; color: white; border-color: #667eea; }
+  .voice-btn {
+    margin-left: auto; padding: 5px 14px; border-radius: 16px;
+    border: 1.5px solid #9f7aea; background: white; cursor: pointer;
+    font-size: 0.82em; color: #6b46c1; transition: all .2s;
+  }
+  .voice-btn:hover { background: #9f7aea; color: white; }
+
+  /* 错题汇总 */
+  .error-summary {
+    margin: 16px; background: #fff3cd; border: 1.5px solid #ffc107;
+    border-radius: 12px; padding: 14px 16px;
+  }
+  .error-summary h3 { color: #856404; font-size: 0.95em; margin-bottom: 8px; }
+  .error-summary ul { padding-left: 18px; }
+  .error-summary li { font-size: 0.88em; color: #533f03; margin-bottom: 4px; }
+
+  /* 内容区 */
+  .container { padding: 0 12px 32px; max-width: 780px; margin: 0 auto; }
+
+  /* 分组 section */
+  .section {
+    background: white; border-radius: 14px; margin: 14px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06); overflow: hidden;
+  }
+  .section-header {
+    padding: 14px 18px; cursor: pointer; display: flex;
+    align-items: center; justify-content: space-between;
+    background: linear-gradient(90deg, #f8f4ff, #ffffff);
+    border-bottom: 1.5px solid #e9e0ff;
+  }
+  .section-title { font-size: 1em; font-weight: 700; color: #553c9a; }
+  .section-emoji { font-size: 1.15em; margin-right: 6px; }
+  .toggle-icon { color: #a0aec0; font-size: 1.1em; transition: transform .25s; }
+  .section-body { padding: 14px 16px; }
+
+  /* 每道题 */
+  .item { margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px dashed #e2e8f0; }
+  .item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  .item-num {
+    display: inline-block; background: #667eea; color: white;
+    border-radius: 50%; width: 24px; height: 24px; line-height: 24px;
+    text-align: center; font-size: 0.78em; font-weight: 700;
+    margin-right: 6px; flex-shrink: 0;
+  }
+  .item-num.correct { background: #48bb78; }
+  .item-num.error { background: #fc8181; }
+
+  .en-line {
+    display: flex; align-items: flex-start; gap: 8px; margin-bottom: 5px;
+  }
+  .en-text { font-size: 1.05em; font-weight: 600; color: #2d3748; line-height: 1.5; flex: 1; }
+  .speak-btn {
+    background: none; border: 1.5px solid #90cdf4; border-radius: 20px;
+    padding: 2px 10px; cursor: pointer; font-size: 0.82em; color: #2b6cb0;
+    flex-shrink: 0; transition: all .2s; white-space: nowrap;
+  }
+  .speak-btn:hover { background: #ebf8ff; }
+
+  .zh-text { font-size: 0.9em; color: #718096; padding-left: 12px; border-left: 3px solid #e9d8fd; margin-bottom: 5px; line-height: 1.5; }
+
+  .answer-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+  .student-ans { font-size: 0.83em; background: #fff5f5; color: #c53030; padding: 2px 10px; border-radius: 10px; border: 1px solid #fed7d7; }
+  .correct-ans { font-size: 0.83em; background: #f0fff4; color: #276749; padding: 2px 10px; border-radius: 10px; border: 1px solid #c6f6d5; }
+
+  .knowledge-box {
+    background: #ebf8ff; border-left: 4px solid #63b3ed; border-radius: 0 8px 8px 0;
+    padding: 10px 14px; margin-top: 10px; font-size: 0.87em;
+  }
+  .knowledge-box .kb-title { color: #2c5282; font-weight: 700; margin-bottom: 4px; }
+  .knowledge-box .kb-body { color: #2d3748; line-height: 1.7; }
+  .knowledge-box .kb-tip { color: #2b6cb0; margin-top: 4px; font-weight: 600; }
+
+  /* 朗读段落 */
+  .para-en { font-size: 1em; color: #2d3748; line-height: 1.8; font-weight: 500; }
+  .para-zh { font-size: 0.88em; color: #718096; line-height: 1.7; margin-top: 4px; border-left: 3px solid #e9d8fd; padding-left: 10px; }
+
+  /* 词汇卡 */
+  .vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px,1fr)); gap: 10px; }
+  .vocab-card {
+    background: #f7f3ff; border: 1.5px solid #d6bcfa; border-radius: 10px;
+    padding: 10px; text-align: center;
+  }
+  .vocab-card .word { font-size: 1.05em; font-weight: 700; color: #553c9a; }
+  .vocab-card .word-zh { font-size: 0.82em; color: #718096; margin-top: 2px; }
+
+  /* 对话 */
+  .dialogue { }
+  .chat-bubble {
+    display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start;
+  }
+  .chat-bubble.right { flex-direction: row-reverse; }
+  .speaker { font-size: 0.75em; color: #a0aec0; white-space: nowrap; padding-top: 4px; }
+  .bubble {
+    background: #f0f0f0; border-radius: 16px 16px 16px 4px;
+    padding: 8px 14px; max-width: 75%;
+  }
+  .chat-bubble.right .bubble { background: #e9d8fd; border-radius: 16px 16px 4px 16px; }
+  .bubble-en { font-size: 0.95em; font-weight: 600; color: #2d3748; }
+  .bubble-zh { font-size: 0.82em; color: #718096; margin-top: 2px; }
+
+  /* 勾选题 */
+  .tick-item { display: flex; align-items: center; gap: 8px; padding: 6px 0; font-size: 0.9em; }
+  .tick-correct { color: #48bb78; font-size: 1.1em; }
+  .tick-wrong { color: #fc8181; font-size: 1.1em; }
+  .tick-text { color: #4a5568; }
+
+  /* 页脚 */
+  .footer {
+    text-align: center; padding: 24px 16px; color: #a0aec0; font-size: 0.9em;
+  }
+  .back-link {
+    display: inline-block; margin-top: 12px; padding: 8px 22px;
+    background: #667eea; color: white; border-radius: 20px;
+    text-decoration: none; font-size: 0.88em;
+  }
+  .back-link:hover { background: #5a67d8; }
+
+  @media(max-width:480px) {
+    .header h1 { font-size: 1.4em; }
+    .vocab-grid { grid-template-columns: repeat(2,1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- 头部 -->
+<div class="header">
+  <h1>📋 Class Rules · 课堂规则</h1>
+  <div class="subtitle">Why do we follow class rules?</div>
+  <div class="meta">
+    <span class="badge">📚 英语练习册</span>
+    <span class="badge">🔊 点击朗读</span>
+    <span class="badge">页 5–9</span>
+  </div>
+</div>
+
+<!-- 声音控制栏 -->
+<div class="voice-bar">
+  <span>语速：</span>
+  <button class="speed-btn" onclick="setSpeed(0.7)">慢</button>
+  <button class="speed-btn active" id="btn-normal" onclick="setSpeed(0.85)">正常</button>
+  <button class="speed-btn" onclick="setSpeed(1.1)">快</button>
+  <button class="voice-btn" onclick="switchVoice()">🔄 换声音</button>
+</div>
+
+<!-- 错题汇总 -->
+<div class="container">
+<div class="error-summary">
+  <h3>⚠️ 错题汇总（共 2 处需注意）</h3>
+  <ul>
+    <li>❌ Read and write — 书写错误：<strong>Don't belate.</strong> → 正确：<strong>Don't be late.</strong>（"be" 和 "late" 之间漏了空格）</li>
+    <li>⭕ 勾选题 — 漏勾：<strong>Say "Excuse me?"</strong>（文中提到的课堂规则）</li>
+  </ul>
+</div>
+
+<!-- ===== SECTION 1: Let's learn - Class Rules ===== -->
+<div class="section">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span><span class="section-emoji">📌</span><span class="section-title">Let's learn · 课堂规则</span></span>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="section-body">
+    <p style="font-size:0.85em;color:#718096;margin-bottom:12px;">These are our class rules. · 这些是我们的课堂规则。</p>
+
+    <div class="item">
+      <div class="en-line">
+        <span class="item-num correct">1</span>
+        <span class="en-text">Don't eat in class.</span>
+        <button class="speak-btn" data-text="Don't eat in class." onclick="speakIt(this)">🔊 朗读</button>
+      </div>
+      <div class="zh-text">上课不要吃东西。</div>
+    </div>
+
+    <div class="item">
+      <div class="en-line">
+        <span class="item-num correct">2</span>
+        <span class="en-text">Don't be late.</span>
+        <button class="speak-btn" data-text="Don't be late." onclick="speakIt(this)">🔊 朗读</button>
+      </div>
+      <div class="zh-text">不要迟到。</div>
+    </div>
+
+    <div class="item">
+      <div class="en-line">
+        <span class="item-num correct">3</span>
+        <span class="en-text">Turn off the lights after school.</span>
+        <button class="speak-btn" data-text="Turn off the lights after school." onclick="speakIt(this)">🔊 朗读</button>
+      </div>
+      <div class="zh-text">放学后关灯。</div>
+    </div>
+
+    <div class="item">
+      <div class="en-line">
+        <span class="item-num correct">4</span>
+        <span class="en-text">Keep the classroom clean.</span>
+        <button class="speak-btn" data-text="Keep the classroom clean." onclick="speakIt(this)">🔊 朗读</button>
+      </div>
+      <div class="zh-text">保持教室整洁。</div>
+    </div>
+
+    <div class="item">
+      <div class="en-line">
+        <span class="item-num correct">5</span>
+        <span class="en-text">Put up your hand to speak.</span>
+        <button class="speak-btn" data-text="Put up your hand to speak." onclick="speakIt(this)">🔊 朗读</button>
+      </div>
+      <div class="zh-text">发言请举手。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SECTION 2: Let's spell - ar ===== -->
+<div class="section">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span><span class="section-emoji">🔤</span><span class="section-title">Let's spell · ar 音节</span></span>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="section-body">
+
+    <div class="vocab-grid" style="margin-bottom:16px;">
+      <div class="vocab-card">
+        <div class="word">arm</div>
+        <div class="word-zh">手臂 · <button class="speak-btn" data-text="arm" onclick="speakIt(this)" style="padding:1px 7px;font-size:0.78em;">🔊</button></div>
+      </div>
+      <div class="vocab-card">
+        <div class="word">car</div>
+        <div class="word-zh">汽车 · <button class="speak-btn" data-text="car" onclick="speakIt(this)" style="padding:1px 7px;font-size:0.78em;">🔊</button></div>
+      </div>
+      <div class="vocab-card">
+        <div class="word">card</div>
+        <div class="word-zh">卡片 · <button class="speak-btn" data-text="card" onclick="speakIt(this)" style="padding:1px 7px;font-size:0.78em;">🔊</button></div>
+      </div>
+      <div class="vocab-card">
+        <div class="word">far</div>
+        <div class="word-zh">远 · <button class="speak-btn" data-text="far" onclick="speakIt(this)" style="padding:1px 7px;font-size:0.78em;">🔊</button></div>
+      </div>
+      <div class="vocab-card">
+        <div class="word">farm</div>
+        <div class="word-zh">农场 · <button class="speak-btn" data-text="farm" onclick="speakIt(this)" style="padding:1px 7px;font-size:0.78em;">🔊</button></div>
+      </div>
+      <div class="vocab-card">
+        <div class="word">hard</div>
+        <div class="word-zh">努力/难 · <button class="speak-btn" data-text="hard" onclick="speakIt(this)" style="padding:1px 7px;font-size:0.78em;">🔊</button></div>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="en-line">
+        <span class="item-num correct">1</span>
+        <span class="en-text">I draw a farmer on a card.</span>
+        <button class="speak-btn" data-text="I draw a farmer on a card." onclick="speakIt(this)">🔊 朗读</button>
+      </div>
+      <div class="zh-text">我在一张卡片上画了一个农民。</div>
+    </div>
+
+    <div class="item">
+      <div class="en-line">
+        <span class="item-num correct">2</span>
+        <span class="en-text">The farmer is working hard.</span>
+        <button class="speak-btn" data-text="The farmer is working hard." onclick="speakIt(this)">🔊 朗读</button>
+      </div>
+      <div class="zh-text">这位农民正在努力工作。</div>
+    </div>
+
+    <div class="item">
+      <div class="en-line">
+        <span class="item-num correct">3</span>
+        <span class="en-text">His farm is like a big park.</span>
+        <button class="speak-btn" data-text="His farm is like a big park." onclick="speakIt(this)">🔊 朗读</button>
+      </div>
+      <div class="zh-text">他的农场就像一个大公园。</div>
+    </div>
+
+    <div class="item">
+      <div class="en-line">
+        <span class="item-num correct">4</span>
+        <span class="en-text">I clean my desk after class. It's not hard.</span>
+        <button class="speak-btn" data-text="I clean my desk after class. It's not hard." onclick="speakIt(this)">🔊 朗读</button>
+      </div>
+      <div class="zh-text">课后我整理课桌。这不难。</div>
+    </div>
+
+    <div class="knowledge-box">
+      <div class="kb-title">📌 知识点：ar 组合发音规律</div>
+      <div class="kb-body">
+        "ar" 在单词中通常发 /ɑː/ 音（像张嘴说"啊"），例如：<br>
+        car → /kɑː/ ｜ farm → /fɑːm/ ｜ hard → /hɑːd/
+      </div>
+      <div class="kb-tip">💡 记忆口诀：ar 开口大，嘴巴像张大，嗓子发"啊"音！</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SECTION 3: Let's talk ===== -->
+<div class="section">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span><span class="section-emoji">💬</span><span class="section-title">Let's talk · 课堂值日对话</span></span>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="section-body">
+    <p style="font-size:0.85em;color:#718096;margin-bottom:12px;">Why do we follow class rules? · 我们为什么要遵守课堂规则？</p>
+
+    <div class="dialogue">
+      <div class="chat-bubble">
+        <span class="speaker">Miss White</span>
+        <div class="bubble">
+          <div class="bubble-en">Who's on duty today?</div>
+          <div class="bubble-zh">今天谁值日？</div>
+        </div>
+        <button class="speak-btn" data-text="Who's on duty today?" onclick="speakIt(this)" style="margin-top:4px;">🔊</button>
+      </div>
+
+      <div class="chat-bubble right">
+        <span class="speaker">学生</span>
+        <div class="bubble">
+          <div class="bubble-en">We are, Miss White.</div>
+          <div class="bubble-zh">是我们，怀特老师。</div>
+        </div>
+        <button class="speak-btn" data-text="We are, Miss White." onclick="speakIt(this)" style="margin-top:4px;">🔊</button>
+      </div>
+
+      <div class="chat-bubble right">
+        <span class="speaker">学生1</span>
+        <div class="bubble">
+          <div class="bubble-en">I can clean the blackboard.</div>
+          <div class="bubble-zh">我能擦黑板。</div>
+        </div>
+        <button class="speak-btn" data-text="I can clean the blackboard." onclick="speakIt(this)" style="margin-top:4px;">🔊</button>
+      </div>
+
+      <div class="chat-bubble right">
+        <span class="speaker">学生2</span>
+        <div class="bubble">
+          <div class="bubble-en">I can sweep the floor.</div>
+          <div class="bubble-zh">我能扫地。</div>
+        </div>
+        <button class="speak-btn" data-text="I can sweep the floor." onclick="speakIt(this)" style="margin-top:4px;">🔊</button>
+      </div>
+
+      <div class="chat-bubble right">
+        <span class="speaker">学生3</span>
+        <div class="bubble">
+          <div class="bubble-en">I can put back the desks and chairs.</div>
+          <div class="bubble-zh">我能把桌椅摆回原位。</div>
+        </div>
+        <button class="speak-btn" data-text="I can put back the desks and chairs." onclick="speakIt(this)" style="margin-top:4px;">🔊</button>
+      </div>
+
+      <div class="chat-bubble">
+        <span class="speaker">Miss White</span>
+        <div class="bubble">
+          <div class="bubble-en">Wow! Our classroom is clean and tidy!</div>
+          <div class="bubble-zh">哇！我们的教室干净又整洁！</div>
+        </div>
+        <button class="speak-btn" data-text="Wow! Our classroom is clean and tidy!" onclick="speakIt(this)" style="margin-top:4px;">🔊</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SECTION 4: Let's learn - 音乐教室词汇 ===== -->
+<div class="section">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span><span class="section-emoji">🎵</span><span class="section-title">Let's learn · 音乐教室 + Listen and do</span></span>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="section-body">
+    <p style="font-size:0.85em;color:#718096;margin-bottom:12px;">Look! The music room is nice and clean. · 看！音乐教室既漂亮又干净。</p>
+
+    <div class="vocab-grid" style="margin-bottom:16px;">
+      <div class="vocab-card">
+        <div class="word">fan</div>
+        <div class="word-zh">风扇 · <button class="speak-btn" data-text="fan" onclick="speakIt(this)" style="padding:1px 7px;font-size:0.78em;">🔊</button></div>
+      </div>
+      <div class="vocab-card">
+        <div class="word">window</div>
+        <div class="word-zh">窗户 · <button class="speak-btn" data-text="window" onclick="speakIt(this)" style="padding:1px 7px;font-size:0.78em;">🔊</button></div>
+      </div>
+      <div class="vocab-card">
+        <div class="word">door</div>
+        <div class="word-zh">门 · <button class="speak-btn" data-text="door" onclick="speakIt(this)" style="padding:1px 7px;font-size:0.78em;">🔊</button></div>
+      </div>
+      <div class="vocab-card">
+        <div class="word">teacher's desk</div>
+        <div class="word-zh">讲台 · <button class="speak-btn" data-text="teacher's desk" onclick="speakIt(this)" style="padding:1px 7px;font-size:0.78em;">🔊</button></div>
+      </div>
+      <div class="vocab-card">
+        <div class="word">chairs</div>
+        <div class="word-zh">椅子（复数）· <button class="speak-btn" data-text="chairs" onclick="speakIt(this)" style="padding:1px 7px;font-size:0.78em;">🔊</button></div>
+      </div>
+    </div>
+
+    <p style="font-weight:700;color:#553c9a;margin-bottom:8px;">🎵 Listen and do · 听一听，做一做</p>
+
+    <div class="item">
+      <div class="en-line">
+        <span class="item-num correct">1</span>
+        <span class="en-text">We turn off the fans.</span>
+        <button class="speak-btn" data-text="We turn off the fans." onclick="speakIt(this)">🔊 朗读</button>
+      </div>
+      <div class="zh-text">我们关掉风扇。</div>
+    </div>
+
+    <div class="item">
+      <div class="en-line">
+        <span class="item-num correct">2</span>
+        <span class="en-text">We clean the desks.</span>
+        <button class="speak-btn" data-text="We clean the desks." onclick="speakIt(this)">🔊 朗读</button>
+      </div>
+      <div class="zh-text">我们擦桌子。</div>
+    </div>
+
+    <div class="item">
+      <div class="en-line">
+        <span class="item-num correct">3</span>
+        <span class="en-text">We sweep the floor.</span>
+        <button class="speak-btn" data-text="We sweep the floor." onclick="speakIt(this)">🔊 朗读</button>
+      </div>
+      <div class="zh-text">我们扫地。</div>
+    </div>
+
+    <div class="item">
+      <div class="en-line">
+        <span class="item-num correct">4</span>
+        <span class="en-text">We close the windows.</span>
+        <button class="speak-btn" data-text="We close the windows." onclick="speakIt(this)">🔊 朗读</button>
+      </div>
+      <div class="zh-text">我们关上窗户。</div>
+    </div>
+
+    <div class="item">
+      <div class="en-line">
+        <span class="item-num correct">5</span>
+        <span class="en-text">We put back the chairs and close the doors.</span>
+        <button class="speak-btn" data-text="We put back the chairs and close the doors." onclick="speakIt(this)">🔊 朗读</button>
+      </div>
+      <div class="zh-text">我们把椅子放回原位，并关上门。</div>
+    </div>
+
+    <div class="item">
+      <div class="en-line">
+        <span class="item-num correct">6</span>
+        <span class="en-text">Our job is done! Now the classroom is clean!</span>
+        <button class="speak-btn" data-text="Our job is done! Now the classroom is clean!" onclick="speakIt(this)">🔊 朗读</button>
+      </div>
+      <div class="zh-text">我们的工作完成了！现在教室干净啦！</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SECTION 5: Read and write - 错题详解 ===== -->
+<div class="section">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span><span class="section-emoji">✏️</span><span class="section-title">Read and write · 阅读与书写（含错题解析）</span></span>
+    <span class="toggle-icon">▼</span>
+  </div>
+  <div class="section-body">
+
+    <p style="font-weight:700;color:#553c9a;margin-bottom:8px;">📖 Helping hands in class · 课堂帮手</p>
+    <div style="background:#f7f3ff;border-radius:10px;padding:14px;margin-bottom:16px;">
+
+      <div class="item" style="border-bottom:none;margin-bottom:0;padding-bottom:0;">
+        <div class="en-line">
+          <span class="en-text">We have some class rules.</span>
+          <button class="speak-btn" data-text="We have some class rules." onclick="speakIt(this)">🔊</button>
+        </div>
+        <div class="zh-text">我们有一些课堂规则。</div>
+      </div>
+      <div class="item" style="border-bottom:none;margin-bottom:0;padding-bottom:0;">
+        <div class="en-line">
+          <span class="en-text">We put up our hands to speak.</span>
+          <button class="speak-btn" data-text="We put up our hands to speak." onclick="speakIt(this)">🔊</button>
+        </div>
+        <div class="zh-text">我们举手发言。</div>
+      </div>
+      <div class="item" style="border-bottom:none;margin-bottom:0;padding-bottom:0;">
+        <div class="en-line">
+          <span class="en-text">We turn off the lights after school.</span>
+          <button class="speak-btn" data-text="We turn off the lights after school." onclick="speakIt(this)">🔊</button>
+        </div>
+        <div class="zh-text">我们放学后关灯。</div>
+      </div>
+      <div class="item" style="border-bottom:none;margin-bottom:0;padding-bottom:0;">
+        <div class="en-line">
+          <span class="en-text">When we don't understand, we say, "Excuse me?"</span>
+          <button class="speak-btn" data-text="When we don't understand, we say, Excuse me?" onclick="speakIt(this)">🔊</button>
+        </div>
+        <div class="zh-text">当我们听不明白时，我们说："打扰一下/请再说一遍？"</div>
+      </div>
+      <div class="item" style="border-bottom:none;margin-bottom:0;padding-bottom:0;">
+        <div class="en-line">
+          <span class="en-text">We also have some jobs.</span>
+          <button class="speak-btn" data-text="We also have some jobs." onclick="speakIt(this)">🔊</button>
+        </div>
+        <div class="zh-text">我们还有一些任务。</div>
+      </div>
+      <div class="item" style="border-bottom:none;margin-bottom:0;padding-bottom:0;">
+        <div class="en-line">
+          <span class="en-text">Some of us make wall newspapers.</span>
+          <button class="speak-btn" data-text="Some of us make wall newspapers." onclick="speakIt(this)">🔊</button>
+        </div>
+        <div class="zh-text">我们中的一些人出墙报。</div>
+      </div>
+      <div class="item" style="border-bottom:none;margin-bottom:0;padding-bottom:0;">
+        <div class="en-line">
+          <span class="en-text">Some of us keep our classroom clean and tidy.</span>
+          <button class="speak-btn" data-text="Some of us keep our classroom clean and tidy." onclick="speakIt(this)">🔊</button>
+        </div>
+        <div class="zh-text">我们中的一些人负责保持教室干净整洁。</div>
+      </div>
+      <div class="item" style="border-bottom:none;margin-bottom:0;padding-bottom:0;">
+        <div class="en-line">
+          <span class="en-text">Some hand out the workbooks.</span>
+          <button class="speak-btn" data-text="Some hand out the workbooks." onclick="speakIt(this)">🔊</button>
+        </div>
+        <div class="zh-text">一些人负责发练习册。</div>
+      </div>
+      <div class="item" style="border-bottom:none;margin-bottom:0;padding-bottom:0;">
+        <div class="en-line">
+          <span class="en-text">We all help make our classroom great!</span>
+          <button class="speak-btn" data-text="We all help make our classroom great!" onclick="speakIt(this)">🔊</button>
+        </div>
+        <div class="zh-text">我们共同努力，让我们的教室变得更好！</div>
+      </div>
+    </div>
+
+    <!-- 勾选题分析 -->
+    <p style="font-weight:700;color:#553c9a;margin-bottom:8px;">☑️ Tick the class rules · 勾选题分析</p>
+    <p style="font-size:0.85em;color:#718096;margin-bottom:8px;">只勾选文章中提到的「课堂规则（rules）」，工作任务（jobs）不算规则。</p>
+
+    <div class="tick-item">
+      <span class="tick-correct">✓</span>
+      <span class="tick-text"><strong>Say "Excuse me?"</strong> — 说"打扰一下？" <span style="color:#fc8181;">（文中有，但漏勾了！）</span></span>
+    </div>
+    <div class="tick-item">
+      <span class="tick-correct">✓</span>
+      <span class="tick-text"><strong>Turn off the lights after school.</strong> — 放学后关灯 ✅ 正确</span>
+    </div>
+    <div class="tick-item">
+      <span class="tick-correct">✓</span>
+      <span class="tick-text"><strong>Put up your hand to speak.</strong> — 举手发言 ✅ 正确</span>
+    </div>
+    <div class="tick-item">
+      <span style="color:#fc8181;font-size:1.1em;">✗</span>
+      <span class="tick-text"><strong>Close the windows.</strong> — 关窗户 ❌ 文中未提及，不应勾</span>
+    </div>
+    <div class="tick-item">
+      <span style="color:#fc8181;font-size:1.1em;">✗</span>
+      <span class="tick-text"><strong>Don't eat in class.</strong> — 上课不吃东西 ❌ 文中未提及，不应勾</span>
+    </div>
+    <div class="tick-item">
+      <span style="color:#a0aec0;font-size:1.1em;">△</span>
+      <span class="tick-text"><strong>Keep the classroom clean.</strong> — 文中提到这是"job（任务）"而非 rule，本题有争议</span>
+    </div>
+
+    <!-- 书写错题 -->
+    <p style="font-weight:700;color:#553c9a;margin-top:16px;margin-bottom:8px;">✏️ Look and write · 书写题批改</p>
+
+    <div class="item">
+      <div class="en-line">
+        <span class="item-num correct">1</span>
+        <span class="en-text">Put up your hand to speak.</span>
+        <button class="speak-btn" data-text="Put up your hand to speak." onclick="speakIt(this)">🔊 朗读</button>
+      </div>
+      <div class="zh-text">发言请举手。</div>
+      <div class="answer-row">
+        <span class="correct-ans">✅ 书写正确</span>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="en-line">
+        <span class="item-num correct">2</span>
+        <span class="en-text">Turn off the lights after school.</span>
+        <button class="speak-btn" data-text="Turn off the lights after school." onclick="speakIt(this)">🔊 朗读</button>
+      </div>
+      <div class="zh-text">放学后关灯。</div>
+      <div class="answer-row">
+        <span class="correct-ans">✅ 书写正确</span>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="en-line">
+        <span class="item-num correct">3</span>
+        <span class="en-text">Don't eat in class.</span>
+        <button class="speak-btn" data-text="Don't eat in class." onclick="speakIt(this)">🔊 朗读</button>
+      </div>
+      <div class="zh-text">上课不要吃东西。</div>
+      <div class="answer-row">
+        <span class="correct-ans">✅ 书写正确</span>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="en-line">
+        <span class="item-num error">4</span>
+        <span class="en-text">Don't be late.</span>
+        <button class="speak-btn" data-text="Don't be late." onclick="speakIt(this)">🔊 朗读</button>
+      </div>
+      <div class="zh-text">不要迟到。</div>
+      <div class="answer-row">
+        <span class="student-ans">❌ 写成：Don't belate.</span>
+        <span class="correct-ans">✅ 正确：Don't be late.</span>
+      </div>
+      <div class="knowledge-box">
+        <div class="kb-title">📌 错误分析：单词之间要有空格</div>
+        <div class="kb-body">
+          "be" 和 "late" 是两个独立的单词，中间必须留空格。<br>
+          ❌ Don't belate.（错：把两个词写连在一起了）<br>
+          ✅ Don't be late.（对："be" 是动词，"late" 是形容词）<br>
+          <br>
+          句型：Don't + 动词原形 → 表示"不要做某事"<br>
+          Don't be late. = Don't + be（是）+ late（迟到的）
+        </div>
+        <div class="kb-tip">💡 记忆口诀：Don't 后面 + 动词原形，be 和 late 是两个词，中间加空格！</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<!-- 页脚 -->
+<div class="footer">
+  <div>🌟 你做得很棒！继续努力，英语越来越好！🌟</div>
+  <a class="back-link" href="index.html">← 返回主页</a>
+</div>
+
+<script>
+  let currentRate = 0.85;
+  let voices = [];
+  let selectedVoice = null;
+  const prefer = ['Samantha','Zira','Jenny','Aria','Emma','Karen','Moira','Fiona'];
+
+  function loadVoices() {
+    voices = speechSynthesis.getVoices();
+    for (const name of prefer) {
+      const v = voices.find(v => v.name === name);
+      if (v) { selectedVoice = v; break; }
+    }
+    if (!selectedVoice) {
+      selectedVoice = voices.find(v => v.lang.startsWith('en')) || voices[0];
+    }
+  }
+  speechSynthesis.onvoiceschanged = loadVoices;
+  loadVoices();
+
+  function speakIt(btn) {
+    speechSynthesis.cancel();
+    const text = btn.getAttribute('data-text');
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.rate = currentRate;
+    utter.lang = 'en-US';
+    if (selectedVoice) utter.voice = selectedVoice;
+    speechSynthesis.speak(utter);
+  }
+
+  function setSpeed(rate) {
+    currentRate = rate;
+    document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+
+  function switchVoice() {
+    const enVoices = voices.filter(v => v.lang.startsWith('en'));
+    if (!enVoices.length) return;
+    const idx = enVoices.indexOf(selectedVoice);
+    selectedVoice = enVoices[(idx + 1) % enVoices.length];
+    const utter = new SpeechSynthesisUtterance('Hello! This is my new voice.');
+    utter.voice = selectedVoice;
+    utter.rate = currentRate;
+    speechSynthesis.speak(utter);
+  }
+
+  function toggleSection(header) {
+    const body = header.nextElementSibling;
+    const icon = header.querySelector('.toggle-icon');
+    if (body.style.display === 'none') {
+      body.style.display = '';
+      icon.style.transform = '';
+    } else {
+      body.style.display = 'none';
+      icon.style.transform = 'rotate(-90deg)';
+    }
+  }
+</script>
+</body>
+</html>

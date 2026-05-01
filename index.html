@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>学习资料本</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, "PingFang SC", "Helvetica Neue", Arial, sans-serif; background: #f0f4f8; color: #2d3748; }
+
+  .header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white; padding: 32px 20px 26px; text-align: center;
+  }
+  .header h1 { font-size: 2em; font-weight: 800; letter-spacing: 2px; }
+  .header p { margin-top: 8px; opacity: 0.85; font-size: 0.95em; }
+
+  .container { max-width: 760px; margin: 0 auto; padding: 20px 14px 40px; }
+
+  .section-title {
+    font-size: 0.88em; font-weight: 700; color: #718096;
+    text-transform: uppercase; letter-spacing: 1px;
+    margin: 24px 0 10px; padding-left: 4px;
+  }
+
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 14px; }
+
+  .card {
+    display: block; text-decoration: none; border-radius: 14px;
+    padding: 16px; transition: transform .18s, box-shadow .18s;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+
+  .card.indigo { background: linear-gradient(135deg, #ebf4ff, #e9d8fd); border: 1.5px solid #c3dafe; }
+
+  .card-top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .card-icon {
+    width: 46px; height: 46px; border-radius: 12px; font-size: 1.5em;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .card-icon.indigo { background: #c3dafe; }
+
+  .card-title { font-size: 1em; font-weight: 700; color: #2d3748; line-height: 1.3; }
+  .card-subtitle { font-size: 0.82em; color: #718096; margin-top: 3px; }
+
+  .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+  .tag { font-size: 0.75em; padding: 2px 10px; border-radius: 10px; font-weight: 600; }
+  .tag.indigo { background: #c3dafe; color: #2c5282; }
+  .tag.gray { background: #e2e8f0; color: #4a5568; }
+  .tag.red { background: #fed7d7; color: #c53030; }
+
+  .card-footer { display: flex; justify-content: space-between; align-items: center; }
+  .card-count { font-size: 0.8em; color: #a0aec0; }
+  .arrow { font-size: 1.1em; color: #a0aec0; }
+
+  .footer { text-align: center; color: #a0aec0; font-size: 0.85em; padding: 20px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📚 学习资料本</h1>
+  <p>点击卡片查看详细内容，支持朗读功能 🔊</p>
+</div>
+
+<div class="container">
+  <div class="section-title">📖 英语 · 课时练习</div>
+  <div class="card-grid">
+    <a class="card indigo" href="class_rules.html">
+      <div class="card-top">
+        <div class="card-icon indigo">📋</div>
+        <div>
+          <div class="card-title">Class Rules · 课堂规则</div>
+          <div class="card-subtitle">Why do we follow class rules?</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag indigo">课堂规则</span>
+        <span class="tag indigo">ar 音节</span>
+        <span class="tag gray">页 5–9</span>
+        <span class="tag red">有错题</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-count">5页内容 · 含朗读 · 错题解析</span>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+  </div>
+</div>
+
+<div class="footer">持续更新中 · 加油！🌟</div>
+
+</body>
+</html>
