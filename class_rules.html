@@ -239,11 +239,6 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;backgr
     </div>
   </div>
 
-  <div style="font-size:13px;font-weight:700;margin:14px 0 8px;">🔊 All rules — 全部朗读</div>
-  <div style="display:flex;flex-wrap:wrap;gap:7px;">
-    <button onclick="speakAll()" style="padding:8px 16px;border-radius:20px;border:none;background:var(--ac);color:#fff;font-family:inherit;font-size:12px;cursor:pointer;">▶ 依次朗读全部规则</button>
-  </div>
-
   <div class="tip" style="margin-top:14px;">
     <b>These are our class rules. 这是我们的课堂规则。</b><br>
     注意区分：<b>Don't + 动词原形</b>（禁止做）vs <b>Please + 动词原形</b>（请做）
@@ -284,9 +279,8 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;backgr
   <div class="sec-hdr"><div class="sec-dot" style="background:#f59e0b;"></div><div class="sec-title">Let's Spell · 拼读练习</div><div class="sec-en">· 字母组合 ar 的发音</div></div>
 
   <div class="ar-hero">
-    <div class="ar-big">ar</div>
-    <div class="ar-sub">发音：/ɑː/（嘴巴张大，像医生说"啊"）</div>
-    <button onclick="speak('ar, ar, ar',null)" style="margin-top:10px;padding:7px 18px;border-radius:20px;border:none;background:var(--am);color:#fff;font-family:inherit;font-size:12px;cursor:pointer;">🔊 听发音</button>
+    <div class="ar-big" style="cursor:pointer;" onclick="speak('ar',null)">ar 🔊</div>
+    <div class="ar-sub">点上方 ar 听发音 · /ɑː/（嘴巴张大，像医生说"啊"）</div>
   </div>
 
   <div style="font-size:13px;font-weight:700;margin-bottom:8px;">📝 ar 单词</div>
@@ -336,8 +330,6 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;backgr
     <div class="poem-line"><button class="poem-spk" onclick="speak('We put back the chairs and close the doors.',this)">🔊</button><div class="poem-en">We put back the chairs and close the doors.</div><div class="poem-zh">我们放好椅子、关门</div></div>
     <div class="poem-line"><button class="poem-spk" onclick="speak('Our job is done! Now the classroom is clean!',this)">🔊</button><div class="poem-en" style="color:var(--gr);font-weight:600;">Our job is done! Now the classroom is clean!</div><div class="poem-zh" style="color:var(--gr);">完工！教室干净了！</div></div>
   </div>
-  <button onclick="readPoem()" style="padding:8px 16px;border-radius:20px;border:none;background:var(--tl);color:#fff;font-family:inherit;font-size:12px;cursor:pointer;">▶ 依次朗读全文</button>
-
   <div class="tip" style="margin-top:12px;">
     <b>描述房间句型：</b><br>
     The floor is green. 地板是绿色的。<br>
@@ -381,26 +373,58 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;backgr
 <!-- ══ P6: Read and Write ══ -->
 <div class="page" id="p6">
 <div class="sec">
-  <div class="sec-hdr"><div class="sec-dot" style="background:#9d174d;"></div><div class="sec-title">Read and Write</div><div class="sec-en">· Helping Hands in Class 阅读理解</div></div>
+  <div class="sec-hdr"><div class="sec-dot" style="background:#9d174d;"></div><div class="sec-title">Read and Write</div><div class="sec-en">· Helping Hands in Class · 逐句朗读+翻译</div></div>
+  <div class="sec-note">点每句旁边的 🔊 跟读，蓝色词是关键词</div>
 
-  <div class="passage">
-    <div class="passage-title">🤝 Helping hands in class</div>
-    We have some class rules. We put up our hands to speak. We turn off the <b>lights after school</b>. When we don't understand, we say, <b>"Excuse me?"</b>
-    <br><br>
-    We also have some jobs. Some of us make wall <b>newspapers</b>. Some of us keep our classroom <b>clean and tidy</b>. Some hand out the <b>workbooks</b>. We all help make our classroom great!
+  <!-- 标题 -->
+  <div style="background:var(--pkb);border-radius:10px;padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;gap:10px;border:0.5px solid rgba(157,23,77,.15);">
+    <button onclick="speak('Helping hands in class',this)" style="background:none;border:none;cursor:pointer;font-size:18px;flex-shrink:0;" class="spk">🔊</button>
+    <div>
+      <div style="font-size:15px;font-weight:700;color:var(--pk);">Helping hands in class</div>
+      <div style="font-size:12px;color:var(--pk);opacity:.8;margin-top:2px;">在课堂中互相帮忙</div>
+    </div>
   </div>
 
-  <div style="font-size:13px;font-weight:700;margin-bottom:8px;">✅ Tick the class rules in the text · 勾出文中的课堂规则</div>
+  <!-- 逐句 -->
+  <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:14px;">
+
+    <div class="sentence-card"><button class="sc-spk" onclick="speak('We have some class rules.',this)">🔊</button><div><div class="sc-en">We have some class rules.</div><div class="sc-zh">我们有一些课堂规则。</div></div></div>
+
+    <div class="sentence-card"><button class="sc-spk" onclick="speak('We put up our hands to speak.',this)">🔊</button><div><div class="sc-en">We put up our hands to <span class="sc-hi">speak</span>.</div><div class="sc-zh">我们举手发言。</div></div></div>
+
+    <div class="sentence-card"><button class="sc-spk" onclick="speak('We turn off the lights after school.',this)">🔊</button><div><div class="sc-en">We turn off the <span class="sc-hi">lights after school</span>.</div><div class="sc-zh">放学后我们关灯。</div></div></div>
+
+    <div class="sentence-card"><button class="sc-spk" onclick="speak('When we don\'t understand, we say, Excuse me.',this)">🔊</button><div><div class="sc-en">When we don't understand, we say, <span class="sc-hi">"Excuse me?"</span></div><div class="sc-zh">当我们听不懂时，我们说："打扰一下？"</div></div></div>
+
+    <div style="height:4px;"></div>
+
+    <div class="sentence-card"><button class="sc-spk" onclick="speak('We also have some jobs.',this)">🔊</button><div><div class="sc-en">We also have some <span class="sc-hi">jobs</span>.</div><div class="sc-zh">我们也有一些值日工作。</div></div></div>
+
+    <div class="sentence-card"><button class="sc-spk" onclick="speak('Some of us make wall newspapers.',this)">🔊</button><div><div class="sc-en">Some of us make wall <span class="sc-hi">newspapers</span>.</div><div class="sc-zh">我们中有些人出黑板报。</div></div></div>
+
+    <div class="sentence-card"><button class="sc-spk" onclick="speak('Some of us keep our classroom clean and tidy.',this)">🔊</button><div><div class="sc-en">Some of us keep our classroom <span class="sc-hi">clean and tidy</span>.</div><div class="sc-zh">有些人保持教室干净整洁。</div></div></div>
+
+    <div class="sentence-card"><button class="sc-spk" onclick="speak('Some hand out the workbooks.',this)">🔊</button><div><div class="sc-en">Some hand out the <span class="sc-hi">workbooks</span>.</div><div class="sc-zh">有些人发作业本。</div></div></div>
+
+    <div class="sentence-card"><button class="sc-spk" onclick="speak('We all help make our classroom great.',this)">🔊</button><div><div class="sc-en" style="color:var(--gr);font-weight:600;">We all help make our classroom great!</div><div class="sc-zh" style="color:var(--gr);">我们共同努力，让教室棒棒的！</div></div></div>
+
+  </div>
+
+  <div style="height:4px;"></div>
+
+  <!-- Tick 练习 -->
+  <div style="font-size:13px;font-weight:700;margin-bottom:8px;">✅ Tick the class rules · 勾出文中提到的课堂规则</div>
+  <div style="font-size:11px;color:var(--tx3);margin-bottom:8px;">提示：文中提到的打勾 ✓，未提到的不勾</div>
   <div class="tick-list" id="tick-list">
-    <div class="tick-item" onclick="toggleTick(this)"><div class="tick-check">✓</div><div>Say "Excuse me?"</div></div>
-    <div class="tick-item checked" onclick="toggleTick(this)"><div class="tick-check" style="background:var(--gr);color:#fff;">✓</div><div>Turn off the lights after school.</div></div>
-    <div class="tick-item" onclick="toggleTick(this)"><div class="tick-check">✓</div><div>Close the windows.</div></div>
-    <div class="tick-item" onclick="toggleTick(this)"><div class="tick-check">✓</div><div>Don't eat in class.</div></div>
-    <div class="tick-item checked" onclick="toggleTick(this)"><div class="tick-check" style="background:var(--gr);color:#fff;">✓</div><div>Put up your hand to speak.</div></div>
-    <div class="tick-item checked" onclick="toggleTick(this)"><div class="tick-check" style="background:var(--gr);color:#fff;">✓</div><div>Keep the classroom clean.</div></div>
+    <div class="tick-item checked" onclick="toggleTick(this)"><div class="tick-check" style="background:var(--gr);color:#fff;">✓</div><div><div style="font-size:13px;">Say "Excuse me?"</div><div style="font-size:11px;color:var(--tx3);">说"打扰一下？"</div></div></div>
+    <div class="tick-item checked" onclick="toggleTick(this)"><div class="tick-check" style="background:var(--gr);color:#fff;">✓</div><div><div style="font-size:13px;">Turn off the lights after school.</div><div style="font-size:11px;color:var(--tx3);">放学后关灯</div></div></div>
+    <div class="tick-item" onclick="toggleTick(this)"><div class="tick-check">✓</div><div><div style="font-size:13px;">Close the windows.</div><div style="font-size:11px;color:var(--tx3);">关窗户（文中未提到）</div></div></div>
+    <div class="tick-item" onclick="toggleTick(this)"><div class="tick-check">✓</div><div><div style="font-size:13px;">Don't eat in class.</div><div style="font-size:11px;color:var(--tx3);">不要在课堂吃东西（文中未提到）</div></div></div>
+    <div class="tick-item checked" onclick="toggleTick(this)"><div class="tick-check" style="background:var(--gr);color:#fff;">✓</div><div><div style="font-size:13px;">Put up your hand to speak.</div><div style="font-size:11px;color:var(--tx3);">举手发言</div></div></div>
+    <div class="tick-item checked" onclick="toggleTick(this)"><div class="tick-check" style="background:var(--gr);color:#fff;">✓</div><div><div style="font-size:13px;">Keep the classroom clean.</div><div style="font-size:11px;color:var(--tx3);">保持教室整洁</div></div></div>
   </div>
-  <div style="font-size:11px;color:var(--tx3);margin-top:6px;">提示：文中提到的规则打勾，未提到的不勾</div>
 
+  <!-- 写规则 -->
   <div style="font-size:13px;font-weight:700;margin:16px 0 8px;">✍️ My class rules · 写出你的课堂规则</div>
   <div class="my-rules">
     <div class="my-rule-row"><div class="my-rule-num">1</div><input class="my-rule-input" placeholder="Put up your hand to speak." /></div>
@@ -443,64 +467,152 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;backgr
 <!-- ══ P8: Quiz ══ -->
 <div class="page" id="p8">
 <div class="sec">
-  <div class="sec-hdr"><div class="sec-dot" style="background:#f59e0b;"></div><div class="sec-title">Quiz · 综合练习</div><div class="sec-en">· 点击选项自动判断</div></div>
-  <div class="sec-note">答完8题显示得分 🌟</div>
+  <div class="sec-hdr"><div class="sec-dot" style="background:#f59e0b;"></div><div class="sec-title">Quiz · 综合练习</div><div class="sec-en">· 中英对照 · 点击选项自动判断</div></div>
+  <div class="sec-note">每题都有朗读按钮 🔊 · 答完8题显示得分 🌟</div>
 
   <!-- Q1 -->
-  <div class="quiz-card"><div class="quiz-q">1. "不要在课堂上吃东西" 用英语说：</div><div class="quiz-opts">
-    <button class="opt" onclick="ans(this,false)">A. Please eat in class.</button>
-    <button class="opt" onclick="ans(this,true)">B. Don't eat in class.</button>
-    <button class="opt" onclick="ans(this,false)">C. You can eat in class.</button>
-  </div></div>
+  <div class="quiz-card">
+    <div class="quiz-q">
+      <div style="display:flex;align-items:flex-start;gap:8px;">
+        <button onclick="speak('Don\'t eat in class.',this)" class="spk" style="background:none;border:none;cursor:pointer;font-size:16px;flex-shrink:0;margin-top:1px;">🔊</button>
+        <div>
+          <div>1. 选出正确的英文句子</div>
+          <div style="font-size:13px;color:var(--ac);font-weight:600;margin-top:3px;">不要在课堂上吃东西</div>
+        </div>
+      </div>
+    </div>
+    <div class="quiz-opts">
+      <button class="opt" onclick="ans(this,false)">A. Please eat in class.<span style="color:var(--tx3);font-size:11px;"> · 请在课堂上吃东西</span></button>
+      <button class="opt" onclick="ans(this,true)">B. Don't eat in class.<span style="color:var(--tx3);font-size:11px;"> · 不要在课堂上吃东西 ✓</span></button>
+      <button class="opt" onclick="ans(this,false)">C. You can eat in class.<span style="color:var(--tx3);font-size:11px;"> · 你可以在课堂上吃东西</span></button>
+    </div>
+  </div>
 
   <!-- Q2 -->
-  <div class="quiz-card"><div class="quiz-q">2. "放学后关灯" 用英语说：</div><div class="quiz-opts">
-    <button class="opt" onclick="ans(this,false)">A. Don't turn off the lights.</button>
-    <button class="opt" onclick="ans(this,true)">B. Turn off the lights after school.</button>
-    <button class="opt" onclick="ans(this,false)">C. Turn on the lights after school.</button>
-  </div></div>
+  <div class="quiz-card">
+    <div class="quiz-q">
+      <div style="display:flex;align-items:flex-start;gap:8px;">
+        <button onclick="speak('Turn off the lights after school.',this)" class="spk" style="background:none;border:none;cursor:pointer;font-size:16px;flex-shrink:0;margin-top:1px;">🔊</button>
+        <div>
+          <div>2. 选出正确的英文句子</div>
+          <div style="font-size:13px;color:var(--ac);font-weight:600;margin-top:3px;">放学后关灯</div>
+        </div>
+      </div>
+    </div>
+    <div class="quiz-opts">
+      <button class="opt" onclick="ans(this,false)">A. Don't turn off the lights.<span style="color:var(--tx3);font-size:11px;"> · 不要关灯</span></button>
+      <button class="opt" onclick="ans(this,true)">B. Turn off the lights after school.<span style="color:var(--tx3);font-size:11px;"> · 放学后关灯 ✓</span></button>
+      <button class="opt" onclick="ans(this,false)">C. Turn on the lights after school.<span style="color:var(--tx3);font-size:11px;"> · 放学后开灯</span></button>
+    </div>
+  </div>
 
   <!-- Q3 -->
-  <div class="quiz-card"><div class="quiz-q">3. 朋友问你能做什么值日，你回答：</div><div class="quiz-opts">
-    <button class="opt" onclick="ans(this,false)">A. I can't sweep the floor.</button>
-    <button class="opt" onclick="ans(this,true)">B. I can sweep the floor.</button>
-    <button class="opt" onclick="ans(this,false)">C. I sweep the floor.</button>
-  </div></div>
+  <div class="quiz-card">
+    <div class="quiz-q">
+      <div style="display:flex;align-items:flex-start;gap:8px;">
+        <button onclick="speak('I can sweep the floor.',this)" class="spk" style="background:none;border:none;cursor:pointer;font-size:16px;flex-shrink:0;margin-top:1px;">🔊</button>
+        <div>
+          <div>3. 朋友问 "Who's on duty?" 你来扫地，怎么回答？</div>
+          <div style="font-size:13px;color:var(--ac);font-weight:600;margin-top:3px;">我可以扫地。</div>
+        </div>
+      </div>
+    </div>
+    <div class="quiz-opts">
+      <button class="opt" onclick="ans(this,false)">A. I can't sweep the floor.<span style="color:var(--tx3);font-size:11px;"> · 我不能扫地</span></button>
+      <button class="opt" onclick="ans(this,true)">B. I can sweep the floor.<span style="color:var(--tx3);font-size:11px;"> · 我可以扫地 ✓</span></button>
+      <button class="opt" onclick="ans(this,false)">C. I sweep the floor.<span style="color:var(--tx3);font-size:11px;"> · 缺少情态动词</span></button>
+    </div>
+  </div>
 
   <!-- Q4 -->
-  <div class="quiz-card"><div class="quiz-q">4. "ar" 的发音和哪个单词相同？</div><div class="quiz-opts">
-    <button class="opt" onclick="ans(this,false)">A. cat</button>
-    <button class="opt" onclick="ans(this,false)">B. her</button>
-    <button class="opt" onclick="ans(this,true)">C. farm</button>
-  </div></div>
+  <div class="quiz-card">
+    <div class="quiz-q">
+      <div style="display:flex;align-items:flex-start;gap:8px;">
+        <button onclick="speak('ar, farm, car, card',this)" class="spk" style="background:none;border:none;cursor:pointer;font-size:16px;flex-shrink:0;margin-top:1px;">🔊</button>
+        <div>
+          <div>4. 字母组合 "ar" 发 /ɑː/ 音，和哪个单词相同？</div>
+          <div style="font-size:12px;color:var(--tx3);margin-top:2px;">点🔊听 ar 的发音</div>
+        </div>
+      </div>
+    </div>
+    <div class="quiz-opts">
+      <button class="opt" onclick="ans(this,false)">A. cat<span style="color:var(--tx3);font-size:11px;"> · 猫（发 /æ/ 音）</span></button>
+      <button class="opt" onclick="ans(this,false)">B. her<span style="color:var(--tx3);font-size:11px;"> · 她（发 /ɜː/ 音）</span></button>
+      <button class="opt" onclick="ans(this,true)">C. farm<span style="color:var(--tx3);font-size:11px;"> · 农场（含 ar，发 /ɑː/）✓</span></button>
+    </div>
+  </div>
 
   <!-- Q5 -->
-  <div class="quiz-card"><div class="quiz-q">5. "Who's on duty today?" 是什么意思？</div><div class="quiz-opts">
-    <button class="opt" onclick="ans(this,false)">A. 今天谁迟到了？</button>
-    <button class="opt" onclick="ans(this,true)">B. 今天谁值日？</button>
-    <button class="opt" onclick="ans(this,false)">C. 今天谁不来？</button>
-  </div></div>
+  <div class="quiz-card">
+    <div class="quiz-q">
+      <div style="display:flex;align-items:flex-start;gap:8px;">
+        <button onclick="speak('Who\'s on duty today?',this)" class="spk" style="background:none;border:none;cursor:pointer;font-size:16px;flex-shrink:0;margin-top:1px;">🔊</button>
+        <div>
+          <div>5. 这句话是什么意思？</div>
+          <div style="font-size:13px;color:var(--ac);font-weight:600;margin-top:3px;">"Who's on duty today?"</div>
+        </div>
+      </div>
+    </div>
+    <div class="quiz-opts">
+      <button class="opt" onclick="ans(this,false)">A. 今天谁迟到了？</button>
+      <button class="opt" onclick="ans(this,true)">B. 今天谁值日？ ✓</button>
+      <button class="opt" onclick="ans(this,false)">C. 今天谁不来上课？</button>
+    </div>
+  </div>
 
   <!-- Q6 -->
-  <div class="quiz-card"><div class="quiz-q">6. 下列哪个单词含有 "ar" 音？</div><div class="quiz-opts">
-    <button class="opt" onclick="ans(this,false)">A. fan</button>
-    <button class="opt" onclick="ans(this,true)">B. card</button>
-    <button class="opt" onclick="ans(this,false)">C. clean</button>
-  </div></div>
+  <div class="quiz-card">
+    <div class="quiz-q">
+      <div style="display:flex;align-items:flex-start;gap:8px;">
+        <button onclick="speak('fan, card, clean',this)" class="spk" style="background:none;border:none;cursor:pointer;font-size:16px;flex-shrink:0;margin-top:1px;">🔊</button>
+        <div>
+          <div>6. 哪个单词含有 "ar" 的发音 /ɑː/？</div>
+          <div style="font-size:12px;color:var(--tx3);margin-top:2px;">点🔊依次听三个词</div>
+        </div>
+      </div>
+    </div>
+    <div class="quiz-opts">
+      <button class="opt" onclick="ans(this,false)">A. fan<span style="color:var(--tx3);font-size:11px;"> · 风扇（含 an，不是 ar）</span></button>
+      <button class="opt" onclick="ans(this,true)">B. card<span style="color:var(--tx3);font-size:11px;"> · 卡片（c-<b>ar</b>-d）✓</span></button>
+      <button class="opt" onclick="ans(this,false)">C. clean<span style="color:var(--tx3);font-size:11px;"> · 干净（含 ea，不是 ar）</span></button>
+    </div>
+  </div>
 
   <!-- Q7 -->
-  <div class="quiz-card"><div class="quiz-q">7. "Wow! Our classroom is clean and tidy!" — tidy 是什么意思？</div><div class="quiz-opts">
-    <button class="opt" onclick="ans(this,false)">A. 脏乱的</button>
-    <button class="opt" onclick="ans(this,false)">B. 很大的</button>
-    <button class="opt" onclick="ans(this,true)">C. 整洁的</button>
-  </div></div>
+  <div class="quiz-card">
+    <div class="quiz-q">
+      <div style="display:flex;align-items:flex-start;gap:8px;">
+        <button onclick="speak('Wow! Our classroom is clean and tidy!',this)" class="spk" style="background:none;border:none;cursor:pointer;font-size:16px;flex-shrink:0;margin-top:1px;">🔊</button>
+        <div>
+          <div>7. 句中 <b>tidy</b> 是什么意思？</div>
+          <div style="font-size:13px;color:var(--ac);font-weight:600;margin-top:3px;">"Our classroom is clean and tidy!"</div>
+        </div>
+      </div>
+    </div>
+    <div class="quiz-opts">
+      <button class="opt" onclick="ans(this,false)">A. 脏乱的</button>
+      <button class="opt" onclick="ans(this,false)">B. 很大的</button>
+      <button class="opt" onclick="ans(this,true)">C. 整洁的 ✓</button>
+    </div>
+  </div>
 
   <!-- Q8 -->
-  <div class="quiz-card"><div class="quiz-q">8. "Helping hands in class" 短文中提到的规则是？</div><div class="quiz-opts">
-    <button class="opt" onclick="ans(this,false)">A. Don't run in the classroom.</button>
-    <button class="opt" onclick="ans(this,true)">B. Put up your hand to speak.</button>
-    <button class="opt" onclick="ans(this,false)">C. Don't take toys to school.</button>
-  </div></div>
+  <div class="quiz-card">
+    <div class="quiz-q">
+      <div style="display:flex;align-items:flex-start;gap:8px;">
+        <button onclick="speak('We put up our hands to speak. We turn off the lights after school.',this)" class="spk" style="background:none;border:none;cursor:pointer;font-size:16px;flex-shrink:0;margin-top:1px;">🔊</button>
+        <div>
+          <div>8. "Helping hands" 短文中提到了哪条规则？</div>
+          <div style="font-size:12px;color:var(--tx3);margin-top:2px;">点🔊听短文中的关键句</div>
+        </div>
+      </div>
+    </div>
+    <div class="quiz-opts">
+      <button class="opt" onclick="ans(this,false)">A. Don't run in the classroom.<span style="color:var(--tx3);font-size:11px;"> · 不要在教室跑（未提到）</span></button>
+      <button class="opt" onclick="ans(this,true)">B. Put up your hand to speak.<span style="color:var(--tx3);font-size:11px;"> · 举手发言（文中提到）✓</span></button>
+      <button class="opt" onclick="ans(this,false)">C. Don't take toys to school.<span style="color:var(--tx3);font-size:11px;"> · 不要带玩具（未提到）</span></button>
+    </div>
+  </div>
 
   <div class="score-area" id="score-area">
     <div class="score-num" id="score-num"></div>
@@ -532,37 +644,7 @@ function setSpd(s,btn){spd=s;document.querySelectorAll('.spd-btn').forEach(b=>b.
 function cycleVoice(){if(!voices.length)return;vi=(vi+1)%voices.length;document.getElementById('vbtn').textContent='🗣 Voice '+(vi+1);speak('Hello! Let\'s learn English!',null);}
 function showPage(id,btn){document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));document.getElementById(id).classList.add('on');btn.classList.add('on');}
 
-// ── Speak all rules ──
-const allRules=['Don\'t eat in class.','Don\'t be late.','Turn off the lights after school.','Keep the classroom clean.','Put up your hand to speak.'];
-function speakAll(){
-  window.speechSynthesis.cancel();
-  let i=0;
-  function next(){
-    if(i>=allRules.length)return;
-    const u=new SpeechSynthesisUtterance(allRules[i++]);
-    u.lang='en-US';u.rate=spd;
-    if(voices.length)u.voice=voices[vi%voices.length];
-    u.onend=()=>setTimeout(next,400);
-    window.speechSynthesis.speak(u);
-  }
-  next();
-}
 
-// ── Read poem ──
-const poemLines=['We turn off the fans.','We clean the desks.','We sweep the floor.','We close the windows.','We put back the chairs and close the doors.','Our job is done! Now the classroom is clean!'];
-function readPoem(){
-  window.speechSynthesis.cancel();
-  let i=0;
-  function next(){
-    if(i>=poemLines.length)return;
-    const u=new SpeechSynthesisUtterance(poemLines[i++]);
-    u.lang='en-US';u.rate=spd;
-    if(voices.length)u.voice=voices[vi%voices.length];
-    u.onend=()=>setTimeout(next,350);
-    window.speechSynthesis.speak(u);
-  }
-  next();
-}
 
 // ── Tick list ──
 function toggleTick(el){
