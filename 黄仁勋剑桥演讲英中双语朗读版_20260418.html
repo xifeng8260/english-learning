@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jensen Huang · Cambridge Union 2025 · 英中双语朗读版</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Serif+SC:wght@400;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:    #1C1C1E;
+    --stone:  #3A3A3A;
+    --mist:   #8A8A8A;
+    --gold:   #8B6914;
+    --lgold:  #FBF6EC;
+    --ocean:  #1A4A6B;
+    --locean: #EBF2FA;
+    --pine:   #2D5A45;
+    --lpine:  #EDF5F0;
+    --rust:   #7A3B2E;
+    --lrust:  #FDF0EC;
+    --silk:   #F5F2ED;
+    --bg:     #FAFAF8;
+    --mgray:  #E0E0E0;
+    --lgray:  #F7F7F7;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Noto Serif SC', Georgia, serif;
+    background: var(--bg);
+    color: var(--stone);
+    line-height: 1.8;
+  }
+
+  /* ── 顶部标题区 ── */
+  .hero {
+    background: var(--ink);
+    color: #fff;
+    padding: 60px 40px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(139,105,20,0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .hero-title-zh {
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(18px, 3vw, 28px);
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 30px;
+  }
+  .hero-quote {
+    display: inline-block;
+    border-top: 1px solid rgba(139,105,20,0.4);
+    border-bottom: 1px solid rgba(139,105,20,0.4);
+    padding: 16px 30px;
+    margin-top: 10px;
+  }
+  .hero-quote-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .hero-quote-zh {
+    font-size: 14px;
+    color: rgba(255,255,255,0.6);
+  }
+
+  /* ── 操作栏 ── */
+  .controls {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(250,250,248,0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--mgray);
+    padding: 12px 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .ctrl-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--mist);
+    text-transform: uppercase;
+  }
+  .ctrl-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border: 1px solid var(--mgray);
+    border-radius: 4px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--stone);
+    transition: all 0.2s;
+    font-family: 'Noto Serif SC', serif;
+  }
+  .ctrl-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .ctrl-btn.active { background: var(--gold); color: #fff; border-color: var(--gold); }
+  .speed-group { display: flex; gap: 4px; }
+  .speed-btn {
+    padding: 5px 10px;
+    border: 1px solid var(--mgray);
+    border-radius: 3px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--mist);
+    transition: all 0.2s;
+  }
+  .speed-btn:hover, .speed-btn.active {
+    border-color: var(--ocean);
+    color: var(--ocean);
+    background: var(--locean);
+  }
+  .reading-indicator {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--mist);
+    font-family: 'JetBrains Mono', monospace;
+    display: none;
+    align-items: center;
+    gap: 6px;
+  }
+  .reading-indicator.show { display: flex; }
+  .pulse {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+    animation: pulse 1s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity:1; transform:scale(1); }
+    50% { opacity:0.4; transform:scale(0.7); }
+  }
+
+  /* ── 主体内容 ── */
+  .main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 30px 80px;
+  }
+
+  /* ── 章节标题 ── */
+  .chapter {
+    margin-top: 64px;
+    margin-bottom: 32px;
+    padding-left: 16px;
+    border-left: 4px solid var(--ocean);
+  }
+  .chapter-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--ocean);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .chapter-title-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .chapter-title-zh {
+    font-size: 15px;
+    color: var(--mist);
+    margin-top: 4px;
+  }
+
+  /* ── 时间戳 ── */
+  .timestamp {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--mist);
+    letter-spacing: 1px;
+    margin: 28px 0 8px;
+  }
+
+  /* ── 说话人标签 ── */
+  .speaker {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 16px 0 10px;
+  }
+  .speaker-dot { width:8px; height:8px; border-radius:50%; }
+  .speaker-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 1px;
+    font-weight: 600;
+  }
+  .speaker.jensen .speaker-dot { background: var(--gold); }
+  .speaker.jensen .speaker-name { color: var(--gold); }
+  .speaker.host .speaker-dot { background: var(--pine); }
+  .speaker.host .speaker-name { color: var(--pine); }
+  .speaker.audience .speaker-dot { background: var(--mist); }
+  .speaker.audience .speaker-name { color: var(--mist); }
+
+  /* ── 段落卡片（核心交互元素） ── */
+  .para-block {
+    background: #fff;
+    border: 1px solid var(--mgray);
+    border-radius: 6px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    overflow: hidden;
+    position: relative;
+  }
+  .para-block:hover {
+    border-color: var(--gold);
+    box-shadow: 0 2px 12px rgba(139,105,20,0.1);
+  }
+  .para-block.reading {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 2px rgba(139,105,20,0.2);
+  }
+  .para-block.reading .para-en {
+    color: var(--gold);
+  }
+
+  /* 朗读按钮 */
+  .play-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--lgold);
+    border: 1px solid rgba(139,105,20,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .para-block:hover .play-btn { opacity: 1; }
+  .para-block.reading .play-btn {
+    opacity: 1;
+    background: var(--gold);
+    border-color: var(--gold);
+  }
+  .play-icon {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 5px 0 5px 9px;
+    border-color: transparent transparent transparent var(--gold);
+    margin-left: 2px;
+  }
+  .para-block.reading .play-icon {
+    border-color: transparent transparent transparent #fff;
+  }
+  /* 朗读中变成停止图标 */
+  .stop-icon {
+    display: none;
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border-radius: 1px;
+  }
+  .para-block.reading .play-icon { display: none; }
+  .para-block.reading .stop-icon { display: block; }
+
+  .para-inner { padding: 16px 52px 16px 16px; }
+  .para-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--stone);
+    margin-bottom: 8px;
+  }
+  .para-zh {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--ocean);
+    border-top: 1px solid var(--mgray);
+    padding-top: 8px;
+    margin-top: 4px;
+  }
+
+  /* ── 大金句块 ── */
+  .bigquote-block {
+    background: var(--ink);
+    border-radius: 6px;
+    padding: 28px 32px;
+    margin: 24px 0;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .bigquote-block:hover { opacity: 0.92; }
+  .bigquote-block.reading { box-shadow: 0 0 0 2px var(--gold); }
+  .bigquote-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--gold);
+    line-height: 1.7;
+    margin-bottom: 10px;
+  }
+  .bigquote-zh {
+    font-size: 15px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.8;
+  }
+  .bigquote-block .play-btn {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.2);
+    opacity: 1;
+  }
+  .bigquote-block .play-icon {
+    border-color: transparent transparent transparent rgba(255,255,255,0.7);
+  }
+  .bigquote-block.reading .play-btn { background: var(--gold); border-color: var(--gold); }
+  .bigquote-block.reading .play-icon { display: none; }
+  .bigquote-block.reading .stop-icon { display: block; }
+
+  /* ── 进度条 ── */
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: var(--gold);
+    z-index: 1000;
+    transition: width 0.1s;
+    width: 0%;
+  }
+
+  /* ── 底部 ── */
+  .footer {
+    text-align: center;
+    padding: 40px;
+    color: var(--mist);
+    font-size: 12px;
+    border-top: 1px solid var(--mgray);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 1px;
+  }
+
+  /* ── 朗读进度高亮 ── */
+  @keyframes reading-glow {
+    0% { background-position: 200% center; }
+    100% { background-position: -200% center; }
+  }
+
+  /* 响应式 */
+  @media(max-width:600px) {
+    .hero { padding: 40px 20px 36px; }
+    .controls { padding: 10px 16px; gap: 10px; }
+    .main { padding: 20px 16px 60px; }
+    .para-en { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- 封面 -->
+<div class="hero">
+  <div class="hero-sub">Cambridge Union · 2025 Hawking Fellow · Bilingual Reading</div>
+  <div class="hero-title">Jensen Huang</div>
+  <div class="hero-title-zh">黄仁勋 · 剑桥联合会 · 英中双语朗读版</div>
+  <div class="hero-quote">
+    <div class="hero-quote-en">"Don't get bored and don't get fired."</div>
+    <div class="hero-quote-zh">别无聊，别被开除。</div>
+  </div>
+</div>
+
+<!-- 操作栏 -->
+<div class="controls">
+  <span class="ctrl-label">朗读控制</span>
+  <button class="ctrl-btn" id="btnStopAll" onclick="stopAll()">⏹ 停止</button>
+  <button class="ctrl-btn" id="btnAutoPlay" onclick="toggleAutoPlay()">▶ 连续播放</button>
+  <div class="speed-group">
+    <span class="ctrl-label" style="line-height:28px">速度</span>
+    <button class="speed-btn" onclick="setSpeed(0.7)">0.7×</button>
+    <button class="speed-btn active" onclick="setSpeed(0.85)">0.85×</button>
+    <button class="speed-btn" onclick="setSpeed(1.0)">1.0×</button>
+    <button class="speed-btn" onclick="setSpeed(1.2)">1.2×</button>
+  </div>
+  <div class="reading-indicator" id="readingIndicator">
+    <div class="pulse"></div>
+    <span id="readingText">正在朗读...</span>
+  </div>
+</div>
+
+<!-- 主体 -->
+<div class="main">
+
+<!-- PART 1 -->
+<div class="chapter">
+  <div class="chapter-num">Part 1</div>
+  <div class="chapter-title-en">Opening & Award Ceremony</div>
+  <div class="chapter-title-zh">开场与颁奖</div>
+</div>
+
+<div class="timestamp">[00:34] Host</div>
+<div class="speaker host"><div class="speaker-dot"></div><div class="speaker-name">HOST</div></div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">Good evening everybody. Thank you so much for joining us for what is about to be an exciting evening.</div>
+    <div class="para-zh">各位晚上好。非常感谢大家的到来，共同参与这个即将精彩纷呈的夜晚。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">Please do resist the urge to take photographs or videos on your personal mobile devices. We have professional photographers in house and I would trust you to leave it to the professionals to take care of that. Thank you.</div>
+    <div class="para-zh">请克制用手机拍照或录像的冲动。我们有专业的摄影师在场，就交给专业人士来处理吧。谢谢。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">Created in 2017, the Professor Stephen Hawking Fellowship was established to recognize individuals who have made distinguished contributions to science and technology. Administered every year by the Hawking Fellowship Committee, the fellowship acts to memorialize Professor Hawking's legacy and to celebrate innovation in the field.</div>
+    <div class="para-zh">斯蒂芬·霍金教授研究员项目于2017年设立，旨在表彰在科学技术领域做出杰出贡献的人士。该项目每年由霍金研究员委员会负责管理，既是对霍金教授遗产的纪念，也是对该领域创新成就的颂扬。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">Fellows from past years have included Bill Gates in 2019, Jane Goodall in 2020 and the OpenAI team in 2023. Tonight's honoree makes a stunning addition to that list of inducted fellows. Jensen Huang is the founder, CEO, and President of Nvidia.</div>
+    <div class="para-zh">往年的研究员包括：2019年的比尔·盖茨，2020年的简·古道尔，以及2023年的OpenAI团队。今晚的荣誉获得者，将为这份名单再增一位令人瞩目的新成员。黄仁勋，英伟达的创始人、首席执行官兼总裁。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<!-- PART 2 -->
+<div class="chapter">
+  <div class="chapter-num">Part 2</div>
+  <div class="chapter-title-en">Acceptance Speech</div>
+  <div class="chapter-title-zh">获奖感言</div>
+</div>
+
+<div class="timestamp">[03:11] Jensen Huang</div>
+<div class="speaker jensen"><div class="speaker-dot"></div><div class="speaker-name">JENSEN HUANG</div></div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">Wow. This is quite a moment. You know, today when I arrived, I was so overwhelmed by being on Cambridge that I decided to bask in the moment and write a proper speech.</div>
+    <div class="para-zh">哇。这真是一个意义非凡的时刻。今天当我到达剑桥的时候，被这里彻底震撼了。我决定好好感受这一刻，认真写一篇演讲稿。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">And so I was in — is it the St. James Lodge? — a beautiful place, the fireplace was going, and I sat in a must have been a 30,000 year old chair. And it was incredible.</div>
+    <div class="para-zh">我就在——是St. James Lodge吗？那是个很美的地方，壁炉燃着，我坐在一把大概有三万年历史的椅子上。太难以置信了。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">And here it is. I wrote it to Lucy, Ivan, members of the Hawking family, and everyone, everyone here. Incredible. Everyone here. I'm deeply honored to receive the Stephen Hawking Fellowship. And to receive it here at Cambridge is profoundly humbling.</div>
+    <div class="para-zh">演讲稿就在这里，我写给露西、伊万，霍金家族的成员，还有在座的每一位。我深感荣幸，能够获得斯蒂芬·霍金研究员称号。在剑桥接受这份荣誉，更是让我由衷地感到谦卑。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">Cambridge is a cathedral, a cathedral of world changing ideas. Newton redefining motion and gravity. Darwin, questioning creation. Maxwell, one of my favorites, uniting light and magnetism. Turing, another favorite, imagining a machine that could think. And Stephen Hawking expanding our understanding of time and universe.</div>
+    <div class="para-zh">剑桥是一座大教堂——一座孕育改变世界的思想的大教堂。牛顿在这里重新定义了运动与引力。达尔文在这里质疑了造物论。麦克斯韦——我最喜欢的科学家之一——在这里统一了光与磁。图灵，另一位我最爱的人物，在这里想象了一台能够思考的机器。斯蒂芬·霍金在这里拓展了我们对时间与宇宙的理解。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">Professor Hawking's life showed that curiosity has no boundaries. By the way, that was one of his theories — no boundaries. Even when his body was confined, his mind traveled beyond the stars. He reminded us that discovery does not come only from intellect, but from conviction and optimism.</div>
+    <div class="para-zh">霍金教授的一生表明：好奇心没有边界。顺便说一句，这正是他的理论之一——无边界。即使他的身体被禁锢，他的思维却穿越了星辰。他提醒我们，发现不仅仅来自智识，更来自信念与乐观。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="bigquote-block" onclick="readPara(this)">
+  <div class="para-en bigquote-en">Nvidia is a story of nearly impossible odds. In 1993, the three of us, three friends in a townhouse, set out with an idea that we invent a new way of doing computing to solve problems that normal computers cannot.</div>
+  <div class="para-zh bigquote-zh">英伟达的故事，几乎是一个不可能实现的奇迹。1993年，我们三个朋友住在一栋联排别墅里，我带着一个想法出发了——发明一种全新的计算方式，去解决普通计算机无法解决的问题。</div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">Along the way, we invented a new product category, the GPU. We invented a new form of computing called CUDA accelerated computing. We invented new strategies to take that technology and that architecture and proliferated literally all over the world.</div>
+    <div class="para-zh">一路走来，我们发明了一个全新的产品类别——GPU。我们还发明了一种新的计算形式，叫做CUDA加速计算。我们制定了新的策略，将这项技术和架构真正推广到了全世界。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">And so here we are, 33 years later. I'm the longest serving tech CEO the world's ever known. The way you achieve that, by the way, is don't get bored and don't get fired.</div>
+    <div class="para-zh">就这样，三十三年后，我们来到了这里。我是这个世界上任职时间最长的科技公司CEO。顺便说一句，实现这一点的方法是——别无聊，别被开除。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">We're all newbies now. We're all looking at a future beaming with opportunity and equal amounts of concern. And so I feel like a startup again. 33 years later, Nvidia is now the world's largest startup.</div>
+    <div class="para-zh">我们都是新手。我们都在展望一个充满机遇、同时也充满同等忧虑的未来。所以我感觉自己又像一家初创公司了。三十三年后，英伟达现在是世界上最大的初创公司。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<!-- PART 3 -->
+<div class="chapter">
+  <div class="chapter-num">Part 3</div>
+  <div class="chapter-title-en">Growth, Leadership & Belief</div>
+  <div class="chapter-title-zh">成长、领导力与创业信念</div>
+</div>
+
+<div class="timestamp">[11:27] Jensen Huang</div>
+<div class="speaker jensen"><div class="speaker-dot"></div><div class="speaker-name">JENSEN HUANG</div></div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">My mom taught me English and she doesn't speak English. And that tells you something about the impression that parents could leave with their children.</div>
+    <div class="para-zh">我妈妈教会了我英语，而她自己不会说英语。这件事本身，就说明了父母能在孩子心中留下什么样的印记。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">She left with me an impression that nothing could be that hard. I approach almost everything from the perspective: you know, how hard can it be? Now oftentimes turns out to be really hard, but you approach it with the attitude — how hard could it be?</div>
+    <div class="para-zh">她给我留下了一个印象：没有什么事情会有多难。我几乎以一种态度去面对所有事情：这能有多难？很多时候，它确实非常难，但你用这种态度去面对——这能有多难呢？</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">So long as you can stay in the game long enough to learn the sport, and staying in the game is in fact most of it. I was able to do what I'm doing today because I didn't get bored and I didn't get fired. That I think was the magic of all of it. It's 100% of it.</div>
+    <div class="para-zh">只要你能在这个游戏里待得足够久，长到能学会这项运动，那么留在游戏里本身就是最重要的事。我能做今天正在做的事，是因为我没有感到无聊，也没有被开除。那才是全部的魔力，百分之百是这样。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">To be CEO is a lifetime of sacrifice. Most people think that it's about leading and being in command and being on top — none of that is true. You're in service of the company. You're creating conditions for other people to do their life's work. You're inspiring through example.</div>
+    <div class="para-zh">身为CEO，是一生的牺牲。大多数人以为CEO是关于领导、发号施令、站在顶端——但这些都不是真相。你是在服务公司，你在为他人创造条件，让他们做出自己一生中最好的工作。你通过身体力行来激励他人。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">I tend to be somebody that would believe it so deeply that frankly I could see it in my head. And once I could see it in my head, as far as I'm concerned, it might as well be real. Everything else is just details.</div>
+    <div class="para-zh">我是那种会深深相信，深信到我能在脑海中看见它的人。一旦我能在脑海中看见它，对我来说，它就等同于真实。其他的一切都只是细节。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="bigquote-block" onclick="readPara(this)">
+  <div class="para-en bigquote-en">We have to be intellectually honest. If I know that we have to change our mind and I don't — that's a character question, it's an ego question.</div>
+  <div class="para-zh bigquote-zh">我们必须保持智力诚实。如果我知道我们需要改变主意，却不改变——那是一个品格问题，一个自我的问题。</div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="bigquote-block" onclick="readPara(this)">
+  <div class="para-en bigquote-en">Leaders are not meant to be right. That's not our job. Our job is to help other people succeed. It's related, not the same.</div>
+  <div class="para-zh bigquote-zh">领导者的工作不是正确。那不是我们的职责。我们的工作是帮助他人成功。这两件事相关，但不是同一件事。</div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<!-- PART 4 -->
+<div class="chapter">
+  <div class="chapter-num">Part 4</div>
+  <div class="chapter-title-en">GPU, CUDA & Innovation</div>
+  <div class="chapter-title-zh">GPU、CUDA与技术创新</div>
+</div>
+
+<div class="timestamp">[23:05] Jensen Huang</div>
+<div class="speaker jensen"><div class="speaker-dot"></div><div class="speaker-name">JENSEN HUANG</div></div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">It's really hard. When you reinvent something — let's use a phone as an example. When the iPhone came along, it's still a phone and initially it didn't do much more than a phone. It had a browser, it had a map, it played some music — but it cost five times more.</div>
+    <div class="para-zh">这非常困难。当你重新发明某样东西时，以手机为例——iPhone出现的时候，它仍然是一部手机，最初它能做的也不比普通手机多多少。它有浏览器，有地图，能播放音乐——但它贵了五倍。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">We invented the GPU because we wanted computer graphics to be a medium that was expressible through software. We decided that computer graphics should be an artistic storytelling medium and the software should be programmable — using what is called a programmable shader.</div>
+    <div class="para-zh">我们发明GPU，是因为我们希望计算机图形成为一种可以用软件表达的媒介。我们决定，计算机图形应该成为一种艺术化的叙事媒介，软件应该可以通过所谓的可编程着色器来编程。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">Nvidia is the only company that made it from one generation to another generation to another generation to another generation. And we constantly reinvented ourselves. We've now reinvented ourselves through six computing eras.</div>
+    <div class="para-zh">英伟达是唯一一家从一个时代跨越到另一个时代、再到另一个时代、再到另一个时代的公司。我们不断地重塑自己，如今已经经历了六个计算时代的重塑。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="bigquote-block" onclick="readPara(this)">
+  <div class="para-en bigquote-en">Crossing that chasm is extremely painful. It's life-threatening. Most companies don't make it. And that's 100% courage — the ability to endure pain and suffering.</div>
+  <div class="para-zh bigquote-zh">跨越那道鸿沟，是极其痛苦的，是威胁生死的。大多数公司都没能跨越。那百分之百是勇气——忍受痛苦与煎熬的能力。</div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<!-- PART 5 -->
+<div class="chapter">
+  <div class="chapter-num">Part 5</div>
+  <div class="chapter-title-en">AI & Medicine</div>
+  <div class="chapter-title-zh">AI与医疗：把药物发现变成工程</div>
+</div>
+
+<div class="timestamp">[28:19] Jensen Huang</div>
+<div class="speaker jensen"><div class="speaker-dot"></div><div class="speaker-name">JENSEN HUANG</div></div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">For the very first time, we've built a computer that can understand the meaning of the information it is processing. It's not just processing data. It understands the meaning of the data it's processing.</div>
+    <div class="para-zh">我们有史以来第一次建造出了一台能够理解它所处理的信息的意义的计算机。它不只是在处理数据，它理解这些数据的含义。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">The idea of drug discovery — even the word is wrong. Drug discovery is like: "Hey honey, I'm going to go look for mushrooms now." Some days you come back empty-handed, some days you come back with some amazing truffles. That's discovery, not engineering.</div>
+    <div class="para-zh">甚至「药物发现」这个词本身都是错的。药物发现就像——「亲爱的，我去采蘑菇了。」有时候你空手而归，有时候你带回了令人惊叹的松露。这叫发现，而不是工程。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">By the way, I just wrote the entire business plan of Nvidia going into drug discovery — and this business is now for us billions of dollars — just now. No numbers, no spreadsheets were used. No calculus was necessary. Just like that. All simple reasoning.</div>
+    <div class="para-zh">顺便说一句，我刚才当着你们的面，写完了英伟达进入药物研发方向的整个商业计划——这个业务对我们来说现在已经是数十亿美元级别的了——没有数字，没有电子表格，没有任何计算，就这样，全是简单的推理。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<!-- PART 6 -->
+<div class="chapter">
+  <div class="chapter-num">Part 6</div>
+  <div class="chapter-title-en">UK, Korea & Global AI</div>
+  <div class="chapter-title-zh">英国、韩国与全球AI布局</div>
+</div>
+
+<div class="timestamp">[37:21] Jensen Huang</div>
+<div class="speaker jensen"><div class="speaker-dot"></div><div class="speaker-name">JENSEN HUANG</div></div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">Nvidia succeeds when other companies succeed. The only reason why we succeed is because companies and developers who use our platform create something incredible. I've got one of the greatest jobs ever — a company whose mission is to desire other people to succeed.</div>
+    <div class="para-zh">英伟达的成功，依赖于其他公司的成功。我们能够成功，是因为使用我们平台的公司和开发者创造出了令人惊叹的东西。我拥有有史以来最好的工作之一——一家公司，其使命就是渴望他人的成功。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">You're so modest, you know. In Silicon Valley, however great we are, we describe it as a hundred times more than that. But here in the UK, however great you are, you're one-tenth of that. So I'm here to tell you: you're pretty extraordinary.</div>
+    <div class="para-zh">你们实在太谦逊了。在硅谷，不管你有多厉害，都会描述成十倍的自己。但在英国，不管你有多厉害，只会说一成。所以我来告诉你们：你们相当了不起。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="bigquote-block" onclick="readPara(this)">
+  <div class="para-en bigquote-en">The industrial revolution was invented here, was created here — and there's a new industrial revolution now. So take advantage of it. This is your moment. You've got to capitalize on it.</div>
+  <div class="para-zh bigquote-zh">工业革命就诞生在这里，现在又有一场新的工业革命。抓住它。这是你们的时刻，要好好把握。</div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<!-- PART 7 -->
+<div class="chapter">
+  <div class="chapter-num">Part 7</div>
+  <div class="chapter-title-en">Advice to Young People</div>
+  <div class="chapter-title-zh">给年轻人的建议</div>
+</div>
+
+<div class="timestamp">[43:47] Jensen Huang</div>
+<div class="speaker jensen"><div class="speaker-dot"></div><div class="speaker-name">JENSEN HUANG</div></div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">The singular best piece of advice for entrepreneurs — it's served me incredibly well — is to have this childlike view of the future, which is optimistic, you're curious, and you ask yourself: how hard could it be?</div>
+    <div class="para-zh">对创业者而言，唯一最好的建议、也是对我受益最深的，是：保持对未来的那种孩童式的看法——乐观，充满好奇，然后问自己：这能有多难？</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="bigquote-block" onclick="readPara(this)">
+  <div class="para-en bigquote-en">Would I start the company again if I knew everything today back then? The answer, of course not. It's too scary. It's too painful. Too much sacrifice. You're never going to do it. You're never going to do it.</div>
+  <div class="para-zh bigquote-zh">如果我知道今天所知道的一切，我还会在当年创办公司吗？答案当然是不会。太可怕了，太痛苦了，要牺牲太多。你永远不会去的，永远不会。</div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">So don't be afraid of ignorance and don't be afraid of being naive. You're going to learn everything you need to learn along the way. And just, if you're really passionate about something, go do it. Just tell yourself: how hard can it be?</div>
+    <div class="para-zh">所以不要害怕无知，不要害怕天真。你会在路上学到你需要的一切。如果你真的对某件事充满热情，就去做吧。告诉自己：这能有多难？</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<!-- PART 8 -->
+<div class="chapter">
+  <div class="chapter-num">Part 8</div>
+  <div class="chapter-title-en">Audience Q&A</div>
+  <div class="chapter-title-zh">现场问答</div>
+</div>
+
+<div class="timestamp">[46:52] Jensen Huang — On Ranking & AI</div>
+<div class="speaker jensen"><div class="speaker-dot"></div><div class="speaker-name">JENSEN HUANG</div></div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">A long time ago when I first started the company there was a concept in management called ranking and rating. I took a lot of the learnings and I applied it at Nvidia. I can tell you today I've dropped 100% of them. There's no benefit in ranking people.</div>
+    <div class="para-zh">很久以前，当我刚创办公司时，管理界有一个叫做「排名评分」的概念。我学了很多那套方法，应用在英伟达。我今天告诉你们，我已经把它们百分之百地全部放弃了。对员工排名没有任何好处。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="bigquote-block" onclick="readPara(this)">
+  <div class="para-en bigquote-en">Because we love stew. We want the mess of a stew, not the purity of a consommé. We don't want that 5% to be lost — they might tomorrow be the outlier that reinvented something to save your company.</div>
+  <div class="para-zh bigquote-zh">因为我们喜欢炖肉。我们想要炖肉的那种复杂感，而不是清汤的纯粹。我们不想失去那5%的人——他们明天就可能成为那个重新发明出某件事来拯救公司的异类。</div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="bigquote-block" onclick="readPara(this)">
+  <div class="para-en bigquote-en">Intelligence is about to be a commodity. Then what's left? It's courage. It's intellectual honesty. It's the absence of ego. The ability to be vulnerable in public so that you can create.</div>
+  <div class="para-zh bigquote-zh">智识正在成为一种商品。那么，剩下的是什么？是勇气，是智力诚实，是自我的缺席，是在公众面前展现脆弱的能力，因为这样才能创造。</div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="timestamp">[51:42] Jensen Huang — On Jobs & AI</div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">Radiology was going to be the first industry to be completely destroyed by artificial intelligence. And yet the number of radiologists being hired has increased. Why is that? Because they can now do more things.</div>
+    <div class="para-zh">放射学，曾被认为是第一个将被AI彻底消灭的行业。然而被雇佣的放射科医生数量反而增加了。为什么？因为他们现在能做更多的事。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">Let's say that you have a job and part of it is doing some task that became infinitely fast. It used to take you a week to do something, now it takes you a second. What is more likely to happen? That you now have more time to enjoy coffee, or you just became busier? It is likely you just became busier.</div>
+    <div class="para-zh">假设你的工作中有一项任务，原来要一周，现在AI一秒就完成了。请问你接下来更可能的是：有更多时间喝咖啡，还是变得更忙？很可能是变得更忙。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">The poorly defined work is the most valuable of all work: discovery work, creativity work, the original creativity work. The ability for us to use AI to solve problems that are describable, so that we could go and work on things that are very difficult to describe — I think is really quite powerful.</div>
+    <div class="para-zh">定义模糊的工作，是所有工作中价值最高的：发现性的工作，创造性的工作，真正的原创工作。当我们能够用AI去解决那些「可描述的」问题，我们就能去从事那些「难以描述的」事情——这是非常有力量的。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="timestamp">[55:50] Host</div>
+<div class="speaker host"><div class="speaker-dot"></div><div class="speaker-name">HOST</div></div>
+
+<div class="bigquote-block" onclick="readPara(this)">
+  <div class="para-en bigquote-en">Every job will change. You will not lose your job to AI. You will lose your job to someone who uses AI.</div>
+  <div class="para-zh bigquote-zh">每一份工作都会改变。你不会因为AI而失去工作。你会因为一个更会用AI的人而失去工作。</div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="timestamp">[56:39] Jensen Huang — On UK Regulation</div>
+<div class="speaker jensen"><div class="speaker-dot"></div><div class="speaker-name">JENSEN HUANG</div></div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">Regulate less. And I mean that deeply and genuinely for the best interest of the UK. You could watch sci-fi movies, but that's not the future. That's called the sci-fi movie. And to use the science fiction movies projected into reality, and cause social panic to the point that you over-regulate — you're stifling the UK's ability to innovate.</div>
+    <div class="para-zh">少监管。我是真心这样说的，是为英国最大利益着想。你可以去看科幻电影，但那不是未来，那叫科幻电影。用科幻电影来预测现实、引发社会恐慌，导致过度监管，就是在扼杀英国的创新能力。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+<div class="para-block" onclick="readPara(this)">
+  <div class="para-inner">
+    <div class="para-en">China regulate late. They wait until the problems show up and they regulate the problems. They create regulations the way engineers solve problems: let's not dream it up, let's observe the problem, understand the root cause, and then solve the problem. I would say: regulate less.</div>
+    <div class="para-zh">中国是等问题出现之后再监管——他们像工程师解决问题那样制定法规：不是凭空想象，而是观察问题，理解根本原因，然后解决问题。所以我会说：少监管。</div>
+  </div>
+  <div class="play-btn"><div class="play-icon"></div><div class="stop-icon"></div></div>
+</div>
+
+</div><!-- end main -->
+
+<div class="footer">
+  Jensen Huang · Cambridge Union · 2025 Hawking Fellow<br>
+  英中双语朗读版 · 龙君内部参考 · 2026.04.18<br><br>
+  <span style="color:#bbb">点击任意段落朗读 · 使用浏览器内置TTS · 建议Chrome或Edge</span>
+</div>
+
+<script>
+// ── 状态 ──
+let currentUtterance = null;
+let currentBlock = null;
+let autoPlay = false;
+let allBlocks = [];
+let currentIndex = -1;
+let readingSpeed = 0.85;
+
+// 初始化所有段落块
+document.addEventListener('DOMContentLoaded', () => {
+  allBlocks = Array.from(document.querySelectorAll('.para-block, .bigquote-block'));
+  updateProgress();
+  window.addEventListener('scroll', updateProgress);
+});
+
+// 更新阅读进度条
+function updateProgress(){
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = total > 0 ? (window.scrollY / total * 100) : 0;
+  document.getElementById('progressBar').style.width = pct + '%';
+}
+
+// 朗读单个段落
+function readPara(block){
+  const enEl = block.querySelector('.para-en');
+  if(!enEl) return;
+  const text = enEl.textContent.trim();
+
+  // 如果正在朗读这个块，则停止
+  if(currentBlock === block && window.speechSynthesis.speaking){
+    stopAll();
+    return;
+  }
+
+  stopAll();
+  currentBlock = block;
+  currentIndex = allBlocks.indexOf(block);
+  block.classList.add('reading');
+  block.scrollIntoView({behavior:'smooth', block:'nearest'});
+
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'en-US';
+  utter.rate = readingSpeed;
+  utter.pitch = 1.0;
+
+  // 选择合适的英文声音
+  const voices = window.speechSynthesis.getVoices();
+  const enVoice = voices.find(v =>
+    v.lang === 'en-US' && (v.name.includes('Google') || v.name.includes('Daniel') || v.name.includes('Samantha'))
+  ) || voices.find(v => v.lang.startsWith('en'));
+  if(enVoice) utter.voice = enVoice;
+
+  utter.onend = () => {
+    block.classList.remove('reading');
+    if(autoPlay && currentIndex < allBlocks.length - 1){
+      setTimeout(() => readPara(allBlocks[currentIndex + 1]), 600);
+    } else {
+      currentBlock = null;
+      showIndicator(false);
+    }
+  };
+  utter.onerror = () => {
+    block.classList.remove('reading');
+    currentBlock = null;
+    showIndicator(false);
+  };
+
+  currentUtterance = utter;
+  window.speechSynthesis.speak(utter);
+  showIndicator(true, text.substring(0,30) + '...');
+}
+
+// 停止
+function stopAll(){
+  window.speechSynthesis.cancel();
+  if(currentBlock){
+    currentBlock.classList.remove('reading');
+    currentBlock = null;
+  }
+  autoPlay = false;
+  document.getElementById('btnAutoPlay').classList.remove('active');
+  showIndicator(false);
+}
+
+// 连续播放
+function toggleAutoPlay(){
+  autoPlay = !autoPlay;
+  const btn = document.getElementById('btnAutoPlay');
+  if(autoPlay){
+    btn.classList.add('active');
+    btn.textContent = '⏸ 连续中...';
+    // 从当前位置或第一个开始
+    const start = currentIndex >= 0 ? currentIndex : 0;
+    readPara(allBlocks[start]);
+  } else {
+    btn.classList.remove('active');
+    btn.textContent = '▶ 连续播放';
+    stopAll();
+  }
+}
+
+// 设置速度
+function setSpeed(s){
+  readingSpeed = s;
+  document.querySelectorAll('.speed-btn').forEach(b => {
+    b.classList.toggle('active', parseFloat(b.textContent) === s);
+  });
+  // 如果正在朗读，重新开始当前段落
+  if(currentBlock && window.speechSynthesis.speaking){
+    const block = currentBlock;
+    stopAll();
+    setTimeout(() => readPara(block), 100);
+  }
+}
+
+// 显示/隐藏朗读指示器
+function showIndicator(show, text){
+  const ind = document.getElementById('readingIndicator');
+  const txt = document.getElementById('readingText');
+  if(show){
+    ind.classList.add('show');
+    if(text) txt.textContent = text;
+  } else {
+    ind.classList.remove('show');
+  }
+}
+
+// 等待声音加载
+window.speechSynthesis.onvoiceschanged = () => {
+  window.speechSynthesis.getVoices();
+};
+
+// 键盘快捷键
+document.addEventListener('keydown', e => {
+  if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  if(e.code === 'Space'){
+    e.preventDefault();
+    if(window.speechSynthesis.speaking){
+      if(window.speechSynthesis.paused){ window.speechSynthesis.resume(); }
+      else { window.speechSynthesis.pause(); }
+    }
+  }
+  if(e.code === 'Escape') stopAll();
+  if(e.code === 'ArrowRight' && currentIndex >= 0 && currentIndex < allBlocks.length-1){
+    stopAll();
+    setTimeout(() => readPara(allBlocks[currentIndex + 1]), 100);
+  }
+  if(e.code === 'ArrowLeft' && currentIndex > 0){
+    stopAll();
+    setTimeout(() => readPara(allBlocks[currentIndex - 1]), 100);
+  }
+});
+</script>
+</body>
+</html>
