@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 01 Desert · 情景对话版</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#faf8f3;--s:#fff;--s2:#f7f5ef;
+  --b:rgba(0,0,0,0.09);--bm:rgba(0,0,0,0.15);
+  --tx:#1a1a18;--tx2:#4a4a42;--tx3:#8a8a7a;
+  --ac:#d97706;--acb:#fef3c7;--act:#92400e;
+  --gr:#166534;--grb:#dcfce7;
+  --rd:#991b1b;--rdb:#fee2e2;
+  --tl:#0f766e;--tlb:#ccfbf1;
+  --pk:#9d174d;--pkb:#fce7f3;
+}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;}
+.hdr{background:linear-gradient(135deg,#92400e,#d97706);color:#fff;padding:18px 18px 14px;text-align:center;}
+.hdr-tag{display:inline-block;background:rgba(255,255,255,.2);border-radius:20px;padding:3px 12px;font-size:11px;letter-spacing:.05em;margin-bottom:6px;}
+.hdr-title{font-size:19px;font-weight:700;margin-bottom:3px;}
+.hdr-sub{font-size:12px;opacity:.8;}
+.back-link{display:inline-flex;align-items:center;gap:6px;margin:10px 14px;padding:6px 14px;background:var(--s);border-radius:20px;border:0.5px solid var(--bm);font-size:12px;color:var(--tx2);text-decoration:none;transition:background .15s;}
+.back-link:hover{background:var(--acb);color:var(--act);}
+.spd-bar{background:var(--s);border-bottom:0.5px solid var(--b);padding:7px 14px;display:flex;align-items:center;gap:7px;position:sticky;top:0;z-index:50;flex-wrap:wrap;}
+.spd-label{font-size:11px;color:var(--tx3);}
+.spd-btn{padding:3px 10px;border-radius:20px;border:0.5px solid var(--bm);background:transparent;font-size:11px;cursor:pointer;color:var(--tx2);font-family:inherit;transition:all .15s;}
+.spd-btn.on{background:var(--ac);color:#fff;border-color:var(--ac);}
+.voice-btn{margin-left:auto;padding:3px 10px;border-radius:20px;border:0.5px solid var(--bm);background:transparent;font-size:11px;cursor:pointer;color:var(--tx2);font-family:inherit;}
+.tabs{display:flex;background:var(--s);border-bottom:0.5px solid var(--b);overflow-x:auto;}
+.tab{flex-shrink:0;padding:10px 13px;font-size:11px;font-weight:600;border:none;background:transparent;cursor:pointer;color:var(--tx3);border-bottom:2px solid transparent;transition:all .15s;font-family:inherit;white-space:nowrap;}
+.tab.on{color:var(--ac);border-bottom-color:var(--ac);}
+.page{display:none;padding:14px 14px 28px;}.page.on{display:block;}
+.chars{display:flex;gap:10px;margin-bottom:16px;}
+.char{flex:1;background:var(--s);border-radius:10px;border:0.5px solid var(--bm);padding:10px 12px;text-align:center;}
+.char-avatar{font-size:28px;margin-bottom:4px;}
+.char-name{font-size:13px;font-weight:700;}
+.char-role{font-size:10px;color:var(--tx3);margin-top:2px;}
+.scene-tag{background:linear-gradient(135deg,var(--acb),#fde68a);border-radius:8px;padding:8px 12px;font-size:11px;color:var(--act);font-weight:500;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.dlg-wrap{display:flex;flex-direction:column;gap:10px;margin-bottom:6px;}
+.dlg{display:flex;align-items:flex-start;gap:9px;}
+.dlg.right{flex-direction:row-reverse;}
+.avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.bubble-wrap{position:relative;max-width:84%;}
+.bubble{padding:10px 13px;border-radius:12px;}
+.dlg.left .bubble{background:var(--s);border:0.5px solid var(--bm);border-radius:4px 12px 12px 12px;}
+.dlg.right .bubble{background:var(--acb);border:0.5px solid rgba(217,119,6,.25);border-radius:12px 4px 12px 12px;}
+.bubble-en{font-size:13px;font-weight:500;color:var(--tx);line-height:1.6;}
+.bubble-zh{font-size:11px;color:var(--tx3);margin-top:3px;line-height:1.5;}
+.bubble-hi{color:var(--ac);font-weight:700;}
+.spk{position:absolute;top:6px;right:-30px;width:24px;height:24px;border-radius:50%;border:none;background:transparent;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:transform .15s;}
+.dlg.right .spk{left:-30px;right:auto;}
+.spk:hover{transform:scale(1.2);}
+.spk.playing{animation:pulse .6s infinite alternate;}
+@keyframes pulse{from{opacity:.5;}to{opacity:1;transform:scale(1.1);}}
+.know-tag{display:inline-block;background:var(--tlb);color:var(--tl);border-radius:10px;padding:1px 7px;font-size:10px;font-weight:600;margin-top:4px;}
+.know-tag.vocab{background:var(--pkb);color:var(--pk);}
+.know-tag.grammar{background:var(--grb);color:var(--gr);}
+.dlg-divider{display:flex;align-items:center;gap:8px;margin:14px 0 10px;}
+.dlg-divider::before,.dlg-divider::after{content:'';flex:1;height:0.5px;background:var(--bm);}
+.dlg-divider-text{font-size:10px;white-space:nowrap;background:var(--acb);padding:2px 8px;border-radius:10px;color:var(--act);font-weight:600;}
+.vocab-row{display:flex;align-items:center;gap:10px;background:var(--s);border-radius:9px;border:0.5px solid var(--bm);padding:9px 12px;margin-bottom:6px;}
+.vocab-spk{background:none;border:none;cursor:pointer;font-size:15px;flex-shrink:0;}
+.vocab-en{font-size:13px;font-weight:700;min-width:80px;}
+.vocab-ex{font-size:11px;color:var(--tx3);margin-top:2px;}
+.pattern-box{background:var(--acb);border-radius:10px;border:0.5px solid rgba(217,119,6,.2);padding:12px 14px;margin-bottom:10px;}
+.pattern-label{font-size:10px;font-weight:700;color:var(--act);letter-spacing:.05em;text-transform:uppercase;margin-bottom:8px;}
+.pattern-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.pattern-row:last-child{margin-bottom:0;}
+.pattern-spk{background:none;border:none;cursor:pointer;font-size:16px;flex-shrink:0;}
+.pattern-en{font-size:13px;font-weight:600;color:var(--tx);margin-bottom:2px;line-height:1.5;}
+.pattern-zh{font-size:11px;color:var(--tx2);}
+.mc-card{background:var(--s);border-radius:10px;border:0.5px solid var(--bm);padding:12px;margin-bottom:8px;}
+.mc-q{font-size:13px;font-weight:500;margin-bottom:8px;line-height:1.6;display:flex;gap:8px;align-items:flex-start;}
+.mc-qspk{background:none;border:none;cursor:pointer;font-size:14px;flex-shrink:0;margin-top:2px;}
+.mc-opts{display:flex;flex-direction:column;gap:5px;}
+.mc-opt{padding:8px 11px;border-radius:8px;border:0.5px solid var(--bm);font-size:12px;cursor:pointer;background:var(--s2);text-align:left;font-family:inherit;transition:all .15s;line-height:1.5;}
+.mc-opt:hover{border-color:var(--ac);background:var(--acb);}
+.mc-opt.correct{background:var(--grb);border-color:#16a34a;color:var(--gr);font-weight:600;}
+.mc-opt.wrong{background:var(--rdb);border-color:#dc2626;color:var(--rd);}
+.score-area{display:none;background:var(--acb);border-radius:10px;padding:14px;text-align:center;margin-top:8px;border:0.5px solid rgba(217,119,6,.2);}
+.score-num{font-size:24px;font-weight:700;color:var(--ac);}
+.score-msg{font-size:12px;color:var(--act);margin-top:3px;}
+.retry-btn{margin-top:10px;padding:7px 20px;border-radius:20px;border:none;background:var(--ac);color:#fff;font-family:inherit;font-size:12px;cursor:pointer;}
+.tip{background:linear-gradient(135deg,#fef9ee,#fef3c7);border-left:3px solid var(--ac);border-radius:0 8px 8px 0;padding:10px 12px;font-size:12px;color:var(--act);line-height:1.8;margin-top:12px;}
+.sec-hdr{font-size:13px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:7px;}
+.sec-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-tag">Unit 01 · Desert · 情景对话版</div>
+  <div class="hdr-title">🏜️ Let's Talk About Deserts!</div>
+  <div class="hdr-sub">课文改编 · 自然对话 · 逐句朗读 · 中英双语</div>
+</div>
+
+<a class="back-link" href="desert_unit01.html">← 返回课文版</a>
+
+<div class="spd-bar">
+  <span class="spd-label">🔊 语速：</span>
+  <button class="spd-btn" onclick="setSpd(0.7,this)">慢</button>
+  <button class="spd-btn on" onclick="setSpd(1,this)">正常</button>
+  <button class="spd-btn" onclick="setSpd(1.3,this)">快</button>
+  <button class="voice-btn" id="vbtn" onclick="cycleVoice()">🗣 Voice 1</button>
+</div>
+
+<div class="tabs">
+  <button class="tab on" onclick="go('p1',this)">💬 对话一</button>
+  <button class="tab" onclick="go('p2',this)">💬 对话二</button>
+  <button class="tab" onclick="go('p3',this)">📝 词汇句型</button>
+  <button class="tab" onclick="go('p4',this)">✏️ 练习</button>
+</div>
+
+<!-- P1 对话一 -->
+<div class="page on" id="p1">
+  <div class="chars">
+    <div class="char"><div class="char-avatar">👩‍🏫</div><div class="char-name">Ms. Green</div><div class="char-role">老师</div></div>
+    <div class="char"><div class="char-avatar">👦</div><div class="char-name">Tom</div><div class="char-role">学生</div></div>
+    <div class="char"><div class="char-avatar">👧</div><div class="char-name">Lily</div><div class="char-role">学生</div></div>
+  </div>
+  <div class="scene-tag">📍 场景：课堂上，老师带着同学们认识沙漠</div>
+  <div class="dlg-wrap">
+    <div class="dlg left"><div class="avatar" style="background:#dcfce7;">👩‍🏫</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Class, look at this picture. What do you see?</div><div class="bubble-zh">同学们，看这张图片。你们看到了什么？</div></div><button class="spk" onclick="speak('Class, look at this picture. What do you see?',this)">🔊</button></div></div>
+    <div class="dlg right"><div class="avatar" style="background:#fef3c7;">👦</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">I see sand and a hot sun. Is it a <span class="bubble-hi">desert</span>?</div><div class="bubble-zh">我看到沙子和炙热的太阳。这是沙漠吗？</div><span class="know-tag vocab">desert 沙漠</span></div><button class="spk" onclick="speak('I see sand and a hot sun. Is it a desert?',this)">🔊</button></div></div>
+    <div class="dlg left"><div class="avatar" style="background:#dcfce7;">👩‍🏫</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Yes! The desert is a very <span class="bubble-hi">hot</span> and <span class="bubble-hi">dry</span> place.</div><div class="bubble-zh">对！沙漠是一个非常炎热、干燥的地方。</div><span class="know-tag vocab">hot 热 · dry 干燥</span></div><button class="spk" onclick="speak('Yes! The desert is a very hot and dry place.',this)">🔊</button></div></div>
+    <div class="dlg right"><div class="avatar" style="background:#fce7f3;">👧</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Is there water in the desert, Ms. Green?</div><div class="bubble-zh">沙漠里有水吗，格林老师？</div></div><button class="spk" onclick="speak('Is there water in the desert, Ms. Green?',this)">🔊</button></div></div>
+    <div class="dlg left"><div class="avatar" style="background:#dcfce7;">👩‍🏫</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">A little! The Sahara has only 5 inches of <span class="bubble-hi">rain</span> every year. That's very dry!</div><div class="bubble-zh">很少！撒哈拉每年只有5英寸的雨水，非常干燥！</div><span class="know-tag grammar">only… every year 句型</span></div><button class="spk" onclick="speak('A little! The Sahara has only 5 inches of rain every year. That\'s very dry!',this)">🔊</button></div></div>
+    <div class="dlg right"><div class="avatar" style="background:#fef3c7;">👦</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Wow, what a <span class="bubble-hi">dry place</span> it is!</div><div class="bubble-zh">哇，真是个干燥的地方啊！</div><span class="know-tag grammar">What a…it is! 感叹句</span></div><button class="spk" onclick="speak('Wow, what a dry place it is!',this)">🔊</button></div></div>
+  </div>
+  <div class="dlg-divider"><span class="dlg-divider-text">继续聊 · 最大的沙漠在哪？</span></div>
+  <div class="dlg-wrap">
+    <div class="dlg left"><div class="avatar" style="background:#dcfce7;">👩‍🏫</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Tom, do you know where the <span class="bubble-hi">biggest</span> desert in the <span class="bubble-hi">world</span> is?</div><div class="bubble-zh">汤姆，你知道世界上最大的沙漠在哪里吗？</div><span class="know-tag vocab">biggest 最大的 · world 世界</span></div><button class="spk" onclick="speak('Tom, do you know where the biggest desert in the world is?',this)">🔊</button></div></div>
+    <div class="dlg right"><div class="avatar" style="background:#fef3c7;">👦</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Hmm… Is it in Asia?</div><div class="bubble-zh">嗯……在亚洲吗？</div></div><button class="spk" onclick="speak('Hmm, is it in Asia?',this)">🔊</button></div></div>
+    <div class="dlg left"><div class="avatar" style="background:#dcfce7;">👩‍🏫</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Good try! But no. <span class="bubble-hi">Africa</span> has the biggest desert in the world.</div><div class="bubble-zh">猜得不错！但不对。非洲有世界上最大的沙漠。</div></div><button class="spk" onclick="speak('Good try! But no. Africa has the biggest desert in the world.',this)">🔊</button></div></div>
+    <div class="dlg right"><div class="avatar" style="background:#fce7f3;">👧</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">I know! The <span class="bubble-hi">name</span> of the desert is the <span class="bubble-hi">Sahara</span>!</div><div class="bubble-zh">我知道！那个沙漠的名字是撒哈拉！</div><span class="know-tag vocab">name 名字</span></div><button class="spk" onclick="speak('I know! The name of the desert is the Sahara!',this)">🔊</button></div></div>
+    <div class="dlg left"><div class="avatar" style="background:#dcfce7;">👩‍🏫</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Excellent, Lily! And about 4 <span class="bubble-hi">million</span> people live near the Sahara.</div><div class="bubble-zh">太棒了，丽丽！而且约有400万人住在撒哈拉附近。</div><span class="know-tag vocab">million 百万</span></div><button class="spk" onclick="speak('Excellent, Lily! And about 4 million people live near the Sahara.',this)">🔊</button></div></div>
+    <div class="dlg right"><div class="avatar" style="background:#fef3c7;">👦</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">4 million people? That's a lot! But how do they live with so little rain?</div><div class="bubble-zh">400万人？好多啊！雨水这么少他们怎么生活呢？</div></div><button class="spk" onclick="speak('4 million people? That\'s a lot! But how do they live with so little rain?',this)">🔊</button></div></div>
+    <div class="dlg left"><div class="avatar" style="background:#dcfce7;">👩‍🏫</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Great question! They find water from rivers and underground. The desert is hard, but people are strong!</div><div class="bubble-zh">问得好！他们从河流和地下取水。沙漠条件艰苦，但人们很坚强！</div></div><button class="spk" onclick="speak('Great question! They find water from rivers and underground. The desert is hard, but people are strong!',this)">🔊</button></div></div>
+  </div>
+  <div class="tip"><b>本段核心句型：</b><br>
+    The desert is a very hot and dry place.<br>
+    What a dry place it is!（感叹句）<br>
+    Africa has the biggest desert in the world.
+  </div>
+</div>
+
+<!-- P2 对话二 -->
+<div class="page" id="p2">
+  <div class="chars">
+    <div class="char"><div class="char-avatar">👦</div><div class="char-name">Tom</div><div class="char-role">学生</div></div>
+    <div class="char"><div class="char-avatar">👧</div><div class="char-name">Lily</div><div class="char-role">学生</div></div>
+  </div>
+  <div class="scene-tag">📍 场景：放学后，Tom 和 Lily 复习今天学的内容</div>
+  <div class="dlg-wrap">
+    <div class="dlg left"><div class="avatar" style="background:#fef3c7;">👦</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Lily, do you want to visit a desert one day?</div><div class="bubble-zh">丽丽，你有一天想去沙漠吗？</div></div><button class="spk" onclick="speak('Lily, do you want to visit a desert one day?',this)">🔊</button></div></div>
+    <div class="dlg right"><div class="avatar" style="background:#fce7f3;">👧</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Maybe! But it's so <span class="bubble-hi">hot</span> and <span class="bubble-hi">dry</span>. I need lots of water!</div><div class="bubble-zh">也许吧！但太热太干了，我要带很多水！</div></div><button class="spk" onclick="speak('Maybe! But it\'s so hot and dry. I need lots of water!',this)">🔊</button></div></div>
+    <div class="dlg left"><div class="avatar" style="background:#fef3c7;">👦</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Right! The Sahara only has 5 inches of rain a year. That's less than my swimming pool!</div><div class="bubble-zh">对！撒哈拉一年才5英寸的雨，比我的游泳池还少！</div><span class="know-tag grammar">only… a year 频率表达</span></div><button class="spk" onclick="speak('Right! The Sahara only has 5 inches of rain a year. That\'s less than my swimming pool!',this)">🔊</button></div></div>
+    <div class="dlg right"><div class="avatar" style="background:#fce7f3;">👧</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Ha! So where is the Sahara again? I forget.</div><div class="bubble-zh">哈！那撒哈拉在哪来着？我忘了。</div></div><button class="spk" onclick="speak('Ha! So where is the Sahara again? I forget.',this)">🔊</button></div></div>
+    <div class="dlg left"><div class="avatar" style="background:#fef3c7;">👦</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">It's in <span class="bubble-hi">Africa</span>! Africa has the <span class="bubble-hi">biggest</span> desert in the <span class="bubble-hi">world</span>.</div><div class="bubble-zh">在非洲！非洲有世界上最大的沙漠。</div></div><button class="spk" onclick="speak('It\'s in Africa! Africa has the biggest desert in the world.',this)">🔊</button></div></div>
+    <div class="dlg right"><div class="avatar" style="background:#fce7f3;">👧</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Oh yes! And about 4 million people live near it, right?</div><div class="bubble-zh">哦对！而且约400万人住在附近，对吧？</div><span class="know-tag grammar">About… people 约数表达</span></div><button class="spk" onclick="speak('Oh yes! And about 4 million people live near it, right?',this)">🔊</button></div></div>
+    <div class="dlg left"><div class="avatar" style="background:#fef3c7;">👦</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Exactly! I think the desert is amazing. It's so different from our <span class="bubble-hi">place</span>.</div><div class="bubble-zh">没错！我觉得沙漠很神奇，和我们这里太不一样了。</div><span class="know-tag vocab">place 地方</span></div><button class="spk" onclick="speak('Exactly! I think the desert is amazing. It\'s so different from our place.',this)">🔊</button></div></div>
+    <div class="dlg right"><div class="avatar" style="background:#fce7f3;">👧</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Me too! Our place is wet and green. The desert is hot and dry. They are opposites!</div><div class="bubble-zh">我也是！我们这里潮湿又绿，沙漠又热又干，完全相反！</div><span class="know-tag grammar">wet ↔ dry 反义词对比</span></div><button class="spk" onclick="speak('Me too! Our place is wet and green. The desert is hot and dry. They are opposites!',this)">🔊</button></div></div>
+    <div class="dlg left"><div class="avatar" style="background:#fef3c7;">👦</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">What a dry place the Sahara is! I want to learn more about it.</div><div class="bubble-zh">撒哈拉真是个干燥的地方！我想了解更多。</div><span class="know-tag grammar">What a…! 感叹句复习</span></div><button class="spk" onclick="speak('What a dry place the Sahara is! I want to learn more about it.',this)">🔊</button></div></div>
+    <div class="dlg right"><div class="avatar" style="background:#fce7f3;">👧</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Me too! Let's look it up together after school!</div><div class="bubble-zh">我也是！放学后我们一起查资料吧！</div></div><button class="spk" onclick="speak('Me too! Let\'s look it up together after school!',this)">🔊</button></div></div>
+  </div>
+  <div class="tip"><b>对话二亮点：</b><br>
+    · only … a year 表达频率（每年只有……）<br>
+    · wet ↔ dry 反义词自然对比<br>
+    · What a dry place it is! 感叹句再次出现，加深印象
+  </div>
+</div>
+
+<!-- P3 词汇句型 -->
+<div class="page" id="p3">
+  <div class="sec-hdr"><div class="sec-dot" style="background:var(--ac);"></div>对话中的词汇 · 点 🔊 听发音</div>
+  <div class="vocab-row"><button class="vocab-spk" onclick="speak('desert',this)">🔊</button><div><div class="vocab-en">desert &nbsp;<span style="font-size:12px;color:var(--tx2);">沙漠</span></div><div class="vocab-ex">"The desert is hot and dry."</div></div></div>
+  <div class="vocab-row"><button class="vocab-spk" onclick="speak('hot',this)">🔊</button><div><div class="vocab-en">hot &nbsp;<span style="font-size:12px;color:var(--tx2);">热的（反义：cold）</span></div><div class="vocab-ex">"It's very hot in the desert."</div></div></div>
+  <div class="vocab-row"><button class="vocab-spk" onclick="speak('dry',this)">🔊</button><div><div class="vocab-en">dry &nbsp;<span style="font-size:12px;color:var(--tx2);">干燥的（反义：wet）</span></div><div class="vocab-ex">"What a dry place it is!"</div></div></div>
+  <div class="vocab-row"><button class="vocab-spk" onclick="speak('place',this)">🔊</button><div><div class="vocab-en">place &nbsp;<span style="font-size:12px;color:var(--tx2);">地方</span></div><div class="vocab-ex">"Our place is wet and green."</div></div></div>
+  <div class="vocab-row"><button class="vocab-spk" onclick="speak('biggest',this)">🔊</button><div><div class="vocab-en">biggest &nbsp;<span style="font-size:12px;color:var(--tx2);">最大的（big→bigger→biggest）</span></div><div class="vocab-ex">"Africa has the biggest desert."</div></div></div>
+  <div class="vocab-row"><button class="vocab-spk" onclick="speak('million',this)">🔊</button><div><div class="vocab-en">million &nbsp;<span style="font-size:12px;color:var(--tx2);">百万（4 million = 400万）</span></div><div class="vocab-ex">"About 4 million people live near the Sahara."</div></div></div>
+
+  <div class="sec-hdr" style="margin-top:14px;"><div class="sec-dot" style="background:var(--tl);"></div>核心句型 · 点 🔊 跟读</div>
+  <div class="pattern-box">
+    <div class="pattern-label">🔑 Key Patterns</div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('The desert is a very hot and dry place.',this)">🔊</button><div><div class="pattern-en">The desert is a very <b style="color:var(--ac);">hot</b> and <b style="color:var(--ac);">dry</b> place.</div><div class="pattern-zh">沙漠是一个非常炎热干燥的地方。</div></div></div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('Africa has the biggest desert in the world.',this)">🔊</button><div><div class="pattern-en">Africa has the <b style="color:var(--ac);">biggest</b> desert in the <b style="color:var(--ac);">world</b>.</div><div class="pattern-zh">非洲有世界上最大的沙漠。</div></div></div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('The Sahara has only 5 inches of rain every year.',this)">🔊</button><div><div class="pattern-en">The Sahara has <b style="color:var(--ac);">only</b> 5 inches of rain <b style="color:var(--ac);">every year</b>.</div><div class="pattern-zh">撒哈拉每年只有5英寸的降雨。</div></div></div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('What a dry place it is!',this)">🔊</button><div><div class="pattern-en"><b style="color:var(--ac);">What a</b> dry place it is!</div><div class="pattern-zh">真是个干燥的地方！（感叹句）</div></div></div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('About 4 million people live near the Sahara.',this)">🔊</button><div><div class="pattern-en"><b style="color:var(--ac);">About</b> 4 million people live near the Sahara.</div><div class="pattern-zh">约有400万人住在撒哈拉附近。</div></div></div>
+  </div>
+</div>
+
+<!-- P4 练习 -->
+<div class="page" id="p4">
+  <div class="sec-hdr"><div class="sec-dot" style="background:var(--rd);"></div>对话理解练习 · 选出正确答案</div>
+  <div style="font-size:11px;color:var(--tx3);margin-bottom:12px;">答完5题显示得分 🌟</div>
+  <div class="mc-card">
+    <div class="mc-q"><button class="mc-qspk" onclick="speak('What kind of place is a desert?',this)">🔊</button><div><b>①</b> What kind of place is a desert?<div style="font-size:11px;color:var(--tx3);">沙漠是什么样的地方？</div></div></div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,false)">A. A cold and wet place. <span style="color:var(--tx3);font-size:11px;">· 寒冷潮湿</span></button>
+      <button class="mc-opt" onclick="mcAns(this,true)">B. A hot and dry place. <span style="color:var(--tx3);font-size:11px;">· 炎热干燥 ✓</span></button>
+      <button class="mc-opt" onclick="mcAns(this,false)">C. A cool and rainy place. <span style="color:var(--tx3);font-size:11px;">· 凉爽多雨</span></button>
+    </div>
+  </div>
+  <div class="mc-card">
+    <div class="mc-q"><button class="mc-qspk" onclick="speak('Where is the biggest desert in the world?',this)">🔊</button><div><b>②</b> Where is the biggest desert in the world?<div style="font-size:11px;color:var(--tx3);">世界最大的沙漠在哪？</div></div></div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,false)">A. In Asia. <span style="color:var(--tx3);font-size:11px;">· 亚洲</span></button>
+      <button class="mc-opt" onclick="mcAns(this,true)">B. In Africa. <span style="color:var(--tx3);font-size:11px;">· 非洲 ✓</span></button>
+      <button class="mc-opt" onclick="mcAns(this,false)">C. In Europe. <span style="color:var(--tx3);font-size:11px;">· 欧洲</span></button>
+    </div>
+  </div>
+  <div class="mc-card">
+    <div class="mc-q"><button class="mc-qspk" onclick="speak('What is the opposite of dry?',this)">🔊</button><div><b>③</b> What is the opposite of "dry"?<div style="font-size:11px;color:var(--tx3);">dry 的反义词是什么？</div></div></div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,false)">A. hot <span style="color:var(--tx3);font-size:11px;">· 热的</span></button>
+      <button class="mc-opt" onclick="mcAns(this,false)">B. cold <span style="color:var(--tx3);font-size:11px;">· 冷的</span></button>
+      <button class="mc-opt" onclick="mcAns(this,true)">C. wet <span style="color:var(--tx3);font-size:11px;">· 湿的 ✓</span></button>
+    </div>
+  </div>
+  <div class="mc-card">
+    <div class="mc-q"><button class="mc-qspk" onclick="speak('About how many people live near the Sahara?',this)">🔊</button><div><b>④</b> About how many people live near the Sahara?<div style="font-size:11px;color:var(--tx3);">约多少人住在撒哈拉附近？</div></div></div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,true)">A. 4 million. <span style="color:var(--tx3);font-size:11px;">· 400万 ✓</span></button>
+      <button class="mc-opt" onclick="mcAns(this,false)">B. 40 million. <span style="color:var(--tx3);font-size:11px;">· 4000万</span></button>
+      <button class="mc-opt" onclick="mcAns(this,false)">C. 400 million. <span style="color:var(--tx3);font-size:11px;">· 4亿</span></button>
+    </div>
+  </div>
+  <div class="mc-card">
+    <div class="mc-q"><button class="mc-qspk" onclick="speak('What a dry place it is!',this)">🔊</button><div><b>⑤</b> "What a dry place it is!" 是什么句型？</div></div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,false)">A. 疑问句</button>
+      <button class="mc-opt" onclick="mcAns(this,false)">B. 否定句</button>
+      <button class="mc-opt" onclick="mcAns(this,true)">C. 感叹句 ✓</button>
+    </div>
+  </div>
+  <div class="score-area" id="sc">
+    <div class="score-num" id="scn"></div>
+    <div class="score-msg" id="scm"></div>
+    <button class="retry-btn" onclick="resetMc()">再来一次 🔄</button>
+  </div>
+</div>
+
+<div style="height:30px;"></div>
+
+<script>
+let spd=1,voices=[],vi=0,activBtn=null;
+function loadVoices(){voices=window.speechSynthesis.getVoices().filter(v=>v.lang.startsWith('en'));if(!voices.length)setTimeout(loadVoices,400);}
+if('speechSynthesis'in window){window.speechSynthesis.onvoiceschanged=loadVoices;loadVoices();}
+function speak(text,btn){
+  if(!window.speechSynthesis)return;
+  window.speechSynthesis.cancel();
+  if(activBtn===btn){activBtn=null;return;}
+  if(activBtn)activBtn.classList.remove('playing');
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='en-US';u.rate=spd;u.pitch=1;
+  if(voices.length)u.voice=voices[vi%voices.length];
+  if(btn){btn.classList.add('playing');activBtn=btn;u.onend=()=>{btn.classList.remove('playing');activBtn=null;};u.onerror=()=>{btn.classList.remove('playing');activBtn=null;};}
+  window.speechSynthesis.speak(u);
+}
+function setSpd(s,btn){spd=s;document.querySelectorAll('.spd-btn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');}
+function cycleVoice(){if(!voices.length)return;vi=(vi+1)%voices.length;document.getElementById('vbtn').textContent='🗣 Voice '+(vi+1);speak('Let\'s talk about deserts!',null);}
+function go(id,btn){document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));document.getElementById(id).classList.add('on');btn.classList.add('on');}
+let mcA=0,mcC=0,mcT=5;
+function mcAns(el,ok){
+  const opts=el.parentElement.querySelectorAll('.mc-opt');
+  let done=false;opts.forEach(o=>{if(o.classList.contains('correct')||o.classList.contains('wrong'))done=true;});
+  if(done)return;
+  el.classList.add(ok?'correct':'wrong');
+  if(!ok)opts.forEach(o=>{const f=o.getAttribute('onclick')||'';if(f.includes('true'))o.classList.add('correct');});
+  mcA++;if(ok)mcC++;
+  if(mcA===mcT){
+    const sa=document.getElementById('sc');sa.style.display='block';
+    document.getElementById('scn').textContent=mcC+'/'+mcT+' ⭐';
+    const m=['再看看对话！💪','不错，继续加油 😊','做得好！👍','很棒，接近满分！','全对！对话达人！🏆'];
+    document.getElementById('scm').textContent=m[Math.min(mcC,4)];
+    sa.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function resetMc(){document.querySelectorAll('.mc-opt').forEach(o=>o.classList.remove('correct','wrong'));document.getElementById('sc').style.display='none';mcA=0;mcC=0;}
+</script>
+</body>
+</html>
