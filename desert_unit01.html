@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 01 Desert · 美国小学英语</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#f5f3ee;--s:#fff;--s2:#f9f8f4;
+  --b:rgba(0,0,0,0.09);--bm:rgba(0,0,0,0.16);
+  --tx:#1a1a18;--tx2:#4a4a42;--tx3:#8a8a7a;
+  --ac:#d97706;--acb:#fef3c7;--act:#92400e;
+  --gr:#166534;--grb:#dcfce7;
+  --rd:#991b1b;--rdb:#fee2e2;
+  --tl:#0f766e;--tlb:#ccfbf1;
+  --bl:#1d4ed8;--blb:#dbeafe;
+}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;}
+.hdr{background:linear-gradient(135deg,#1a3a2a,#2d6a4f);color:#fff;padding:20px 18px 16px;text-align:center;}
+.hdr-unit{font-size:11px;opacity:.7;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;}
+.hdr-title{font-size:24px;font-weight:700;color:#f9c74f;margin-bottom:3px;}
+.hdr-sub{font-size:12px;opacity:.75;}
+.spd-bar{background:var(--s);border-bottom:0.5px solid var(--b);padding:7px 14px;display:flex;align-items:center;gap:7px;position:sticky;top:0;z-index:50;flex-wrap:wrap;}
+.spd-label{font-size:11px;color:var(--tx3);}
+.spd-btn{padding:3px 10px;border-radius:20px;border:0.5px solid var(--bm);background:transparent;font-size:11px;cursor:pointer;color:var(--tx2);font-family:inherit;transition:all .15s;}
+.spd-btn.on{background:var(--ac);color:#fff;border-color:var(--ac);}
+.voice-btn{margin-left:auto;padding:3px 10px;border-radius:20px;border:0.5px solid var(--bm);background:transparent;font-size:11px;cursor:pointer;color:var(--tx2);font-family:inherit;}
+.tabs{display:flex;background:var(--s);border-bottom:0.5px solid var(--b);overflow-x:auto;}
+.tab{flex-shrink:0;padding:10px 14px;font-size:12px;font-weight:600;border:none;background:transparent;cursor:pointer;color:var(--tx3);border-bottom:2px solid transparent;transition:all .15s;font-family:inherit;white-space:nowrap;}
+.tab.on{color:var(--ac);border-bottom-color:var(--ac);}
+.page{display:none;padding:14px 14px 28px;}.page.on{display:block;}
+.sec-hdr{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.sec-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+.sec-title{font-size:14px;font-weight:700;}
+.sec-sub{font-size:11px;color:var(--tx3);}
+.sec-note{font-size:11px;color:var(--tx3);margin-bottom:10px;}
+.passage{display:flex;flex-direction:column;gap:7px;margin-bottom:14px;}
+.sent-card{display:flex;align-items:center;gap:10px;background:var(--s);border-radius:10px;border:0.5px solid var(--bm);padding:10px 13px;}
+.sent-spk{background:none;border:none;cursor:pointer;font-size:17px;flex-shrink:0;transition:transform .15s;}
+.sent-spk:hover{transform:scale(1.15);}
+.sent-spk.playing{animation:pulse .6s infinite alternate;}
+@keyframes pulse{from{opacity:.5;}to{opacity:1;transform:scale(1.1);}}
+.sent-body{flex:1;}
+.sent-en{font-size:14px;font-weight:500;line-height:1.5;color:var(--tx);}
+.sent-zh{font-size:11px;color:var(--tx3);margin-top:2px;}
+.sent-hi{color:var(--ac);font-weight:700;}
+.vocab-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px;}
+.vocab-card{background:var(--s);border-radius:10px;border:0.5px solid var(--bm);padding:12px 10px;display:flex;align-items:center;gap:10px;}
+.vocab-spk{background:none;border:none;cursor:pointer;font-size:16px;flex-shrink:0;}
+.vocab-en{font-size:14px;font-weight:700;color:var(--tx);}
+.vocab-zh{font-size:12px;color:var(--tx3);margin-top:1px;}
+.more-box{background:linear-gradient(135deg,#e0f2e9,#d1fae5);border-radius:10px;border:0.5px solid rgba(15,118,110,.2);padding:13px 14px;margin-bottom:12px;}
+.more-title{font-size:12px;font-weight:700;color:var(--tl);margin-bottom:8px;}
+.more-word{font-size:18px;font-weight:700;color:#1a5c3a;margin-bottom:4px;font-family:Georgia,serif;}
+.more-desc{font-size:12px;color:var(--tl);line-height:1.7;margin-bottom:8px;}
+.more-example{display:flex;flex-direction:column;gap:5px;}
+.ex-row{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.6);border-radius:7px;padding:7px 10px;}
+.ex-spk{background:none;border:none;cursor:pointer;font-size:14px;flex-shrink:0;}
+.ex-body{font-size:12px;line-height:1.6;}
+.wp-list{display:flex;flex-direction:column;gap:7px;}
+.wp-row{display:flex;align-items:center;gap:10px;background:var(--s);border-radius:9px;border:0.5px solid var(--bm);padding:10px 12px;}
+.wp-num{width:22px;height:22px;border-radius:50%;background:var(--acb);color:var(--act);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.wp-word{font-size:14px;font-weight:700;min-width:70px;color:var(--tx);}
+.wp-spk{background:none;border:none;cursor:pointer;font-size:15px;flex-shrink:0;}
+.wp-zh{font-size:13px;color:var(--tx2);}
+.wp-badge{padding:2px 8px;border-radius:12px;font-size:10px;font-weight:700;background:var(--acb);color:var(--act);margin-left:auto;white-space:nowrap;}
+.tf-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
+.tf-card{background:var(--s);border-radius:10px;border:0.5px solid var(--bm);padding:12px 13px;}
+.tf-q{font-size:13px;line-height:1.6;margin-bottom:8px;display:flex;gap:8px;align-items:flex-start;}
+.tf-qspk{background:none;border:none;cursor:pointer;font-size:15px;flex-shrink:0;margin-top:1px;}
+.tf-btns{display:flex;gap:7px;}
+.tf-btn{padding:6px 18px;border-radius:20px;border:0.5px solid var(--bm);background:var(--s2);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;}
+.tf-btn.true-btn{color:var(--gr);}
+.tf-btn.false-btn{color:var(--rd);}
+.tf-btn.correct{background:var(--grb);border-color:#16a34a;color:var(--gr);}
+.tf-btn.wrong{background:var(--rdb);border-color:#dc2626;color:var(--rd);}
+.tf-exp{display:none;margin-top:8px;font-size:11px;color:var(--tx3);line-height:1.7;padding-top:8px;border-top:0.5px solid var(--b);}
+.tf-exp.show{display:block;}
+.mc-card{background:var(--s);border-radius:10px;border:0.5px solid var(--bm);padding:13px;margin-bottom:9px;}
+.mc-q{font-size:13px;font-weight:500;margin-bottom:9px;line-height:1.6;display:flex;gap:8px;align-items:flex-start;}
+.mc-qspk{background:none;border:none;cursor:pointer;font-size:15px;flex-shrink:0;margin-top:1px;}
+.mc-opts{display:flex;flex-direction:column;gap:5px;}
+.mc-opt{padding:8px 12px;border-radius:8px;border:0.5px solid var(--bm);font-size:12px;cursor:pointer;background:var(--s2);text-align:left;font-family:inherit;transition:all .15s;line-height:1.5;}
+.mc-opt:hover{border-color:var(--ac);background:var(--acb);}
+.mc-opt.correct{background:var(--grb);border-color:#16a34a;color:var(--gr);font-weight:600;}
+.mc-opt.wrong{background:var(--rdb);border-color:#dc2626;color:var(--rd);}
+.desc-card{background:var(--s);border-radius:10px;border:0.5px solid var(--bm);padding:13px;margin-bottom:10px;}
+.desc-scene{background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:8px;padding:12px;text-align:center;margin-bottom:10px;}
+.desc-scene-icon{font-size:36px;margin-bottom:4px;}
+.desc-scene-text{font-size:12px;color:var(--act);}
+.desc-opts{display:flex;flex-direction:column;gap:6px;}
+.desc-opt{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;border:0.5px solid var(--bm);font-size:13px;cursor:pointer;background:var(--s2);font-family:inherit;transition:all .15s;text-align:left;}
+.desc-opt:hover{border-color:var(--ac);background:var(--acb);}
+.desc-opt.correct{background:var(--grb);border-color:#16a34a;color:var(--gr);font-weight:600;}
+.desc-opt.wrong{background:var(--rdb);border-color:#dc2626;color:var(--rd);}
+.desc-num{width:22px;height:22px;border-radius:50%;background:var(--s);border:0.5px solid var(--bm);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+.score-area{display:none;background:var(--acb);border-radius:10px;padding:16px;text-align:center;margin-top:8px;border:0.5px solid rgba(217,119,6,.2);}
+.score-num{font-size:26px;font-weight:700;color:var(--ac);}
+.score-msg{font-size:12px;color:var(--act);margin-top:4px;}
+.retry-btn{margin-top:10px;padding:7px 20px;border-radius:20px;border:none;background:var(--ac);color:#fff;font-family:inherit;font-size:12px;cursor:pointer;}
+.tip{background:linear-gradient(135deg,#fef9ee,#fef3c7);border-left:3px solid var(--ac);border-radius:0 8px 8px 0;padding:10px 12px;font-size:12px;color:var(--act);line-height:1.8;margin-top:10px;}
+.back-link{display:inline-flex;align-items:center;gap:6px;margin:10px 14px;padding:6px 14px;background:var(--s);border-radius:20px;border:0.5px solid var(--bm);font-size:12px;color:var(--tx2);text-decoration:none;transition:background .15s;}
+.back-link:hover{background:var(--acb);color:var(--act);}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-unit">Unit 01 · 美国小学一年级课程</div>
+  <div class="hdr-title">🏜️ Desert</div>
+  <div class="hdr-sub">沙漠 · 逐句朗读 · 词汇练习 · 阅读理解</div>
+</div>
+
+<a class="back-link" href="index.html">← 返回主页</a>
+
+<div class="spd-bar">
+  <span class="spd-label">🔊 语速：</span>
+  <button class="spd-btn" onclick="setSpd(0.7,this)">慢</button>
+  <button class="spd-btn on" onclick="setSpd(1,this)">正常</button>
+  <button class="spd-btn" onclick="setSpd(1.3,this)">快</button>
+  <button class="voice-btn" id="vbtn" onclick="cycleVoice()">🗣 Voice 1</button>
+</div>
+
+<div class="tabs">
+  <button class="tab on" onclick="go('p1',this)">📖 课文</button>
+  <button class="tab" onclick="go('p2',this)">📝 词汇</button>
+  <button class="tab" onclick="go('p3',this)">✅ T/F 判断</button>
+  <button class="tab" onclick="go('p4',this)">❓ 阅读理解</button>
+  <button class="tab" onclick="go('p5',this)">🖼️ 看图选句</button>
+</div>
+
+<!-- P1 课文 -->
+<div class="page on" id="p1">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#d97706;"></div><div class="sec-title">课文朗读</div><div class="sec-sub">· Track 01 · 点 🔊 听每句跟读</div></div>
+  <div class="sec-note">每句单独朗读，点一下读一句，再点停止</div>
+  <div class="passage">
+    <div class="sent-card"><button class="sent-spk" onclick="speak('The desert is a very hot and dry place.',this)">🔊</button><div class="sent-body"><div class="sent-en">The <span class="sent-hi">desert</span> is a very <span class="sent-hi">hot</span> and <span class="sent-hi">dry</span> place.</div><div class="sent-zh">沙漠是一个非常炎热和干燥的地方。</div></div></div>
+    <div class="sent-card"><button class="sent-spk" onclick="speak('Where is the biggest desert in the world?',this)">🔊</button><div class="sent-body"><div class="sent-en">Where is the <span class="sent-hi">biggest</span> desert in the <span class="sent-hi">world</span>?</div><div class="sent-zh">世界上最大的沙漠在哪里？</div></div></div>
+    <div class="sent-card"><button class="sent-spk" onclick="speak('Africa has the biggest desert in the world, and the name of the desert is the Sahara.',this)">🔊</button><div class="sent-body"><div class="sent-en">Africa has the biggest desert in the world, and the <span class="sent-hi">name</span> of the desert is the Sahara.</div><div class="sent-zh">非洲拥有世界上最大的沙漠，它的名字叫撒哈拉。</div></div></div>
+    <div class="sent-card"><button class="sent-spk" onclick="speak('About 4 million people live near the Sahara, but it has only 5 inches of rain every year.',this)">🔊</button><div class="sent-body"><div class="sent-en">About 4 <span class="sent-hi">million</span> people live near the Sahara, but it has only 5 inches of rain every year.</div><div class="sent-zh">约有400万人居住在撒哈拉附近，但那里每年只有5英寸的降雨量。</div></div></div>
+    <div class="sent-card"><button class="sent-spk" onclick="speak('What a dry place it is!',this)">🔊</button><div class="sent-body"><div class="sent-en" style="color:var(--ac);font-weight:600;">What a dry place it is!</div><div class="sent-zh">真是一个干燥的地方啊！</div></div></div>
+  </div>
+  <div class="tip"><b>课文小结：</b><br>沙漠 = 炎热 + 干燥 · 世界最大沙漠 = 撒哈拉（非洲）<br>撒哈拉：约400万人住附近 · 每年只有5英寸雨水</div>
+</div>
+
+<!-- P2 词汇 -->
+<div class="page" id="p2">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#0f766e;"></div><div class="sec-title">Word to Know · 词汇表</div><div class="sec-sub">· 点单词听发音</div></div>
+  <div class="vocab-grid">
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('desert',this)">🔊</button><div><div class="vocab-en">desert</div><div class="vocab-zh">沙漠</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('hot',this)">🔊</button><div><div class="vocab-en">hot</div><div class="vocab-zh">热的</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('dry',this)">🔊</button><div><div class="vocab-en">dry</div><div class="vocab-zh">干燥的</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('place',this)">🔊</button><div><div class="vocab-en">place</div><div class="vocab-zh">地方</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('biggest',this)">🔊</button><div><div class="vocab-en">biggest</div><div class="vocab-zh">最大的</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('world',this)">🔊</button><div><div class="vocab-en">world</div><div class="vocab-zh">世界</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('name',this)">🔊</button><div><div class="vocab-en">name</div><div class="vocab-zh">名字</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('million',this)">🔊</button><div><div class="vocab-en">million</div><div class="vocab-zh">百万</div></div></div>
+  </div>
+  <div class="more-box">
+    <div class="more-title">📌 More to Know · 延伸知识</div>
+    <div class="more-word">dry ↔ wet</div>
+    <div class="more-desc">dry 有"干旱的；干燥的"的意思，它的反义词"潮湿的"是 wet。</div>
+    <div class="more-example">
+      <div class="ex-row"><button class="ex-spk" onclick="speak('A desert is a dry place.',this)">🔊</button><div class="ex-body"><div style="font-size:12px;font-weight:500;">A desert is a <b style="color:#d97706;">dry</b> place.</div><div style="font-size:11px;color:var(--tl);">沙漠是干燥的地方。</div></div></div>
+      <div class="ex-row"><button class="ex-spk" onclick="speak('A jungle is a wet place.',this)">🔊</button><div class="ex-body"><div style="font-size:12px;font-weight:500;">A jungle is a <b style="color:#0f766e;">wet</b> place.</div><div style="font-size:11px;color:var(--tl);">丛林是潮湿的地方。</div></div></div>
+    </div>
+  </div>
+  <div class="sec-hdr" style="margin-top:4px;"><div class="sec-dot" style="background:#d97706;"></div><div class="sec-title">Word Practice · 词义练习</div><div class="sec-sub">· 点词听发音，记住中文</div></div>
+  <div class="wp-list">
+    <div class="wp-row"><div class="wp-num">1</div><div class="wp-word">desert</div><button class="wp-spk" onclick="speak('desert',this)">🔊</button><div class="wp-zh">沙漠</div><div class="wp-badge">例：Sahara</div></div>
+    <div class="wp-row"><div class="wp-num">2</div><div class="wp-word">hot</div><button class="wp-spk" onclick="speak('hot',this)">🔊</button><div class="wp-zh">热的</div><div class="wp-badge">反义：cold</div></div>
+    <div class="wp-row"><div class="wp-num">3</div><div class="wp-word">dry</div><button class="wp-spk" onclick="speak('dry',this)">🔊</button><div class="wp-zh">干燥的</div><div class="wp-badge">反义：wet</div></div>
+    <div class="wp-row"><div class="wp-num">4</div><div class="wp-word">place</div><button class="wp-spk" onclick="speak('place',this)">🔊</button><div class="wp-zh">地方</div></div>
+    <div class="wp-row"><div class="wp-num">5</div><div class="wp-word">biggest</div><button class="wp-spk" onclick="speak('biggest',this)">🔊</button><div class="wp-zh">最大的</div><div class="wp-badge">big→bigger→biggest</div></div>
+    <div class="wp-row"><div class="wp-num">6</div><div class="wp-word">world</div><button class="wp-spk" onclick="speak('world',this)">🔊</button><div class="wp-zh">世界</div></div>
+    <div class="wp-row"><div class="wp-num">7</div><div class="wp-word">name</div><button class="wp-spk" onclick="speak('name',this)">🔊</button><div class="wp-zh">名字</div></div>
+    <div class="wp-row"><div class="wp-num">8</div><div class="wp-word">million</div><button class="wp-spk" onclick="speak('million',this)">🔊</button><div class="wp-zh">百万</div><div class="wp-badge">4 million = 400万</div></div>
+  </div>
+</div>
+
+<!-- P3 T/F -->
+<div class="page" id="p3">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#991b1b;"></div><div class="sec-title">Select True or False</div><div class="sec-sub">· Track 02 · 判断正误</div></div>
+  <div class="sec-note">点 🔊 听句子，再点 T（正确）或 F（错误）</div>
+  <div class="tf-list">
+    <div class="tf-card">
+      <div class="tf-q"><button class="tf-qspk" onclick="speak('There is no water in the desert.',this)">🔊</button><div><b>①</b> There is no water in the desert.<div style="font-size:11px;color:var(--tx3);margin-top:2px;">沙漠里没有水。</div></div></div>
+      <div class="tf-btns"><button class="tf-btn true-btn" onclick="tfAns(this,'F','T')">T 正确</button><button class="tf-btn false-btn" onclick="tfAns(this,'F','F')">F 错误</button></div>
+      <div class="tf-exp">答案：<b style="color:var(--rd);">F 错误</b> — 课文说撒哈拉每年有5英寸雨水，并非完全没有水。</div>
+    </div>
+    <div class="tf-card">
+      <div class="tf-q"><button class="tf-qspk" onclick="speak('The Sahara is the biggest desert in the world.',this)">🔊</button><div><b>②</b> The Sahara is the biggest desert in the world.<div style="font-size:11px;color:var(--tx3);margin-top:2px;">撒哈拉是世界上最大的沙漠。</div></div></div>
+      <div class="tf-btns"><button class="tf-btn true-btn" onclick="tfAns(this,'T','T')">T 正确</button><button class="tf-btn false-btn" onclick="tfAns(this,'T','F')">F 错误</button></div>
+      <div class="tf-exp">答案：<b style="color:var(--gr);">T 正确</b> — 课文说"Africa has the biggest desert… the Sahara"。</div>
+    </div>
+    <div class="tf-card">
+      <div class="tf-q"><button class="tf-qspk" onclick="speak('No one lives near a desert.',this)">🔊</button><div><b>③</b> No one lives near a desert.<div style="font-size:11px;color:var(--tx3);margin-top:2px;">没有人住在沙漠附近。</div></div></div>
+      <div class="tf-btns"><button class="tf-btn true-btn" onclick="tfAns(this,'F','T')">T 正确</button><button class="tf-btn false-btn" onclick="tfAns(this,'F','F')">F 错误</button></div>
+      <div class="tf-exp">答案：<b style="color:var(--rd);">F 错误</b> — 课文说约有400万人住在撒哈拉附近。</div>
+    </div>
+  </div>
+</div>
+
+<!-- P4 阅读理解 -->
+<div class="page" id="p4">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#1d4ed8;"></div><div class="sec-title">Reading Comprehension</div><div class="sec-sub">· Track 03 · 点选最佳答案</div></div>
+  <div class="sec-note">点 🔊 听题目，点选项作答</div>
+  <div class="mc-card">
+    <div class="mc-q"><button class="mc-qspk" onclick="speak('What\'s the weather like in the desert?',this)">🔊</button><div><b>①</b> What's the weather like in the desert?<div style="font-size:11px;color:var(--tx3);">沙漠里天气怎么样？</div></div></div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,false)">a. It's snowy. <span style="color:var(--tx3);font-size:11px;">· 下雪的</span></button>
+      <button class="mc-opt" onclick="mcAns(this,false)">b. It's rainy. <span style="color:var(--tx3);font-size:11px;">· 下雨的</span></button>
+      <button class="mc-opt" onclick="mcAns(this,true)">c. It's hot. <span style="color:var(--tx3);font-size:11px;">· 炎热的 ✓</span></button>
+    </div>
+  </div>
+  <div class="mc-card">
+    <div class="mc-q"><button class="mc-qspk" onclick="speak('Which continent has the biggest desert in the world?',this)">🔊</button><div><b>②</b> Which continent has the biggest desert in the world?<div style="font-size:11px;color:var(--tx3);">哪个大洲有世界上最大的沙漠？</div></div></div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,false)">a. Asia <span style="color:var(--tx3);font-size:11px;">· 亚洲</span></button>
+      <button class="mc-opt" onclick="mcAns(this,true)">b. Africa <span style="color:var(--tx3);font-size:11px;">· 非洲 ✓</span></button>
+      <button class="mc-opt" onclick="mcAns(this,false)">c. Europe <span style="color:var(--tx3);font-size:11px;">· 欧洲</span></button>
+    </div>
+  </div>
+  <div class="mc-card">
+    <div class="mc-q"><button class="mc-qspk" onclick="speak('About how many people live near the Sahara?',this)">🔊</button><div><b>③</b> About _______ people live near the Sahara.<div style="font-size:11px;color:var(--tx3);">约有多少人住在撒哈拉附近？</div></div></div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,true)">a. 4 million <span style="color:var(--tx3);font-size:11px;">· 400万 ✓</span></button>
+      <button class="mc-opt" onclick="mcAns(this,false)">b. 5 million <span style="color:var(--tx3);font-size:11px;">· 500万</span></button>
+      <button class="mc-opt" onclick="mcAns(this,false)">c. 6 million <span style="color:var(--tx3);font-size:11px;">· 600万</span></button>
+    </div>
+  </div>
+  <div class="mc-card">
+    <div class="mc-q"><button class="mc-qspk" onclick="speak('The Sahara has only 5 inches of rain every year.',this)">🔊</button><div><b>④</b> The Sahara has only 5 inches of _______ every year.<div style="font-size:11px;color:var(--tx3);">撒哈拉每年只有5英寸的______。</div></div></div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,false)">a. snow <span style="color:var(--tx3);font-size:11px;">· 雪</span></button>
+      <button class="mc-opt" onclick="mcAns(this,false)">b. sand <span style="color:var(--tx3);font-size:11px;">· 沙子</span></button>
+      <button class="mc-opt" onclick="mcAns(this,true)">c. rain <span style="color:var(--tx3);font-size:11px;">· 雨水 ✓</span></button>
+    </div>
+  </div>
+  <div class="score-area" id="mc-score">
+    <div class="score-num" id="mc-score-num"></div>
+    <div class="score-msg" id="mc-score-msg"></div>
+    <button class="retry-btn" onclick="resetMc()">再来一次 🔄</button>
+  </div>
+</div>
+
+<!-- P5 看图选句 -->
+<div class="page" id="p5">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#d97706;"></div><div class="sec-title">Describe the Picture</div><div class="sec-sub">· 看图选出正确描述</div></div>
+  <div class="sec-note">根据图片内容，选出最正确的句子</div>
+  <div class="desc-card">
+    <div class="desc-scene">
+      <div class="desc-scene-icon">🏜️☀️🧑</div>
+      <div class="desc-scene-text">图中：一个人站在沙漠里，太阳高挂，沙丘连绵</div>
+    </div>
+    <div class="desc-opts">
+      <button class="desc-opt" onclick="descAns(this,false)"><div class="desc-num">①</div><div><div style="font-size:13px;">The desert is a cool and snowy place.</div><div style="font-size:11px;color:var(--tx3);margin-top:2px;">沙漠是凉爽且下雪的地方。</div></div></button>
+      <button class="desc-opt" onclick="descAns(this,true)"><div class="desc-num">②</div><div><div style="font-size:13px;">The desert is a <b style="color:var(--ac);">hot</b> and <b style="color:var(--ac);">dry</b> place.</div><div style="font-size:11px;color:var(--tx3);margin-top:2px;">沙漠是炎热且干燥的地方。✓</div></div></button>
+      <button class="desc-opt" onclick="descAns(this,false)"><div class="desc-num">③</div><div><div style="font-size:13px;">The desert is a hot and wet place.</div><div style="font-size:11px;color:var(--tx3);margin-top:2px;">沙漠是炎热且潮湿的地方。</div></div></button>
+    </div>
+  </div>
+  <div class="tip"><b>记忆口诀：</b>沙漠 = hot（热）+ dry（干）<br>dry 的反义词是 wet（湿），jungle 丛林才是 wet place！</div>
+</div>
+
+<div style="height:30px;"></div>
+
+<script>
+let spd=1,voices=[],vi=0,activBtn=null;
+function loadVoices(){voices=window.speechSynthesis.getVoices().filter(v=>v.lang.startsWith('en'));if(!voices.length)setTimeout(loadVoices,400);}
+if('speechSynthesis'in window){window.speechSynthesis.onvoiceschanged=loadVoices;loadVoices();}
+function speak(text,btn){
+  if(!window.speechSynthesis)return;
+  window.speechSynthesis.cancel();
+  if(activBtn===btn){activBtn=null;return;}
+  if(activBtn)activBtn.classList.remove('playing');
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='en-US';u.rate=spd;u.pitch=1;
+  if(voices.length)u.voice=voices[vi%voices.length];
+  if(btn){btn.classList.add('playing');activBtn=btn;u.onend=()=>{btn.classList.remove('playing');activBtn=null;};u.onerror=()=>{btn.classList.remove('playing');activBtn=null;};}
+  window.speechSynthesis.speak(u);
+}
+function setSpd(s,btn){spd=s;document.querySelectorAll('.spd-btn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');}
+function cycleVoice(){if(!voices.length)return;vi=(vi+1)%voices.length;document.getElementById('vbtn').textContent='🗣 Voice '+(vi+1);speak('Desert. Hot and dry.',null);}
+function go(id,btn){document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));document.getElementById(id).classList.add('on');btn.classList.add('on');}
+function tfAns(btn,correct,chosen){
+  const card=btn.closest('.tf-card');
+  const btns=card.querySelectorAll('.tf-btn');
+  let done=false;btns.forEach(b=>{if(b.classList.contains('correct')||b.classList.contains('wrong'))done=true;});
+  if(done)return;
+  const ok=chosen===correct;
+  btn.classList.add(ok?'correct':'wrong');
+  if(!ok)btns.forEach(b=>{const fn=b.getAttribute('onclick')||'';if(fn.includes("'"+correct+"'"))b.classList.add('correct');});
+  card.querySelector('.tf-exp').classList.add('show');
+}
+let mcAnswered=0,mcCorrect=0,mcTotal=4;
+function mcAns(el,isCorrect){
+  const opts=el.parentElement.querySelectorAll('.mc-opt');
+  let done=false;opts.forEach(o=>{if(o.classList.contains('correct')||o.classList.contains('wrong'))done=true;});
+  if(done)return;
+  el.classList.add(isCorrect?'correct':'wrong');
+  if(!isCorrect)opts.forEach(o=>{const fn=o.getAttribute('onclick')||'';if(fn.includes('true'))o.classList.add('correct');});
+  mcAnswered++;if(isCorrect)mcCorrect++;
+  if(mcAnswered===mcTotal){
+    const sa=document.getElementById('mc-score');sa.style.display='block';
+    document.getElementById('mc-score-num').textContent=mcCorrect+'/'+mcTotal+' ⭐';
+    const msgs=['再看看课文！💪','不错，继续！😊','做得好！👍','全对！太棒了！🏆'];
+    document.getElementById('mc-score-msg').textContent=msgs[Math.min(mcCorrect,3)];
+    sa.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function resetMc(){document.querySelectorAll('.mc-opt').forEach(o=>o.classList.remove('correct','wrong'));document.getElementById('mc-score').style.display='none';mcAnswered=0;mcCorrect=0;}
+function descAns(el,isCorrect){
+  const opts=el.parentElement.querySelectorAll('.desc-opt');
+  let done=false;opts.forEach(o=>{if(o.classList.contains('correct')||o.classList.contains('wrong'))done=true;});
+  if(done)return;
+  el.classList.add(isCorrect?'correct':'wrong');
+  if(!isCorrect)opts.forEach(o=>{const fn=o.getAttribute('onclick')||'';if(fn.includes('true'))o.classList.add('correct');});
+}
+</script>
+</body>
+</html>
