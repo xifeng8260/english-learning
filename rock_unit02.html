@@ -316,8 +316,8 @@ if('speechSynthesis'in window){window.speechSynthesis.onvoiceschanged=loadVoices
 function speak(text,btn){
   if(!window.speechSynthesis)return;
   window.speechSynthesis.cancel();
-  if(activBtn===btn){activBtn=null;return;}
-  if(activBtn)activBtn.classList.remove('playing');
+  if(btn && activBtn===btn){activBtn=null;return;}
+  if(activBtn){activBtn.classList.remove('playing');activBtn=null;}
   const u=new SpeechSynthesisUtterance(text);
   u.lang='en-US';u.rate=spd;u.pitch=1;
   if(voices.length)u.voice=voices[vi%voices.length];
