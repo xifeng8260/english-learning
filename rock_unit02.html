@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 02 Rock · 美国小学英语</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#f4f6f0;--s:#fff;--s2:#f7f8f4;
+  --b:rgba(0,0,0,0.09);--bm:rgba(0,0,0,0.16);
+  --tx:#1a1a18;--tx2:#4a4a42;--tx3:#8a8a7a;
+  --ac:#5a7a2e;--acb:#ecf4de;--act:#2d4a0e;
+  --gr:#166534;--grb:#dcfce7;
+  --rd:#991b1b;--rdb:#fee2e2;
+  --am:#92400e;--amb:#fef3c7;
+  --tl:#0f766e;--tlb:#ccfbf1;
+  --pk:#9d174d;--pkb:#fce7f3;
+  --sl:#374151;--slb:#f3f4f6;
+}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;}
+.hdr{background:linear-gradient(135deg,#2d4a0e,#5a7a2e);color:#fff;padding:20px 18px 16px;text-align:center;}
+.hdr-unit{font-size:11px;opacity:.7;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;}
+.hdr-title{font-size:24px;font-weight:700;color:#d4ed7a;margin-bottom:3px;}
+.hdr-sub{font-size:12px;opacity:.75;}
+.back-link{display:inline-flex;align-items:center;gap:6px;margin:10px 14px;padding:6px 14px;background:var(--s);border-radius:20px;border:0.5px solid var(--bm);font-size:12px;color:var(--tx2);text-decoration:none;transition:background .15s;}
+.back-link:hover{background:var(--acb);color:var(--act);}
+.spd-bar{background:var(--s);border-bottom:0.5px solid var(--b);padding:7px 14px;display:flex;align-items:center;gap:7px;position:sticky;top:0;z-index:50;flex-wrap:wrap;}
+.spd-label{font-size:11px;color:var(--tx3);}
+.spd-btn{padding:3px 10px;border-radius:20px;border:0.5px solid var(--bm);background:transparent;font-size:11px;cursor:pointer;color:var(--tx2);font-family:inherit;transition:all .15s;}
+.spd-btn.on{background:var(--ac);color:#fff;border-color:var(--ac);}
+.voice-btn{margin-left:auto;padding:3px 10px;border-radius:20px;border:0.5px solid var(--bm);background:transparent;font-size:11px;cursor:pointer;color:var(--tx2);font-family:inherit;}
+.tabs{display:flex;background:var(--s);border-bottom:0.5px solid var(--b);overflow-x:auto;}
+.tab{flex-shrink:0;padding:10px 14px;font-size:12px;font-weight:600;border:none;background:transparent;cursor:pointer;color:var(--tx3);border-bottom:2px solid transparent;transition:all .15s;font-family:inherit;white-space:nowrap;}
+.tab.on{color:var(--ac);border-bottom-color:var(--ac);}
+.page{display:none;padding:14px 14px 28px;}.page.on{display:block;}
+.sec-hdr{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.sec-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+.sec-title{font-size:14px;font-weight:700;}
+.sec-sub{font-size:11px;color:var(--tx3);}
+.sec-note{font-size:11px;color:var(--tx3);margin-bottom:10px;}
+
+/* 课文句子 */
+.passage{display:flex;flex-direction:column;gap:7px;margin-bottom:14px;}
+.sent-card{display:flex;align-items:center;gap:10px;background:var(--s);border-radius:10px;border:0.5px solid var(--bm);padding:10px 13px;}
+.sent-spk{background:none;border:none;cursor:pointer;font-size:17px;flex-shrink:0;transition:transform .15s;}
+.sent-spk:hover{transform:scale(1.15);}
+.sent-spk.playing{animation:pulse .6s infinite alternate;}
+@keyframes pulse{from{opacity:.5;}to{opacity:1;transform:scale(1.1);}}
+.sent-body{flex:1;}
+.sent-en{font-size:14px;font-weight:500;line-height:1.6;color:var(--tx);}
+.sent-zh{font-size:11px;color:var(--tx3);margin-top:2px;}
+.sent-hi{color:var(--ac);font-weight:700;}
+
+/* 颜色彩带 */
+.colors-band{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 14px;padding:12px;background:var(--s);border-radius:10px;border:0.5px solid var(--bm);}
+.color-chip{padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;transition:transform .15s;}
+.color-chip:hover{transform:scale(1.08);}
+
+/* 词汇 */
+.vocab-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px;}
+.vocab-card{background:var(--s);border-radius:10px;border:0.5px solid var(--bm);padding:12px 10px;display:flex;align-items:center;gap:10px;}
+.vocab-spk{background:none;border:none;cursor:pointer;font-size:16px;flex-shrink:0;}
+.vocab-en{font-size:14px;font-weight:700;color:var(--tx);}
+.vocab-zh{font-size:12px;color:var(--tx3);margin-top:1px;}
+.more-box{background:linear-gradient(135deg,#e8f5e3,#d4ed7a30);border-radius:10px;border:0.5px solid rgba(90,122,46,.2);padding:13px 14px;margin-bottom:12px;}
+.more-title{font-size:12px;font-weight:700;color:var(--act);margin-bottom:8px;}
+.more-word{font-size:18px;font-weight:700;color:#2d4a0e;margin-bottom:4px;font-family:Georgia,serif;}
+.more-desc{font-size:12px;color:var(--act);line-height:1.8;margin-bottom:8px;}
+.more-rows{display:flex;flex-direction:column;gap:6px;}
+.more-row{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.7);border-radius:7px;padding:8px 10px;}
+.more-row-spk{background:none;border:none;cursor:pointer;font-size:14px;flex-shrink:0;}
+.more-row-en{font-size:13px;font-weight:600;min-width:90px;}
+.more-row-zh{font-size:12px;color:var(--act);}
+.wp-list{display:flex;flex-direction:column;gap:7px;}
+.wp-row{display:flex;align-items:center;gap:10px;background:var(--s);border-radius:9px;border:0.5px solid var(--bm);padding:10px 12px;}
+.wp-num{width:22px;height:22px;border-radius:50%;background:var(--acb);color:var(--act);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.wp-word{font-size:14px;font-weight:700;min-width:75px;color:var(--tx);}
+.wp-spk{background:none;border:none;cursor:pointer;font-size:15px;flex-shrink:0;}
+.wp-zh{font-size:13px;color:var(--tx2);flex:1;}
+.wp-badge{padding:2px 8px;border-radius:12px;font-size:10px;font-weight:700;background:var(--acb);color:var(--act);white-space:nowrap;}
+
+/* T/F */
+.tf-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
+.tf-card{background:var(--s);border-radius:10px;border:0.5px solid var(--bm);padding:12px 13px;}
+.tf-q{font-size:13px;line-height:1.6;margin-bottom:8px;display:flex;gap:8px;align-items:flex-start;}
+.tf-qspk{background:none;border:none;cursor:pointer;font-size:15px;flex-shrink:0;margin-top:1px;}
+.tf-btns{display:flex;gap:7px;}
+.tf-btn{padding:6px 18px;border-radius:20px;border:0.5px solid var(--bm);background:var(--s2);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;}
+.tf-btn.true-btn{color:var(--gr);}
+.tf-btn.false-btn{color:var(--rd);}
+.tf-btn.correct{background:var(--grb);border-color:#16a34a;color:var(--gr);}
+.tf-btn.wrong{background:var(--rdb);border-color:#dc2626;color:var(--rd);}
+.tf-exp{display:none;margin-top:8px;font-size:11px;color:var(--tx3);line-height:1.7;padding-top:8px;border-top:0.5px solid var(--b);}
+.tf-exp.show{display:block;}
+
+/* MC */
+.mc-card{background:var(--s);border-radius:10px;border:0.5px solid var(--bm);padding:13px;margin-bottom:9px;}
+.mc-q{font-size:13px;font-weight:500;margin-bottom:9px;line-height:1.6;display:flex;gap:8px;align-items:flex-start;}
+.mc-qspk{background:none;border:none;cursor:pointer;font-size:15px;flex-shrink:0;margin-top:1px;}
+.mc-opts{display:flex;flex-direction:column;gap:5px;}
+.mc-opt{padding:8px 12px;border-radius:8px;border:0.5px solid var(--bm);font-size:12px;cursor:pointer;background:var(--s2);text-align:left;font-family:inherit;transition:all .15s;line-height:1.5;}
+.mc-opt:hover{border-color:var(--ac);background:var(--acb);}
+.mc-opt.correct{background:var(--grb);border-color:#16a34a;color:var(--gr);font-weight:600;}
+.mc-opt.wrong{background:var(--rdb);border-color:#dc2626;color:var(--rd);}
+
+/* Describe */
+.desc-scene{background:linear-gradient(135deg,#ecf4de,#d4ed7a40);border-radius:8px;padding:12px;text-align:center;margin-bottom:10px;}
+.desc-scene-icon{font-size:36px;margin-bottom:4px;}
+.desc-scene-text{font-size:12px;color:var(--act);}
+.desc-opts{display:flex;flex-direction:column;gap:6px;}
+.desc-opt{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;border:0.5px solid var(--bm);font-size:13px;cursor:pointer;background:var(--s2);font-family:inherit;transition:all .15s;text-align:left;}
+.desc-opt:hover{border-color:var(--ac);background:var(--acb);}
+.desc-opt.correct{background:var(--grb);border-color:#16a34a;color:var(--gr);font-weight:600;}
+.desc-opt.wrong{background:var(--rdb);border-color:#dc2626;color:var(--rd);}
+.desc-num{width:22px;height:22px;border-radius:50%;background:var(--s);border:0.5px solid var(--bm);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+
+.score-area{display:none;background:var(--acb);border-radius:10px;padding:16px;text-align:center;margin-top:8px;border:0.5px solid rgba(90,122,46,.2);}
+.score-num{font-size:26px;font-weight:700;color:var(--ac);}
+.score-msg{font-size:12px;color:var(--act);margin-top:4px;}
+.retry-btn{margin-top:10px;padding:7px 20px;border-radius:20px;border:none;background:var(--ac);color:#fff;font-family:inherit;font-size:12px;cursor:pointer;}
+.tip{background:linear-gradient(135deg,#f0f7e8,#ecf4de);border-left:3px solid var(--ac);border-radius:0 8px 8px 0;padding:10px 12px;font-size:12px;color:var(--act);line-height:1.8;margin-top:10px;}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-unit">Unit 02 · 美国小学一年级课程</div>
+  <div class="hdr-title">🪨 Rock</div>
+  <div class="hdr-sub">岩石 · 逐句朗读 · 词汇练习 · 阅读理解</div>
+</div>
+
+<a class="back-link" href="index.html">← 返回主页</a>
+
+<div class="spd-bar">
+  <span class="spd-label">🔊 语速：</span>
+  <button class="spd-btn" onclick="setSpd(0.7,this)">慢</button>
+  <button class="spd-btn on" onclick="setSpd(1,this)">正常</button>
+  <button class="spd-btn" onclick="setSpd(1.3,this)">快</button>
+  <button class="voice-btn" id="vbtn" onclick="cycleVoice()">🗣 Voice 1</button>
+</div>
+
+<div class="tabs">
+  <button class="tab on" onclick="go('p1',this)">📖 课文</button>
+  <button class="tab" onclick="go('p2',this)">📝 词汇</button>
+  <button class="tab" onclick="go('p3',this)">✅ T/F 判断</button>
+  <button class="tab" onclick="go('p4',this)">❓ 阅读理解</button>
+  <button class="tab" onclick="go('p5',this)">🖼️ 看图选句</button>
+</div>
+
+<!-- P1 课文 -->
+<div class="page on" id="p1">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#5a7a2e;"></div><div class="sec-title">课文朗读</div><div class="sec-sub">· Track 04 · 点 🔊 听每句跟读</div></div>
+  <div class="sec-note">每句单独朗读，点一下读一句，再点停止</div>
+  <div class="passage">
+    <div class="sent-card"><button class="sent-spk" onclick="speak('If you look around you, you can find some rocks very easily.',this)">🔊</button><div class="sent-body"><div class="sent-en">If you look around you, you can find some <span class="sent-hi">rocks</span> very <span class="sent-hi">easily</span>.</div><div class="sent-zh">如果你环顾四周，你可以很容易地找到一些岩石。</div></div></div>
+    <div class="sent-card"><button class="sent-spk" onclick="speak('Rocks are minerals and they are all from the earth.',this)">🔊</button><div class="sent-body"><div class="sent-en">Rocks are <span class="sent-hi">minerals</span> and they are all from <span class="sent-hi">the earth</span>.</div><div class="sent-zh">岩石是矿物，它们都来自地球。</div></div></div>
+    <div class="sent-card"><button class="sent-spk" onclick="speak('What colors of rocks can you see?',this)">🔊</button><div class="sent-body"><div class="sent-en">What colors of rocks can you see?</div><div class="sent-zh">你能看到什么颜色的岩石？</div></div></div>
+    <div class="sent-card"><button class="sent-spk" onclick="speak('You can see silver, white, brown, gold, orange, blue, red, pink, black, and even rainbow-colored rocks.',this)">🔊</button><div class="sent-body"><div class="sent-en">You can see <span class="sent-hi">silver</span>, white, brown, <span class="sent-hi">gold</span>, orange, blue, red, pink, black, and even <span class="sent-hi">rainbow</span>-colored rocks.</div><div class="sent-zh">你可以看到银色、白色、棕色、金色、橙色、蓝色、红色、粉色、黑色，甚至彩虹色的岩石。</div></div></div>
+    <div class="sent-card"><button class="sent-spk" onclick="speak('There are many different colors of rocks on the earth.',this)">🔊</button><div class="sent-body"><div class="sent-en">There are many <span class="sent-hi">different</span> colors of rocks on the earth.</div><div class="sent-zh">地球上有很多不同颜色的岩石。</div></div></div>
+    <div class="sent-card"><button class="sent-spk" onclick="speak('Why don\'t you find those colors of rocks right now?',this)">🔊</button><div class="sent-body"><div class="sent-en" style="color:var(--ac);font-weight:600;">Why don't you find those colors of rocks right now?</div><div class="sent-zh">为什么不现在就去找找这些颜色的岩石呢？</div></div></div>
+  </div>
+
+  <div style="font-size:13px;font-weight:700;margin-bottom:8px;">🎨 岩石的颜色 · 点色块听发音</div>
+  <div class="colors-band">
+    <div class="color-chip" style="background:#C0C0C0;color:#333;" onclick="speak('silver',null)">silver 银</div>
+    <div class="color-chip" style="background:#f3f4f6;color:#333;border:0.5px solid #ddd;" onclick="speak('white',null)">white 白</div>
+    <div class="color-chip" style="background:#92400e;color:#fff;" onclick="speak('brown',null)">brown 棕</div>
+    <div class="color-chip" style="background:#d97706;color:#fff;" onclick="speak('gold',null)">gold 金</div>
+    <div class="color-chip" style="background:#ea580c;color:#fff;" onclick="speak('orange',null)">orange 橙</div>
+    <div class="color-chip" style="background:#2563eb;color:#fff;" onclick="speak('blue',null)">blue 蓝</div>
+    <div class="color-chip" style="background:#dc2626;color:#fff;" onclick="speak('red',null)">red 红</div>
+    <div class="color-chip" style="background:#ec4899;color:#fff;" onclick="speak('pink',null)">pink 粉</div>
+    <div class="color-chip" style="background:#1f2937;color:#fff;" onclick="speak('black',null)">black 黑</div>
+    <div class="color-chip" style="background:linear-gradient(90deg,#ef4444,#f97316,#eab308,#22c55e,#3b82f6,#8b5cf6);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.4);" onclick="speak('rainbow',null)">rainbow 彩虹</div>
+  </div>
+
+  <div class="tip">
+    <b>课文小结：</b><br>
+    岩石 = 矿物 · 来自地球 · 颜色非常丰富<br>
+    银、白、棕、金、橙、蓝、红、粉、黑，甚至彩虹色！
+  </div>
+</div>
+
+<!-- P2 词汇 -->
+<div class="page" id="p2">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#0f766e;"></div><div class="sec-title">Word to Know · 词汇表</div><div class="sec-sub">· 点单词听发音</div></div>
+  <div class="vocab-grid">
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('rock',this)">🔊</button><div><div class="vocab-en">rock</div><div class="vocab-zh">岩石</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('easily',this)">🔊</button><div><div class="vocab-en">easily</div><div class="vocab-zh">容易地</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('mineral',this)">🔊</button><div><div class="vocab-en">mineral</div><div class="vocab-zh">矿物</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('silver',this)">🔊</button><div><div class="vocab-en">silver</div><div class="vocab-zh">银；银色的</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('gold',this)">🔊</button><div><div class="vocab-en">gold</div><div class="vocab-zh">金；金色的</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('rainbow',this)">🔊</button><div><div class="vocab-en">rainbow</div><div class="vocab-zh">彩虹；彩虹色的</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('different',this)">🔊</button><div><div class="vocab-en">different</div><div class="vocab-zh">不同的</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('the earth',this)">🔊</button><div><div class="vocab-en">the earth</div><div class="vocab-zh">地球</div></div></div>
+  </div>
+
+  <div class="more-box">
+    <div class="more-title">📌 More to Know · earth 的两种意思</div>
+    <div class="more-word">earth</div>
+    <div class="more-desc">earth 有两种意思：一种是人类生活的地球；另一种是人们用以盖房子、走路的大地，即"土地"。</div>
+    <div class="more-rows">
+      <div class="more-row"><button class="more-row-spk" onclick="speak('the earth',this)">🔊</button><div class="more-row-en">the earth</div><div class="more-row-zh">地球（特指）</div></div>
+      <div class="more-row"><button class="more-row-spk" onclick="speak('earth',this)">🔊</button><div class="more-row-en">earth</div><div class="more-row-zh">大地；陆地；土地</div></div>
+      <div class="more-row"><button class="more-row-spk" onclick="speak('Rocks are from the earth.',this)">🔊</button><div style="font-size:12px;"><div style="font-weight:500;">Rocks are from the earth.</div><div style="color:var(--act);font-size:11px;">岩石来自地球。</div></div></div>
+    </div>
+  </div>
+
+  <div class="sec-hdr" style="margin-top:4px;"><div class="sec-dot" style="background:#5a7a2e;"></div><div class="sec-title">Word Practice · 词义练习</div><div class="sec-sub">· 点词听发音，记住中文</div></div>
+  <div class="wp-list">
+    <div class="wp-row"><div class="wp-num">1</div><div class="wp-word">rock</div><button class="wp-spk" onclick="speak('rock',this)">🔊</button><div class="wp-zh">岩石</div></div>
+    <div class="wp-row"><div class="wp-num">2</div><div class="wp-word">easily</div><button class="wp-spk" onclick="speak('easily',this)">🔊</button><div class="wp-zh">容易地</div><div class="wp-badge">反义：hardly</div></div>
+    <div class="wp-row"><div class="wp-num">3</div><div class="wp-word">mineral</div><button class="wp-spk" onclick="speak('mineral',this)">🔊</button><div class="wp-zh">矿物</div></div>
+    <div class="wp-row"><div class="wp-num">4</div><div class="wp-word">silver</div><button class="wp-spk" onclick="speak('silver',this)">🔊</button><div class="wp-zh">银；银色的</div></div>
+    <div class="wp-row"><div class="wp-num">5</div><div class="wp-word">gold</div><button class="wp-spk" onclick="speak('gold',this)">🔊</button><div class="wp-zh">金；金色的</div></div>
+    <div class="wp-row"><div class="wp-num">6</div><div class="wp-word">rainbow</div><button class="wp-spk" onclick="speak('rainbow',this)">🔊</button><div class="wp-zh">彩虹；彩虹色的</div></div>
+    <div class="wp-row"><div class="wp-num">7</div><div class="wp-word">different</div><button class="wp-spk" onclick="speak('different',this)">🔊</button><div class="wp-zh">不同的</div><div class="wp-badge">反义：same</div></div>
+    <div class="wp-row"><div class="wp-num">8</div><div class="wp-word">the earth</div><button class="wp-spk" onclick="speak('the earth',this)">🔊</button><div class="wp-zh">地球</div></div>
+  </div>
+</div>
+
+<!-- P3 T/F -->
+<div class="page" id="p3">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#991b1b;"></div><div class="sec-title">Select True or False</div><div class="sec-sub">· Track 05 · 判断正误</div></div>
+  <div class="sec-note">点 🔊 听句子，再点 T（正确）或 F（错误）</div>
+  <div class="tf-list">
+    <div class="tf-card">
+      <div class="tf-q"><button class="tf-qspk" onclick="speak('Rocks are all from space.',this)">🔊</button><div><b>①</b> Rocks are all from space.<div style="font-size:11px;color:var(--tx3);margin-top:2px;">岩石都来自太空。</div></div></div>
+      <div class="tf-btns"><button class="tf-btn true-btn" onclick="tfAns(this,'F','T')">T 正确</button><button class="tf-btn false-btn" onclick="tfAns(this,'F','F')">F 错误</button></div>
+      <div class="tf-exp">答案：<b style="color:var(--rd);">F 错误</b> — 课文说岩石来自地球（from the earth），不是太空。</div>
+    </div>
+    <div class="tf-card">
+      <div class="tf-q"><button class="tf-qspk" onclick="speak('Rocks are minerals.',this)">🔊</button><div><b>②</b> Rocks are minerals.<div style="font-size:11px;color:var(--tx3);margin-top:2px;">岩石是矿物。</div></div></div>
+      <div class="tf-btns"><button class="tf-btn true-btn" onclick="tfAns(this,'T','T')">T 正确</button><button class="tf-btn false-btn" onclick="tfAns(this,'T','F')">F 错误</button></div>
+      <div class="tf-exp">答案：<b style="color:var(--gr);">T 正确</b> — 课文说"Rocks are minerals"。</div>
+    </div>
+    <div class="tf-card">
+      <div class="tf-q"><button class="tf-qspk" onclick="speak('Rocks vary in color.',this)">🔊</button><div><b>③</b> Rocks vary in color.<div style="font-size:11px;color:var(--tx3);margin-top:2px;">岩石颜色各不相同。</div></div></div>
+      <div class="tf-btns"><button class="tf-btn true-btn" onclick="tfAns(this,'T','T')">T 正确</button><button class="tf-btn false-btn" onclick="tfAns(this,'T','F')">F 错误</button></div>
+      <div class="tf-exp">答案：<b style="color:var(--gr);">T 正确</b> — 课文列举了银、白、棕、金等很多种颜色，说明岩石颜色多样。</div>
+    </div>
+  </div>
+</div>
+
+<!-- P4 阅读理解 -->
+<div class="page" id="p4">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#1d4ed8;"></div><div class="sec-title">Reading Comprehension</div><div class="sec-sub">· Track 06 · 点选最佳答案</div></div>
+  <div class="sec-note">点 🔊 听题目，点选项作答，答完4题显示得分</div>
+  <div class="mc-card">
+    <div class="mc-q"><button class="mc-qspk" onclick="speak('What are rocks made of?',this)">🔊</button><div><b>①</b> What are rocks made of?<div style="font-size:11px;color:var(--tx3);">岩石是由什么构成的？</div></div></div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,false)">a. the earth &nbsp;<span style="color:var(--tx3);font-size:11px;">· 地球</span></button>
+      <button class="mc-opt" onclick="mcAns(this,true)">b. minerals &nbsp;<span style="color:var(--tx3);font-size:11px;">· 矿物 ✓</span></button>
+      <button class="mc-opt" onclick="mcAns(this,false)">c. water &nbsp;<span style="color:var(--tx3);font-size:11px;">· 水</span></button>
+    </div>
+  </div>
+  <div class="mc-card">
+    <div class="mc-q"><button class="mc-qspk" onclick="speak('Are there many different colors of rocks on the earth?',this)">🔊</button><div><b>②</b> Are there many different colors of rocks on the earth?<div style="font-size:11px;color:var(--tx3);">地球上有很多不同颜色的岩石吗？</div></div></div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,true)">a. Yes, there are. &nbsp;<span style="color:var(--tx3);font-size:11px;">· 是的 ✓</span></button>
+      <button class="mc-opt" onclick="mcAns(this,false)">b. No, there aren't. &nbsp;<span style="color:var(--tx3);font-size:11px;">· 不是</span></button>
+      <button class="mc-opt" onclick="mcAns(this,false)">c. Don't know. &nbsp;<span style="color:var(--tx3);font-size:11px;">· 不知道</span></button>
+    </div>
+  </div>
+  <div class="mc-card">
+    <div class="mc-q"><button class="mc-qspk" onclick="speak('You can find some rocks very easily.',this)">🔊</button><div><b>③</b> You can find some rocks very _______.<div style="font-size:11px;color:var(--tx3);">你可以非常______地找到一些岩石。</div></div></div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,false)">a. hardly &nbsp;<span style="color:var(--tx3);font-size:11px;">· 几乎不</span></button>
+      <button class="mc-opt" onclick="mcAns(this,false)">b. difficultly &nbsp;<span style="color:var(--tx3);font-size:11px;">· 困难地</span></button>
+      <button class="mc-opt" onclick="mcAns(this,true)">c. easily &nbsp;<span style="color:var(--tx3);font-size:11px;">· 容易地 ✓</span></button>
+    </div>
+  </div>
+  <div class="mc-card">
+    <div class="mc-q"><button class="mc-qspk" onclick="speak('There are many different colors of rocks on the earth.',this)">🔊</button><div><b>④</b> There are many _______ colors of rocks on the earth.<div style="font-size:11px;color:var(--tx3);">地球上有很多_______颜色的岩石。</div></div></div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,true)">a. different &nbsp;<span style="color:var(--tx3);font-size:11px;">· 不同的 ✓</span></button>
+      <button class="mc-opt" onclick="mcAns(this,false)">b. same &nbsp;<span style="color:var(--tx3);font-size:11px;">· 相同的</span></button>
+      <button class="mc-opt" onclick="mcAns(this,false)">c. silver &nbsp;<span style="color:var(--tx3);font-size:11px;">· 银色的</span></button>
+    </div>
+  </div>
+  <div class="score-area" id="mc-score">
+    <div class="score-num" id="mc-score-num"></div>
+    <div class="score-msg" id="mc-score-msg"></div>
+    <button class="retry-btn" onclick="resetMc()">再来一次 🔄</button>
+  </div>
+</div>
+
+<!-- P5 看图选句 -->
+<div class="page" id="p5">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#5a7a2e;"></div><div class="sec-title">Describe the Picture</div><div class="sec-sub">· 看图选出正确描述</div></div>
+  <div class="sec-note">根据图片内容，选出最正确的句子</div>
+  <div class="mc-card" style="margin-bottom:0;">
+    <div class="desc-scene">
+      <div class="desc-scene-icon">🟤🔵🟡🔴🟢🟣⚪</div>
+      <div class="desc-scene-text">图中：一堆大小不一、颜色各异的彩色岩石</div>
+    </div>
+    <div class="desc-opts">
+      <button class="desc-opt" onclick="descAns(this,false)"><div class="desc-num">①</div><div><div style="font-size:13px;">There are the same colors of rocks.</div><div style="font-size:11px;color:var(--tx3);margin-top:2px;">岩石都是相同的颜色。</div></div></button>
+      <button class="desc-opt" onclick="descAns(this,true)"><div class="desc-num">②</div><div><div style="font-size:13px;">There are <b style="color:var(--ac);">different</b> colors of rocks.</div><div style="font-size:11px;color:var(--tx3);margin-top:2px;">岩石有不同的颜色。✓</div></div></button>
+      <button class="desc-opt" onclick="descAns(this,false)"><div class="desc-num">③</div><div><div style="font-size:13px;">There are the same sizes of rocks.</div><div style="font-size:11px;color:var(--tx3);margin-top:2px;">岩石都是相同的大小。</div></div></button>
+    </div>
+  </div>
+  <div class="tip" style="margin-top:10px;"><b>记忆要点：</b><br>
+    rocks = <b>minerals</b>（矿物）from <b>the earth</b>（地球）<br>
+    颜色多达9种 + rainbow-colored（彩虹色）<br>
+    <b>different</b>（不同的）↔ <b>same</b>（相同的）
+  </div>
+</div>
+
+<div style="height:30px;"></div>
+<script>
+let spd=1,voices=[],vi=0,activBtn=null;
+function loadVoices(){voices=window.speechSynthesis.getVoices().filter(v=>v.lang.startsWith('en'));if(!voices.length)setTimeout(loadVoices,400);}
+if('speechSynthesis'in window){window.speechSynthesis.onvoiceschanged=loadVoices;loadVoices();}
+function speak(text,btn){
+  if(!window.speechSynthesis)return;
+  window.speechSynthesis.cancel();
+  if(activBtn===btn){activBtn=null;return;}
+  if(activBtn)activBtn.classList.remove('playing');
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='en-US';u.rate=spd;u.pitch=1;
+  if(voices.length)u.voice=voices[vi%voices.length];
+  if(btn){btn.classList.add('playing');activBtn=btn;u.onend=()=>{btn.classList.remove('playing');activBtn=null;};u.onerror=()=>{btn.classList.remove('playing');activBtn=null;};}
+  window.speechSynthesis.speak(u);
+}
+function setSpd(s,btn){spd=s;document.querySelectorAll('.spd-btn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');}
+function cycleVoice(){if(!voices.length)return;vi=(vi+1)%voices.length;document.getElementById('vbtn').textContent='🗣 Voice '+(vi+1);speak('Rock. Minerals from the earth.',null);}
+function go(id,btn){document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));document.getElementById(id).classList.add('on');btn.classList.add('on');}
+function tfAns(btn,correct,chosen){
+  const card=btn.closest('.tf-card');
+  const btns=card.querySelectorAll('.tf-btn');
+  let done=false;btns.forEach(b=>{if(b.classList.contains('correct')||b.classList.contains('wrong'))done=true;});
+  if(done)return;
+  const ok=chosen===correct;
+  btn.classList.add(ok?'correct':'wrong');
+  if(!ok)btns.forEach(b=>{const fn=b.getAttribute('onclick')||'';if(fn.includes("'"+correct+"'"))b.classList.add('correct');});
+  card.querySelector('.tf-exp').classList.add('show');
+}
+let mcAnswered=0,mcCorrect=0,mcTotal=4;
+function mcAns(el,isCorrect){
+  const opts=el.parentElement.querySelectorAll('.mc-opt');
+  let done=false;opts.forEach(o=>{if(o.classList.contains('correct')||o.classList.contains('wrong'))done=true;});
+  if(done)return;
+  el.classList.add(isCorrect?'correct':'wrong');
+  if(!isCorrect)opts.forEach(o=>{const fn=o.getAttribute('onclick')||'';if(fn.includes('true'))o.classList.add('correct');});
+  mcAnswered++;if(isCorrect)mcCorrect++;
+  if(mcAnswered===mcTotal){
+    const sa=document.getElementById('mc-score');sa.style.display='block';
+    document.getElementById('mc-score-num').textContent=mcCorrect+'/'+mcTotal+' ⭐';
+    const msgs=['再看看课文！💪','不错，继续！😊','做得好！👍','全对！太棒了！🏆'];
+    document.getElementById('mc-score-msg').textContent=msgs[Math.min(mcCorrect,3)];
+    sa.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function resetMc(){document.querySelectorAll('.mc-opt').forEach(o=>o.classList.remove('correct','wrong'));document.getElementById('mc-score').style.display='none';mcAnswered=0;mcCorrect=0;}
+function descAns(el,isCorrect){
+  const opts=el.parentElement.querySelectorAll('.desc-opt');
+  let done=false;opts.forEach(o=>{if(o.classList.contains('correct')||o.classList.contains('wrong'))done=true;});
+  if(done)return;
+  el.classList.add(isCorrect?'correct':'wrong');
+  if(!isCorrect)opts.forEach(o=>{const fn=o.getAttribute('onclick')||'';if(fn.includes('true'))o.classList.add('correct');});
+}
+</script>
+</body>
+</html>
