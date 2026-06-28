@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amy综合复习 · 五年级英语</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#f5f3fa;--s:#fff;--s2:#f8f6fb;
+  --b:rgba(0,0,0,0.09);--bm:rgba(0,0,0,0.16);
+  --tx:#1a1a18;--tx2:#4a4a42;--tx3:#8a8a7a;
+  --ac:#7c3aed;--acb:#f3effd;--act:#5b21b6;
+  --gr:#166534;--grb:#dcfce7;
+  --rd:#991b1b;--rdb:#fee2e2;
+  --am:#92400e;--amb:#fef3c7;
+  --tl:#0f766e;--tlb:#ccfbf1;
+  --pk:#9d174d;--pkb:#fce7f3;
+  --bl:#1d4ed8;--blb:#dbeafe;
+}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;}
+.hdr{background:linear-gradient(135deg,#5b21b6,#7c3aed);color:#fff;padding:18px 18px 14px;text-align:center;}
+.hdr-tag{display:inline-block;background:rgba(255,255,255,.2);border-radius:20px;padding:3px 12px;font-size:11px;letter-spacing:.05em;margin-bottom:6px;}
+.hdr-title{font-size:19px;font-weight:700;margin-bottom:3px;}
+.hdr-sub{font-size:12px;opacity:.8;}
+.back-link{display:inline-flex;align-items:center;gap:6px;margin:10px 14px;padding:6px 14px;background:var(--s);border-radius:20px;border:0.5px solid var(--bm);font-size:12px;color:var(--tx2);text-decoration:none;transition:background .15s;}
+.back-link:hover{background:var(--acb);color:var(--act);}
+.spd-bar{background:var(--s);border-bottom:0.5px solid var(--b);padding:7px 14px;display:flex;align-items:center;gap:7px;position:sticky;top:0;z-index:50;flex-wrap:wrap;}
+.spd-label{font-size:11px;color:var(--tx3);}
+.spd-btn{padding:3px 10px;border-radius:20px;border:0.5px solid var(--bm);background:transparent;font-size:11px;cursor:pointer;color:var(--tx2);font-family:inherit;transition:all .15s;}
+.spd-btn.on{background:var(--ac);color:#fff;border-color:var(--ac);}
+.voice-btn{margin-left:auto;padding:3px 10px;border-radius:20px;border:0.5px solid var(--bm);background:transparent;font-size:11px;cursor:pointer;color:var(--tx2);font-family:inherit;}
+.tabs{display:flex;background:var(--s);border-bottom:0.5px solid var(--b);overflow-x:auto;}
+.tab{flex-shrink:0;padding:10px 11px;font-size:11px;font-weight:600;border:none;background:transparent;cursor:pointer;color:var(--tx3);border-bottom:2px solid transparent;transition:all .15s;font-family:inherit;white-space:nowrap;}
+.tab.on{color:var(--ac);border-bottom-color:var(--ac);}
+.page{display:none;padding:14px 14px 28px;}.page.on{display:block;}
+.sec-hdr{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.sec-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;}
+.sec-title{font-size:13px;font-weight:700;}
+.scene-tag{background:linear-gradient(135deg,var(--acb),#e4d9fc);border-radius:8px;padding:8px 12px;font-size:11px;color:var(--act);font-weight:500;margin-bottom:12px;}
+.vocab-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px;}
+.vocab-card{background:var(--s);border-radius:10px;border:0.5px solid var(--bm);padding:11px 10px;display:flex;align-items:center;gap:9px;position:relative;}
+.vocab-spk{background:none;border:none;cursor:pointer;font-size:15px;flex-shrink:0;}
+.vocab-en{font-size:13px;font-weight:700;}
+.vocab-zh{font-size:11px;color:var(--tx3);margin-top:1px;}
+.vocab-warn{position:absolute;top:6px;right:6px;font-size:9px;background:var(--rdb);color:var(--rd);padding:1px 5px;border-radius:8px;font-weight:700;}
+.pattern-box{background:var(--acb);border-radius:10px;border:0.5px solid rgba(124,58,237,.2);padding:12px 14px;margin-bottom:10px;}
+.pattern-label{font-size:10px;font-weight:700;color:var(--act);letter-spacing:.05em;text-transform:uppercase;margin-bottom:8px;}
+.pattern-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.pattern-row:last-child{margin-bottom:0;}
+.pattern-spk{background:none;border:none;cursor:pointer;font-size:15px;flex-shrink:0;}
+.pattern-en{font-size:13px;font-weight:600;line-height:1.5;}
+.pattern-zh{font-size:11px;color:var(--tx2);}
+.dlg-wrap{display:flex;flex-direction:column;gap:9px;margin-bottom:6px;}
+.dlg{display:flex;align-items:flex-start;gap:9px;}
+.dlg.right{flex-direction:row-reverse;}
+.avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.bubble-wrap{position:relative;max-width:84%;}
+.bubble{padding:9px 12px;border-radius:11px;}
+.dlg.left .bubble{background:var(--s);border:0.5px solid var(--bm);border-radius:4px 11px 11px 11px;}
+.dlg.right .bubble{background:var(--acb);border:0.5px solid rgba(124,58,237,.25);border-radius:11px 4px 11px 11px;}
+.bubble-en{font-size:12px;font-weight:500;line-height:1.55;}
+.bubble-zh{font-size:10px;color:var(--tx3);margin-top:2px;}
+.spk{position:absolute;top:5px;right:-28px;width:22px;height:22px;border-radius:50%;border:none;background:transparent;cursor:pointer;font-size:14px;}
+.dlg.right .spk{left:-28px;right:auto;}
+.spk.playing{animation:pulse .6s infinite alternate;}
+@keyframes pulse{from{opacity:.5;}to{opacity:1;transform:scale(1.1);}}
+.phon-table{width:100%;border-collapse:collapse;margin-bottom:10px;font-size:12px;}
+.phon-table th{background:var(--acb);color:var(--act);padding:7px 9px;font-weight:700;border:0.5px solid rgba(124,58,237,.2);}
+.phon-table td{padding:7px 9px;border:0.5px solid var(--b);text-align:center;}
+.phon-spk{background:none;border:none;cursor:pointer;font-size:13px;}
+.city-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.city-card{background:var(--s);border-radius:9px;border:0.5px solid var(--bm);padding:11px;}
+.city-name{font-size:12px;font-weight:700;color:var(--act);margin-bottom:6px;}
+.city-detail{font-size:11px;color:var(--tx2);line-height:1.7;}
+.mc-card{background:var(--s);border-radius:10px;border:0.5px solid var(--bm);padding:12px;margin-bottom:8px;}
+.mc-q{font-size:12px;font-weight:500;margin-bottom:8px;line-height:1.6;display:flex;gap:7px;align-items:flex-start;}
+.mc-qspk{background:none;border:none;cursor:pointer;font-size:14px;flex-shrink:0;margin-top:1px;}
+.mc-opts{display:flex;flex-direction:column;gap:5px;}
+.mc-opt{padding:7px 11px;border-radius:8px;border:0.5px solid var(--bm);font-size:11px;cursor:pointer;background:var(--s2);text-align:left;font-family:inherit;transition:all .15s;line-height:1.5;}
+.mc-opt:hover{border-color:var(--ac);background:var(--acb);}
+.mc-opt.correct{background:var(--grb);border-color:#16a34a;color:var(--gr);font-weight:600;}
+.mc-opt.wrong{background:var(--rdb);border-color:#dc2626;color:var(--rd);}
+.score-area{display:none;background:var(--acb);border-radius:10px;padding:14px;text-align:center;margin-top:8px;border:0.5px solid rgba(124,58,237,.2);}
+.score-num{font-size:24px;font-weight:700;color:var(--ac);}
+.score-msg{font-size:12px;color:var(--act);margin-top:3px;}
+.retry-btn{margin-top:10px;padding:7px 20px;border-radius:20px;border:none;background:var(--ac);color:#fff;font-family:inherit;font-size:12px;cursor:pointer;}
+.tip{background:linear-gradient(135deg,#fef9ee,#fef3c7);border-left:3px solid var(--am);border-radius:0 8px 8px 0;padding:10px 12px;font-size:11px;color:var(--am);line-height:1.8;margin-top:10px;}
+.error-box{background:var(--rdb);border-left:3px solid #dc2626;border-radius:0 8px 8px 0;padding:10px 12px;font-size:11px;color:var(--rd);line-height:1.8;margin-bottom:10px;}
+.rule-list{display:flex;flex-direction:column;gap:7px;margin-bottom:10px;}
+.rule-item{display:flex;align-items:flex-start;gap:9px;background:var(--s);border-radius:9px;border:0.5px solid var(--bm);padding:10px 12px;}
+.rule-num{width:20px;height:20px;border-radius:50%;background:var(--acb);color:var(--act);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.rule-body{flex:1;font-size:11px;line-height:1.7;}
+.rule-spk2{background:none;border:none;cursor:pointer;font-size:13px;flex-shrink:0;}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-tag">五年级 · Amy试卷 · 复习版</div>
+  <div class="hdr-title">🛍️ Amy's Life · 综合复习</div>
+  <div class="hdr-sub">购物 · 语音 · 文化 · 知识点全面扩展</div>
+</div>
+
+<a class="back-link" href="index.html">← 返回主页</a>
+
+<div class="spd-bar">
+  <span class="spd-label">🔊 语速：</span>
+  <button class="spd-btn" onclick="setSpd(0.7,this)">慢</button>
+  <button class="spd-btn on" onclick="setSpd(1,this)">正常</button>
+  <button class="spd-btn" onclick="setSpd(1.3,this)">快</button>
+  <button class="voice-btn" id="vbtn" onclick="cycleVoice()">🗣 Voice 1</button>
+</div>
+
+<div class="tabs">
+  <button class="tab on" onclick="go('p1',this)">🛍️ 购物对话</button>
+  <button class="tab" onclick="go('p2',this)">🔤 语音规则</button>
+  <button class="tab" onclick="go('p3',this)">🐾 动物农场</button>
+  <button class="tab" onclick="go('p4',this)">🌍 城市天气</button>
+  <button class="tab" onclick="go('p5',this)">🧧 春节文化</button>
+  <button class="tab" onclick="go('p6',this)">✏️ 练习</button>
+</div>
+
+<div class="page on" id="p1">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#7c3aed;"></div><div class="sec-title">购物对话 Shopping</div></div>
+  <div class="scene-tag">📍 场景：Amy和妈妈去买生日礼物（汉服）</div>
+  <div class="dlg-wrap">
+    <div class="dlg left"><div class="avatar" style="background:#f3effd;">👩</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Can I help you?</div><div class="bubble-zh">需要帮忙吗？</div></div><button class="spk" onclick="speak('Can I help you?',this)">🔊</button></div></div>
+    <div class="dlg right"><div class="avatar" style="background:#fce7f3;">👧</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Yes. This hanfu is very nice. Can I try it on?</div><div class="bubble-zh">是的。这件汉服很好看，我可以试穿吗？</div></div><button class="spk" onclick="speak('Yes. This hanfu is very nice. Can I try it on?',this)">🔊</button></div></div>
+    <div class="dlg left"><div class="avatar" style="background:#f3effd;">👩</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">OK, here you are.</div><div class="bubble-zh">好的，给你。</div></div><button class="spk" onclick="speak('OK, here you are.',this)">🔊</button></div></div>
+    <div class="dlg right"><div class="avatar" style="background:#fce7f3;">👧</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">How do you like it, Amy?</div><div class="bubble-zh">你觉得怎么样，Amy？</div></div><button class="spk" onclick="speak('How do you like it, Amy?',this)">🔊</button></div></div>
+    <div class="dlg left"><div class="avatar" style="background:#f3effd;">👩</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">I think it is beautiful. How much is it?</div><div class="bubble-zh">我觉得很漂亮。多少钱？</div></div><button class="spk" onclick="speak('I think it is beautiful. How much is it?',this)">🔊</button></div></div>
+    <div class="dlg right"><div class="avatar" style="background:#fce7f3;">👧</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">It's 50 yuan.</div><div class="bubble-zh">50元。</div></div><button class="spk" onclick="speak('It\'s 50 yuan.',this)">🔊</button></div></div>
+    <div class="dlg left"><div class="avatar" style="background:#f3effd;">👩</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">OK, we'll take it.</div><div class="bubble-zh">好的，我们买了。</div></div><button class="spk" onclick="speak('OK, we\'ll take it.',this)">🔊</button></div></div>
+  </div>
+  <div class="pattern-box">
+    <div class="pattern-label">🔑 购物核心句型</div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('Can I help you?',this)">🔊</button><div><div class="pattern-en">Can I help you?</div><div class="pattern-zh">需要帮忙吗？（店员常用语）</div></div></div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('Can I try it on?',this)">🔊</button><div><div class="pattern-en">Can I try it on?</div><div class="pattern-zh">我可以试穿吗？</div></div></div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('How much is it?',this)">🔊</button><div><div class="pattern-en">How much is it?</div><div class="pattern-zh">多少钱？</div></div></div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('We\'ll take it.',this)">🔊</button><div><div class="pattern-en">We'll take it.</div><div class="pattern-zh">我们买了/我们要这个。</div></div></div>
+  </div>
+  <div class="tip"><b>购物词汇扩展：</b><br>salesman 销售员 · shop 商店 · price 价格 · try on 试穿<br>hanfu 汉服 · tiger-head shoes 虎头鞋（中国传统物品）</div>
+</div>
+
+<div class="page" id="p2">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#1d4ed8;"></div><div class="sec-title">语音规则复习</div></div>
+  <div class="scene-tag">📍 试卷原题：根据图片和发音规则选择正确选项</div>
+  <table class="phon-table">
+    <tr><th>单词</th><th>发音规则</th><th>例词</th></tr>
+    <tr><td>skirt</td><td><button class="phon-spk" onclick="speak('skirt',this)">🔊</button> /ɜː/</td><td>裙子</td></tr>
+    <tr><td>hair</td><td><button class="phon-spk" onclick="speak('hair',this)">🔊</button> /eə/</td><td>头发</td></tr>
+    <tr><td>nurse</td><td><button class="phon-spk" onclick="speak('nurse',this)">🔊</button> /ɜː/</td><td>护士</td></tr>
+    <tr><td>car</td><td><button class="phon-spk" onclick="speak('car',this)">🔊</button> /ɑː/</td><td>汽车</td></tr>
+    <tr><td>fork</td><td><button class="phon-spk" onclick="speak('fork',this)">🔊</button> /ɔː/</td><td>叉子</td></tr>
+  </table>
+  <div class="error-box"><b>试卷易错点：</b><br>"The art teacher drives a <b>car</b> on the farm." — car 不是 fork，注意词形相近但意思完全不同！<br>"Blair has long fair <b>hair</b>." — hair（头发）vs hare（兔子），发音相同但拼写不同</div>
+  <div style="font-size:12px;font-weight:700;margin-bottom:8px;">📚 同类词汇分类练习</div>
+  <div class="vocab-grid">
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('kitchen',this)">🔊</button><div><div class="vocab-en">kitchen</div><div class="vocab-zh">厨房（房间类）</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('bedroom',this)">🔊</button><div><div class="vocab-en">bedroom</div><div class="vocab-zh">卧室（房间类）</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('blackboard',this)">🔊</button><div><div class="vocab-en">blackboard</div><div class="vocab-zh">黑板（教室物品）</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('green bean',this)">🔊</button><div><div class="vocab-en">green bean</div><div class="vocab-zh">青豆（蔬菜类）</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('trousers',this)">🔊</button><div><div class="vocab-en">trousers</div><div class="vocab-zh">长裤（衣物类）</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('go to school',this)">🔊</button><div><div class="vocab-en">go to school</div><div class="vocab-zh">上学（动作短语）</div></div></div>
+  </div>
+  <div class="tip"><b>分类记忆法：</b>把单词按"房间、教室物品、蔬菜、衣物、动作"分类记，更容易区分同类和不同类词汇。</div>
+</div>
+
+<div class="page" id="p3">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#0d7d4e;"></div><div class="sec-title">动物 & be动词搭配</div></div>
+  <div class="scene-tag">📍 试卷易错：sheep/horses 单复数 + be动词一致性</div>
+  <div class="error-box"><b>原题易错分析：</b><br>"He has many <b>sheep</b> and <b>tomatoes</b> on the farm." → sheep不变，tomato要变tomatoes<br>"—Mr Lin, what <b>are</b> those? —They're <b>cows</b>." → those(复数)用are，不用is<br>"These are <b>horses</b>. They are strong." → these对应复数horses</div>
+  <div class="vocab-grid">
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('cow',this)">🔊</button><div><div class="vocab-en">cow / cows</div><div class="vocab-zh">奶牛 They're black and white.</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('horse',this)">🔊</button><div><div class="vocab-en">horse / horses</div><div class="vocab-zh">马 They are strong.</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('chicken',this)">🔊</button><div><div class="vocab-en">chicken / chickens</div><div class="vocab-zh">鸡 can lay eggs</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('sheep',this)">🔊</button><div><div class="vocab-en">sheep</div><div class="vocab-zh">羊（单复同形）</div><div class="vocab-warn">易错</div></div></div>
+  </div>
+  <div class="pattern-box">
+    <div class="pattern-label">🔑 这/那 + be动词 一致性</div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('What are those? They\'re cows.',this)">🔊</button><div><div class="pattern-en">What <b style="color:var(--ac);">are</b> those? They're cows.</div><div class="pattern-zh">那些是什么？是奶牛。（those+are）</div></div></div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('These are horses. They are strong.',this)">🔊</button><div><div class="pattern-en"><b style="color:var(--ac);">These are</b> horses. They are strong.</div><div class="pattern-zh">这些是马，它们很强壮。</div></div></div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('Is Miss White in the classroom? Yes, she is.',this)">🔊</button><div><div class="pattern-en">Is Miss White in the classroom? Yes, <b style="color:var(--ac);">she is</b>.</div><div class="pattern-zh">怀特老师在教室吗？是的，她在。</div></div></div>
+  </div>
+  <div class="tip"><b>this/that/these/those 速记口诀：</b><br>this（这个）→ is &nbsp;&nbsp; that（那个）→ is<br>these（这些）→ are &nbsp;&nbsp; those（那些）→ are<br>单数用 is，复数用 are！</div>
+</div>
+
+<div class="page" id="p4">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#0f766e;"></div><div class="sec-title">不同城市 · 天气与服装</div></div>
+  <div class="scene-tag">📍 试卷原题：Beijing / New York / Sydney / London 天气服装对比</div>
+  <div class="city-grid">
+    <div class="city-card"><div class="city-name">🏙️ Beijing & New York</div><div class="city-detail">hot 炎热<br>wear shorts and T-shirts<br>穿短裤和T恤</div></div>
+    <div class="city-card"><div class="city-name">🌧️ London</div><div class="city-detail">cool and rainy 凉爽多雨<br>wear jackets and trousers<br>穿夹克和长裤</div></div>
+    <div class="city-card"><div class="city-name">❄️ Sydney</div><div class="city-detail">cold and snowy 寒冷下雪<br>wear scarves and sweaters<br>穿围巾和毛衣</div></div>
+    <div class="city-card"><div class="city-name">🐮 农场对比</div><div class="city-detail">London: strong horses<br>Sydney: kangaroos 袋鼠<br>多地：cows, sheep, vegetables</div></div>
+  </div>
+  <div class="pattern-box">
+    <div class="pattern-label">🔑 时差句型</div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('In Beijing, it\'s 7:10 p.m. But in New York, it\'s 7:10 a.m.',this)">🔊</button><div><div class="pattern-en">In Beijing, it's 7:10 p.m. But in New York, it's 7:10 a.m.</div><div class="pattern-zh">北京晚上7:10，纽约早上7:10。（时差12小时）</div></div></div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('In Sydney, it is 9:10 p.m. Time for lunch.',this)">🔊</button><div><div class="pattern-en">In Sydney, it is 9:10 p.m. Time for lunch.</div><div class="pattern-zh">悉尼晚上9:10，是午餐时间。</div></div></div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('In London, it\'s 12:10 p.m. Time for lunch.',this)">🔊</button><div><div class="pattern-en">In London, it's 12:10 p.m. Time for lunch.</div><div class="pattern-zh">伦敦中午12:10，是午餐时间。</div></div></div>
+  </div>
+  <div class="tip"><b>解题技巧：</b>时差题要先确定一个城市的时间和事件（吃午餐/起床/睡觉），再用时差推算其他城市处于哪个时段。<br>天气穿衣对应关系：hot→shorts/T-shirts，cool→jackets，cold→scarves/sweaters</div>
+</div>
+
+<div class="page" id="p5">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#dc2626;"></div><div class="sec-title">春节安全规则 · 传统文化</div></div>
+  <div class="scene-tag">📍 [新情境·传统文化] Spring Festival Safety Rules</div>
+  <div class="rule-list">
+    <div class="rule-item"><div class="rule-num">🕯️</div><div class="rule-body"><b>Be careful with fire.</b> 小心用火<br>If you want to use candles, please ask your parents to help you.<br><span style="color:var(--tx3);">如果要用蜡烛，请让父母帮忙。</span></div><button class="rule-spk2" onclick="speak('Be careful with fire. If you want to use candles, please ask your parents to help you.',this)">🔊</button></div>
+    <div class="rule-item"><div class="rule-num">🍬</div><div class="rule-body"><b>Eat safely.</b> 安全饮食<br>Before eating, wash the fruit and vegetables. Don't eat too much candy.<br><span style="color:var(--tx3);">吃之前洗水果蔬菜，不要吃太多糖。</span></div><button class="rule-spk2" onclick="speak('Eat safely. Before eating, wash the fruit and vegetables. Don\'t eat too much candy.',this)">🔊</button></div>
+    <div class="rule-item"><div class="rule-num">🚸</div><div class="rule-body"><b>Be safe on the road.</b> 道路安全<br>Hold your parents' hands when crossing the roads. Don't go at a yellow light or a red light.<br><span style="color:var(--tx3);">过马路握住父母的手，不要在黄灯或红灯时通过。</span></div><button class="rule-spk2" onclick="speak('Be safe on the road. Hold your parents\' hands when crossing the roads.',this)">🔊</button></div>
+    <div class="rule-item"><div class="rule-num">🙏</div><div class="rule-body"><b>Respect traditions.</b> 尊重传统<br>Don't say bad words. They might bring bad luck. Say "Happy Spring Festival!" or "Guonianhao!" to others.<br><span style="color:var(--tx3);">不说不吉利的话，对别人说"新年快乐"。</span></div><button class="rule-spk2" onclick="speak('Respect traditions. Don\'t say bad words. Say Happy Spring Festival to others.',this)">🔊</button></div>
+  </div>
+  <div class="pattern-box">
+    <div class="pattern-label">🔑 重点词汇</div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('respect',this)">🔊</button><div><div class="pattern-en">respect</div><div class="pattern-zh">尊重；重视（= follow and value important things）</div></div></div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('tradition',this)">🔊</button><div><div class="pattern-en">tradition</div><div class="pattern-zh">传统</div></div></div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('alone',this)">🔊</button><div><div class="pattern-en">alone</div><div class="pattern-zh">独自地（不能独自用蜡烛）</div></div></div>
+  </div>
+  <div class="tip"><b>易错点：</b>"We can use candles alone." 是 <b style="color:var(--rd);">False</b>，原文是要让父母帮忙，不能独自使用！做判断题要看清楚条件状语。</div>
+</div>
+
+<div class="page" id="p6">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#991b1b;"></div><div class="sec-title">综合练习</div></div>
+  <div style="font-size:11px;color:var(--tx3);margin-bottom:10px;">答完6题显示得分 🌟</div>
+  <div class="mc-card">
+    <div class="mc-q"><button class="mc-qspk" onclick="speak('Mr Lin, what are those? They are cows.',this)">🔊</button><div><b>①</b> "—Mr Lin, what _____ those? —They're _____." 正确选项？</div></div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,true)">A. are; cows <span style="color:var(--tx3);font-size:10px;">✓</span></button>
+      <button class="mc-opt" onclick="mcAns(this,false)">B. is; cows</button>
+      <button class="mc-opt" onclick="mcAns(this,false)">C. are; horses</button>
+    </div>
+  </div>
+  <div class="mc-card">
+    <div class="mc-q"><button class="mc-qspk" onclick="speak('Can I try it on?',this)">🔊</button><div><b>②</b> 试衣间想问"我可以试穿吗"，应该说？</div></div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,false)">A. How much is it?</button>
+      <button class="mc-opt" onclick="mcAns(this,true)">B. Can I try it on? <span style="color:var(--tx3);font-size:10px;">✓</span></button>
+      <button class="mc-opt" onclick="mcAns(this,false)">C. Can I help you?</button>
+    </div>
+  </div>
+  <div class="mc-card">
+    <div class="mc-q"><button class="mc-qspk" onclick="speak('He has many sheep and tomatoes on the farm.',this)">🔊</button><div><b>③</b> "He has many _____ and _____ on the farm." 正确搭配？</div></div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,true)">A. sheep; tomatoes <span style="color:var(--tx3);font-size:10px;">✓</span></button>
+      <button class="mc-opt" onclick="mcAns(this,false)">B. sheep; tomato</button>
+      <button class="mc-opt" onclick="mcAns(this,false)">C. sheeps; tomatoes</button>
+    </div>
+  </div>
+  <div class="mc-card">
+    <div class="mc-q"><button class="mc-qspk" onclick="speak('In Beijing it is hot. People wear shorts and T-shirts.',this)">🔊</button><div><b>④</b> 北京天气炎热，应该穿什么？</div></div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,true)">A. shorts and T-shirts <span style="color:var(--tx3);font-size:10px;">✓</span></button>
+      <button class="mc-opt" onclick="mcAns(this,false)">B. jackets and trousers</button>
+      <button class="mc-opt" onclick="mcAns(this,false)">C. scarves and sweaters</button>
+    </div>
+  </div>
+  <div class="mc-card">
+    <div class="mc-q"><button class="mc-qspk" onclick="speak('We can use candles alone. Is this true or false?',this)">🔊</button><div><b>⑤</b> "We can use candles alone." 这句话对吗？</div></div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,false)">A. True</button>
+      <button class="mc-opt" onclick="mcAns(this,true)">B. False <span style="color:var(--tx3);font-size:10px;">✓ 需要父母帮忙</span></button>
+    </div>
+  </div>
+  <div class="mc-card">
+    <div class="mc-q"><button class="mc-qspk" onclick="speak('Respect means to follow and value important things.',this)">🔊</button><div><b>⑥</b> "Respect" 的意思是？</div></div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,false)">A. like something very much</button>
+      <button class="mc-opt" onclick="mcAns(this,false)">B. listen to your teacher</button>
+      <button class="mc-opt" onclick="mcAns(this,true)">C. follow and value important things <span style="color:var(--tx3);font-size:10px;">✓</span></button>
+    </div>
+  </div>
+  <div class="score-area" id="sc">
+    <div class="score-num" id="scn"></div>
+    <div class="score-msg" id="scm"></div>
+    <button class="retry-btn" onclick="resetMc()">再来一次 🔄</button>
+  </div>
+</div>
+
+<div style="height:30px;"></div>
+<script>
+let spd=1,voices=[],vi=0,activBtn=null;
+function loadVoices(){voices=window.speechSynthesis.getVoices().filter(v=>v.lang.startsWith('en'));if(!voices.length)setTimeout(loadVoices,400);}
+if('speechSynthesis'in window){window.speechSynthesis.onvoiceschanged=loadVoices;loadVoices();}
+function speak(text,btn){
+  if(!window.speechSynthesis)return;
+  window.speechSynthesis.cancel();
+  if(btn && activBtn===btn){activBtn=null;return;}
+  if(activBtn){activBtn.classList.remove('playing');activBtn=null;}
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='en-US';u.rate=spd;u.pitch=1;
+  if(voices.length)u.voice=voices[vi%voices.length];
+  if(btn){btn.classList.add('playing');activBtn=btn;u.onend=()=>{btn.classList.remove('playing');activBtn=null;};u.onerror=()=>{btn.classList.remove('playing');activBtn=null;};}
+  window.speechSynthesis.speak(u);
+}
+function setSpd(s,btn){spd=s;document.querySelectorAll('.spd-btn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');}
+function cycleVoice(){if(!voices.length)return;vi=(vi+1)%voices.length;document.getElementById('vbtn').textContent='🗣 Voice '+(vi+1);speak('Welcome to the shop!',null);}
+function go(id,btn){document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));document.getElementById(id).classList.add('on');btn.classList.add('on');}
+let mcA=0,mcC=0,mcT=6;
+function mcAns(el,ok){
+  const opts=el.parentElement.querySelectorAll('.mc-opt');
+  let done=false;opts.forEach(o=>{if(o.classList.contains('correct')||o.classList.contains('wrong'))done=true;});
+  if(done)return;
+  el.classList.add(ok?'correct':'wrong');
+  if(!ok)opts.forEach(o=>{const f=o.getAttribute('onclick')||'';if(f.includes('true'))o.classList.add('correct');});
+  mcA++;if(ok)mcC++;
+  if(mcA===mcT){
+    const sa=document.getElementById('sc');sa.style.display='block';
+    document.getElementById('scn').textContent=mcC+'/'+mcT+' ⭐';
+    const m=['再复习一下！💪','不错，继续！😊','做得好！👍','很棒！','接近满分！','全对！Amy小达人！🏆'];
+    document.getElementById('scm').textContent=m[Math.min(mcC,5)];
+    sa.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function resetMc(){document.querySelectorAll('.mc-opt').forEach(o=>o.classList.remove('correct','wrong'));document.getElementById('sc').style.display='none';mcA=0;mcC=0;}
+</script>
+</body>
+</html>

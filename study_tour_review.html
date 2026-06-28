@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>研学之旅复习 · 四年级英语</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#f4f7f2;--s:#fff;--s2:#f7f9f5;
+  --b:rgba(0,0,0,0.09);--bm:rgba(0,0,0,0.16);
+  --tx:#1a1a18;--tx2:#4a4a42;--tx3:#8a8a7a;
+  --ac:#0d7d4e;--acb:#dcf5e8;--act:#085a37;
+  --gr:#166534;--grb:#dcfce7;
+  --rd:#991b1b;--rdb:#fee2e2;
+  --am:#92400e;--amb:#fef3c7;
+  --tl:#0f766e;--tlb:#ccfbf1;
+  --pk:#9d174d;--pkb:#fce7f3;
+  --bl:#1d4ed8;--blb:#dbeafe;
+}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;}
+.hdr{background:linear-gradient(135deg,#085a37,#0d7d4e);color:#fff;padding:18px 18px 14px;text-align:center;}
+.hdr-tag{display:inline-block;background:rgba(255,255,255,.2);border-radius:20px;padding:3px 12px;font-size:11px;letter-spacing:.05em;margin-bottom:6px;}
+.hdr-title{font-size:19px;font-weight:700;margin-bottom:3px;}
+.hdr-sub{font-size:12px;opacity:.8;}
+.back-link{display:inline-flex;align-items:center;gap:6px;margin:10px 14px;padding:6px 14px;background:var(--s);border-radius:20px;border:0.5px solid var(--bm);font-size:12px;color:var(--tx2);text-decoration:none;transition:background .15s;}
+.back-link:hover{background:var(--acb);color:var(--act);}
+.spd-bar{background:var(--s);border-bottom:0.5px solid var(--b);padding:7px 14px;display:flex;align-items:center;gap:7px;position:sticky;top:0;z-index:50;flex-wrap:wrap;}
+.spd-label{font-size:11px;color:var(--tx3);}
+.spd-btn{padding:3px 10px;border-radius:20px;border:0.5px solid var(--bm);background:transparent;font-size:11px;cursor:pointer;color:var(--tx2);font-family:inherit;transition:all .15s;}
+.spd-btn.on{background:var(--ac);color:#fff;border-color:var(--ac);}
+.voice-btn{margin-left:auto;padding:3px 10px;border-radius:20px;border:0.5px solid var(--bm);background:transparent;font-size:11px;cursor:pointer;color:var(--tx2);font-family:inherit;}
+.tabs{display:flex;background:var(--s);border-bottom:0.5px solid var(--b);overflow-x:auto;}
+.tab{flex-shrink:0;padding:10px 12px;font-size:11px;font-weight:600;border:none;background:transparent;cursor:pointer;color:var(--tx3);border-bottom:2px solid transparent;transition:all .15s;font-family:inherit;white-space:nowrap;}
+.tab.on{color:var(--ac);border-bottom-color:var(--ac);}
+.page{display:none;padding:14px 14px 28px;}.page.on{display:block;}
+.sec-hdr{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.sec-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;}
+.sec-title{font-size:13px;font-weight:700;}
+.scene-tag{background:linear-gradient(135deg,var(--acb),#bbf0d0);border-radius:8px;padding:8px 12px;font-size:11px;color:var(--act);font-weight:500;margin-bottom:12px;}
+.vocab-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px;}
+.vocab-card{background:var(--s);border-radius:10px;border:0.5px solid var(--bm);padding:11px 10px;display:flex;align-items:center;gap:9px;position:relative;}
+.vocab-spk{background:none;border:none;cursor:pointer;font-size:15px;flex-shrink:0;}
+.vocab-en{font-size:13px;font-weight:700;}
+.vocab-zh{font-size:11px;color:var(--tx3);margin-top:1px;}
+.vocab-warn{position:absolute;top:6px;right:6px;font-size:9px;background:var(--rdb);color:var(--rd);padding:1px 5px;border-radius:8px;font-weight:700;}
+.pattern-box{background:var(--acb);border-radius:10px;border:0.5px solid rgba(13,125,78,.2);padding:12px 14px;margin-bottom:10px;}
+.pattern-label{font-size:10px;font-weight:700;color:var(--act);letter-spacing:.05em;text-transform:uppercase;margin-bottom:8px;}
+.pattern-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.pattern-row:last-child{margin-bottom:0;}
+.pattern-spk{background:none;border:none;cursor:pointer;font-size:15px;flex-shrink:0;}
+.pattern-en{font-size:13px;font-weight:600;line-height:1.5;}
+.pattern-zh{font-size:11px;color:var(--tx2);}
+.dlg-wrap{display:flex;flex-direction:column;gap:9px;margin-bottom:6px;}
+.dlg{display:flex;align-items:flex-start;gap:9px;}
+.dlg.right{flex-direction:row-reverse;}
+.avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.bubble-wrap{position:relative;max-width:84%;}
+.bubble{padding:9px 12px;border-radius:11px;}
+.dlg.left .bubble{background:var(--s);border:0.5px solid var(--bm);border-radius:4px 11px 11px 11px;}
+.dlg.right .bubble{background:var(--acb);border:0.5px solid rgba(13,125,78,.25);border-radius:11px 4px 11px 11px;}
+.bubble-en{font-size:12px;font-weight:500;line-height:1.55;}
+.bubble-zh{font-size:10px;color:var(--tx3);margin-top:2px;}
+.spk{position:absolute;top:5px;right:-28px;width:22px;height:22px;border-radius:50%;border:none;background:transparent;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;}
+.dlg.right .spk{left:-28px;right:auto;}
+.spk.playing{animation:pulse .6s infinite alternate;}
+@keyframes pulse{from{opacity:.5;}to{opacity:1;transform:scale(1.1);}}
+.rule-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.rule-card{background:var(--s);border-radius:9px;border:0.5px solid var(--bm);padding:10px;text-align:center;position:relative;}
+.rule-icon{font-size:22px;margin-bottom:3px;}
+.rule-en{font-size:11px;font-weight:600;}
+.rule-zh{font-size:10px;color:var(--tx3);margin-top:2px;}
+.rule-spk{position:absolute;top:5px;right:5px;background:none;border:none;cursor:pointer;font-size:12px;}
+.mc-card{background:var(--s);border-radius:10px;border:0.5px solid var(--bm);padding:12px;margin-bottom:8px;}
+.mc-q{font-size:12px;font-weight:500;margin-bottom:8px;line-height:1.6;display:flex;gap:7px;align-items:flex-start;}
+.mc-qspk{background:none;border:none;cursor:pointer;font-size:14px;flex-shrink:0;margin-top:1px;}
+.mc-opts{display:flex;flex-direction:column;gap:5px;}
+.mc-opt{padding:7px 11px;border-radius:8px;border:0.5px solid var(--bm);font-size:11px;cursor:pointer;background:var(--s2);text-align:left;font-family:inherit;transition:all .15s;line-height:1.5;}
+.mc-opt:hover{border-color:var(--ac);background:var(--acb);}
+.mc-opt.correct{background:var(--grb);border-color:#16a34a;color:var(--gr);font-weight:600;}
+.mc-opt.wrong{background:var(--rdb);border-color:#dc2626;color:var(--rd);}
+.score-area{display:none;background:var(--acb);border-radius:10px;padding:14px;text-align:center;margin-top:8px;border:0.5px solid rgba(13,125,78,.2);}
+.score-num{font-size:24px;font-weight:700;color:var(--ac);}
+.score-msg{font-size:12px;color:var(--act);margin-top:3px;}
+.retry-btn{margin-top:10px;padding:7px 20px;border-radius:20px;border:none;background:var(--ac);color:#fff;font-family:inherit;font-size:12px;cursor:pointer;}
+.tip{background:linear-gradient(135deg,#fef9ee,#fef3c7);border-left:3px solid var(--am);border-radius:0 8px 8px 0;padding:10px 12px;font-size:11px;color:var(--am);line-height:1.8;margin-top:10px;}
+.error-box{background:var(--rdb);border-left:3px solid #dc2626;border-radius:0 8px 8px 0;padding:10px 12px;font-size:11px;color:var(--rd);line-height:1.8;margin-bottom:10px;}
+.timeline{display:flex;flex-direction:column;gap:6px;margin-bottom:10px;}
+.time-row{display:flex;align-items:center;gap:10px;background:var(--s);border-radius:8px;border:0.5px solid var(--bm);padding:9px 12px;}
+.time-badge{background:var(--acb);color:var(--act);font-size:11px;font-weight:700;padding:3px 9px;border-radius:12px;min-width:70px;text-align:center;}
+.time-text{font-size:12px;flex:1;}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-tag">四年级 · 萧山区素养评价 · 复习版</div>
+  <div class="hdr-title">🚜 研学之旅 Study Tour</div>
+  <div class="hdr-sub">Ben的农场研学 · 知识点全面扩展</div>
+</div>
+
+<a class="back-link" href="index.html">← 返回主页</a>
+
+<div class="spd-bar">
+  <span class="spd-label">🔊 语速：</span>
+  <button class="spd-btn" onclick="setSpd(0.7,this)">慢</button>
+  <button class="spd-btn on" onclick="setSpd(1,this)">正常</button>
+  <button class="spd-btn" onclick="setSpd(1.3,this)">快</button>
+  <button class="voice-btn" id="vbtn" onclick="cycleVoice()">🗣 Voice 1</button>
+</div>
+
+<div class="tabs">
+  <button class="tab on" onclick="go('p1',this)">🐄 农场词汇</button>
+  <button class="tab" onclick="go('p2',this)">💰 价格句型</button>
+  <button class="tab" onclick="go('p3',this)">📋 规则表达</button>
+  <button class="tab" onclick="go('p4',this)">⏰ 时间日记</button>
+  <button class="tab" onclick="go('p5',this)">💬 情景对话</button>
+  <button class="tab" onclick="go('p6',this)">✏️ 练习</button>
+</div>
+
+<div class="page on" id="p1">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#0d7d4e;"></div><div class="sec-title">农场动植物词汇</div></div>
+  <div class="scene-tag">📍 易错点：sheep（羊）单复数同形，horse→horses 规则变化</div>
+  <div class="vocab-grid">
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('cow',this)">🔊</button><div><div class="vocab-en">cow</div><div class="vocab-zh">奶牛（复数 cows）</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('horse',this)">🔊</button><div><div class="vocab-en">horse</div><div class="vocab-zh">马（复数 horses）</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('sheep',this)">🔊</button><div><div class="vocab-en">sheep</div><div class="vocab-zh">羊（单复数同形！）</div><div class="vocab-warn">易错</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('chicken',this)">🔊</button><div><div class="vocab-en">chicken</div><div class="vocab-zh">鸡（复数 chickens）</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('tomato',this)">🔊</button><div><div class="vocab-en">tomato</div><div class="vocab-zh">番茄（复数 tomatoes）</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('potato',this)">🔊</button><div><div class="vocab-en">potato</div><div class="vocab-zh">土豆（复数 potatoes）</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('green bean',this)">🔊</button><div><div class="vocab-en">green bean</div><div class="vocab-zh">青豆</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('feed the sheep',this)">🔊</button><div><div class="vocab-en">feed</div><div class="vocab-zh">喂养（feed the sheep）</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('milk the cows',this)">🔊</button><div><div class="vocab-en">milk</div><div class="vocab-zh">挤奶（milk the cows）</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('water the vegetables',this)">🔊</button><div><div class="vocab-en">water</div><div class="vocab-zh">浇水（water the vegetables）</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('pick fresh vegetables',this)">🔊</button><div><div class="vocab-en">pick</div><div class="vocab-zh">采摘（pick vegetables）</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('round',this)">🔊</button><div><div class="vocab-en">round</div><div class="vocab-zh">圆的（tomatoes are round）</div></div></div>
+  </div>
+  <div class="error-box"><b>试卷易错点复盘：</b><br>"We have 17 horses." 用 horses（复数），不是 horse<br>"He has many sheep and tomatoes." — sheep 复数不变，tomato→tomatoes 要加 es</div>
+  <div class="tip"><b>名词复数规则小结：</b><br>一般加 s：cow→cows, chicken→chickens<br>以 o 结尾的部分单词加 es：tomato→tomatoes, potato→potatoes<br>特殊变化（不规则）：sheep→sheep（不变）</div>
+</div>
+
+<div class="page" id="p2">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#1d4ed8;"></div><div class="sec-title">价格 & 评价表达</div></div>
+  <div class="scene-tag">📍 试卷原题：299 yuan, It's cheap / It's expensive</div>
+  <div class="pattern-box">
+    <div class="pattern-label">🔑 价格句型</div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('How much is it?',this)">🔊</button><div><div class="pattern-en">How much is it?</div><div class="pattern-zh">这个多少钱？（单数物品）</div></div></div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('It\'s 299 yuan.',this)">🔊</button><div><div class="pattern-en">It's 299 yuan.</div><div class="pattern-zh">299元。</div></div></div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('It\'s cheap.',this)">🔊</button><div><div class="pattern-en">It's <b style="color:var(--ac);">cheap</b>.</div><div class="pattern-zh">很便宜。（反义：expensive 贵）</div></div></div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('It\'s expensive.',this)">🔊</button><div><div class="pattern-en">It's <b style="color:var(--rd);">expensive</b>.</div><div class="pattern-zh">很贵。</div></div></div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('Amy pays 240 yuan in total.',this)">🔊</button><div><div class="pattern-en">Amy pays 240 yuan <b style="color:var(--ac);">in total</b>.</div><div class="pattern-zh">Amy总共付240元。</div></div></div>
+  </div>
+  <div style="font-size:12px;font-weight:700;margin-bottom:8px;">🛍️ 衣物 & 必需品词汇</div>
+  <div class="vocab-grid">
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('sunglasses',this)">🔊</button><div><div class="vocab-en">sunglasses</div><div class="vocab-zh">太阳镜（永远复数）</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('shorts',this)">🔊</button><div><div class="vocab-en">shorts</div><div class="vocab-zh">短裤（永远复数）</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('T-shirt',this)">🔊</button><div><div class="vocab-en">T-shirt</div><div class="vocab-zh">T恤衫</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('trousers',this)">🔊</button><div><div class="vocab-en">trousers</div><div class="vocab-zh">长裤（永远复数）</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('gloves',this)">🔊</button><div><div class="vocab-en">gloves</div><div class="vocab-zh">手套（永远复数）</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('umbrella',this)">🔊</button><div><div class="vocab-en">umbrella</div><div class="vocab-zh">雨伞</div></div></div>
+  </div>
+  <div class="tip"><b>注意：</b>sunglasses, shorts, trousers, gloves 这类成对的物品永远是复数形式，不能说 "a sunglass"！</div>
+</div>
+
+<div class="page" id="p3">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#d97706;"></div><div class="sec-title">课程规则 Rules</div></div>
+  <div class="scene-tag">📍 试卷原题：Class Board 上各课程的 Rules</div>
+  <div class="rule-grid">
+    <div class="rule-card"><div class="rule-icon">✋</div><div class="rule-en">Put up your hand to speak.</div><div class="rule-zh">举手发言</div><button class="rule-spk" onclick="speak('Put up your hand to speak.',this)">🔊</button></div>
+    <div class="rule-card"><div class="rule-icon">🏃🚫</div><div class="rule-en">Don't run in the farm.</div><div class="rule-zh">不要在农场跑动</div><button class="rule-spk" onclick="speak('Don\'t run in the farm.',this)">🔊</button></div>
+    <div class="rule-card"><div class="rule-icon">🔥🚫</div><div class="rule-en">Don't touch hot things.</div><div class="rule-zh">不要触碰热的东西</div><button class="rule-spk" onclick="speak('Don\'t touch hot things.',this)">🔊</button></div>
+    <div class="rule-card"><div class="rule-icon">🧹</div><div class="rule-en">Please clean the floor.</div><div class="rule-zh">请打扫地板</div><button class="rule-spk" onclick="speak('Please clean the floor.',this)">🔊</button></div>
+    <div class="rule-card"><div class="rule-icon">🍽️</div><div class="rule-en">I can clear the tables.</div><div class="rule-zh">我可以清理桌子</div><button class="rule-spk" onclick="speak('I can clear the tables.',this)">🔊</button></div>
+    <div class="rule-card"><div class="rule-icon">🤲</div><div class="rule-en">do my homework first</div><div class="rule-zh">先做完作业</div><button class="rule-spk" onclick="speak('Do my homework first.',this)">🔊</button></div>
+    <div class="rule-card"><div class="rule-icon">🛏️</div><div class="rule-en">tidy my room</div><div class="rule-zh">整理我的房间</div><button class="rule-spk" onclick="speak('Tidy my room.',this)">🔊</button></div>
+    <div class="rule-card"><div class="rule-icon">💬</div><div class="rule-en">use kind words</div><div class="rule-zh">使用友善的话语</div><button class="rule-spk" onclick="speak('Use kind words.',this)">🔊</button></div>
+  </div>
+  <div class="pattern-box">
+    <div class="pattern-label">🔑 值日 & 课程相关句型</div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('Who\'s on duty today?',this)">🔊</button><div><div class="pattern-en">Who's on duty today?</div><div class="pattern-zh">今天谁值日？</div></div></div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('The class starts at 2 p.m.',this)">🔊</button><div><div class="pattern-en">The class starts at 2 p.m.</div><div class="pattern-zh">课程从下午2点开始。</div></div></div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('Can I milk the cows now?',this)">🔊</button><div><div class="pattern-en">Can I milk the cows now?</div><div class="pattern-zh">我现在能挤牛奶吗？</div></div></div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('You can make one in the art class.',this)">🔊</button><div><div class="pattern-en">You can make one in the art class.</div><div class="pattern-zh">你可以在美术课上做一个。</div></div></div>
+  </div>
+</div>
+
+<div class="page" id="p4">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#9d174d;"></div><div class="sec-title">时间表达 & 日记写作</div></div>
+  <div class="scene-tag">📍 试卷原题：Ben's day / Lily's day 行程表</div>
+  <div class="timeline">
+    <div class="time-row"><span class="time-badge">8:00</span><span class="time-text">get up <button class="rule-spk" style="position:static;" onclick="speak('It\'s 8 o\'clock. It\'s time to get up.',this)">🔊</button></span></div>
+    <div class="time-row"><span class="time-badge">9:00</span><span class="time-text">pottery class / water the vegetables</span></div>
+    <div class="time-row"><span class="time-badge">11:00</span><span class="time-text">lunch（Farm lunch）</span></div>
+    <div class="time-row"><span class="time-badge">14:00</span><span class="time-text">feed the animals</span></div>
+    <div class="time-row"><span class="time-badge">21:00</span><span class="time-text">go to bed</span></div>
+  </div>
+  <div class="pattern-box">
+    <div class="pattern-label">🔑 日记常用句型</div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('It\'s time to get up.',this)">🔊</button><div><div class="pattern-en">It's time to <b style="color:var(--ac);">get up</b>.</div><div class="pattern-zh">到起床的时间了。</div></div></div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('These are my trousers. They are cool.',this)">🔊</button><div><div class="pattern-en">These are my <b style="color:var(--ac);">trousers</b>. They are cool.</div><div class="pattern-zh">这是我的裤子，很酷。</div></div></div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('The rule for class: sweep the floor after class.',this)">🔊</button><div><div class="pattern-en">The rule for class: sweep the floor after class.</div><div class="pattern-zh">课程规则：下课后扫地。</div></div></div>
+    <div class="pattern-row"><button class="pattern-spk" onclick="speak('I like my day!',this)">🔊</button><div><div class="pattern-en">I like my day! / I love my day!</div><div class="pattern-zh">我喜欢/我爱我的这一天！</div></div></div>
+  </div>
+  <div class="tip"><b>日记写作要点：</b><br>1️⃣ 时间 + 起床/活动事件 → It's [时间] o'clock. It's time to [动作].<br>2️⃣ 描述物品 → These are my [物品]. They are [形容词].<br>3️⃣ 说明规则 → The rule for [场景]: [规则内容].</div>
+</div>
+
+<div class="page" id="p5">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#0d7d4e;"></div><div class="sec-title">情景对话扩展</div></div>
+  <div class="scene-tag">📍 场景：Ben研学结束后给妈妈打电话汇报</div>
+  <div class="dlg-wrap">
+    <div class="dlg left"><div class="avatar" style="background:#dcfce7;">👦</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Hi, mum, this is Ben. How are you?</div><div class="bubble-zh">嗨妈妈，我是Ben。你好吗？</div></div><button class="spk" onclick="speak('Hi, mum, this is Ben. How are you?',this)">🔊</button></div></div>
+    <div class="dlg right"><div class="avatar" style="background:#fce7f3;">👩</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Hi, Ben. I'm well. How's your study tour?</div><div class="bubble-zh">嗨Ben，我很好。你的研学怎么样？</div></div><button class="spk" onclick="speak('Hi, Ben. I\'m well. How\'s your study tour?',this)">🔊</button></div></div>
+    <div class="dlg left"><div class="avatar" style="background:#dcfce7;">👦</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">It's great! There are many vegetables and animals.</div><div class="bubble-zh">太棒了！有很多蔬菜和动物。</div></div><button class="spk" onclick="speak('It\'s great! There are many vegetables and animals.',this)">🔊</button></div></div>
+    <div class="dlg right"><div class="avatar" style="background:#fce7f3;">👩</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Really? And what vegetables do they have?</div><div class="bubble-zh">真的吗？他们有什么蔬菜？</div></div><button class="spk" onclick="speak('Really? And what vegetables do they have?',this)">🔊</button></div></div>
+    <div class="dlg left"><div class="avatar" style="background:#dcfce7;">👦</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Tomatoes and carrots. It's great!</div><div class="bubble-zh">番茄和胡萝卜。真棒！</div></div><button class="spk" onclick="speak('Tomatoes and carrots. It\'s great!',this)">🔊</button></div></div>
+    <div class="dlg right"><div class="avatar" style="background:#fce7f3;">👩</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">That sounds great. It's 9:30 now. I can pick some tomatoes tomorrow.</div><div class="bubble-zh">听起来很棒。现在9:30了。我明天可以摘些番茄。</div></div><button class="spk" onclick="speak('That sounds great. It\'s 9:30 now. I can pick some tomatoes tomorrow.',this)">🔊</button></div></div>
+    <div class="dlg left"><div class="avatar" style="background:#dcfce7;">👦</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">I know. It's time to go to bed now.</div><div class="bubble-zh">我知道。现在该睡觉了。</div></div><button class="spk" onclick="speak('I know. It\'s time to go to bed now.',this)">🔊</button></div></div>
+    <div class="dlg right"><div class="avatar" style="background:#fce7f3;">👩</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Yes, you should sleep now. It's great!</div><div class="bubble-zh">是的，你现在该睡觉了。真好！</div></div><button class="spk" onclick="speak('Yes, you should sleep now. It\'s great!',this)">🔊</button></div></div>
+    <div class="dlg left"><div class="avatar" style="background:#dcfce7;">👦</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">OK, I won't stay up late. Good night.</div><div class="bubble-zh">好的，我不会熬夜的。晚安。</div></div><button class="spk" onclick="speak('OK, I won\'t stay up late. Good night.',this)">🔊</button></div></div>
+    <div class="dlg right"><div class="avatar" style="background:#fce7f3;">👩</div><div class="bubble-wrap"><div class="bubble"><div class="bubble-en">Good night.</div><div class="bubble-zh">晚安。</div></div><button class="spk" onclick="speak('Good night.',this)">🔊</button></div></div>
+  </div>
+  <div class="tip"><b>电话对话句型：</b><br>Hi, this is [名字]. 我是……（电话自报姓名）<br>How's your...? ……怎么样？（询问近况）<br>That sounds great! 听起来真棒！（回应感叹）</div>
+</div>
+
+<div class="page" id="p6">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#991b1b;"></div><div class="sec-title">综合练习</div></div>
+  <div style="font-size:11px;color:var(--tx3);margin-bottom:10px;">答完6题显示得分 🌟</div>
+  <div class="mc-card">
+    <div class="mc-q"><button class="mc-qspk" onclick="speak('How many horses does Ben see?',this)">🔊</button><div><b>①</b> "We have 17 _____." 应该填？<div style="font-size:10px;color:var(--tx3);">填正确的复数形式</div></div></div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,false)">A. horse <span style="color:var(--tx3);font-size:10px;">· 单数错误</span></button>
+      <button class="mc-opt" onclick="mcAns(this,true)">B. horses <span style="color:var(--tx3);font-size:10px;">· 正确 ✓</span></button>
+      <button class="mc-opt" onclick="mcAns(this,false)">C. horseses <span style="color:var(--tx3);font-size:10px;">· 拼写错误</span></button>
+    </div>
+  </div>
+  <div class="mc-card">
+    <div class="mc-q"><button class="mc-qspk" onclick="speak('He has many sheep on the farm.',this)">🔊</button><div><b>②</b> "He has many _____ on the farm." sheep的正确用法？</div></div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,true)">A. sheep <span style="color:var(--tx3);font-size:10px;">· 复数不变 ✓</span></button>
+      <button class="mc-opt" onclick="mcAns(this,false)">B. sheeps <span style="color:var(--tx3);font-size:10px;">· 错误，没有这个词</span></button>
+      <button class="mc-opt" onclick="mcAns(this,false)">C. a sheep <span style="color:var(--tx3);font-size:10px;">· many后不能用单数</span></button>
+    </div>
+  </div>
+  <div class="mc-card">
+    <div class="mc-q"><button class="mc-qspk" onclick="speak('It is cheap. It is 299 yuan.',this)">🔊</button><div><b>③</b> 299元算贵还是便宜？</div></div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,true)">A. It's cheap. <span style="color:var(--tx3);font-size:10px;">· 便宜 ✓</span></button>
+      <button class="mc-opt" onclick="mcAns(this,false)">B. It's expensive. <span style="color:var(--tx3);font-size:10px;">· 贵</span></button>
+    </div>
+  </div>
+  <div class="mc-card">
+    <div class="mc-q"><button class="mc-qspk" onclick="speak('Don\'t run in the farm.',this)">🔊</button><div><b>④</b> "不要在农场跑动"用英语怎么说？</div></div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,false)">A. Please run in the farm.</button>
+      <button class="mc-opt" onclick="mcAns(this,true)">B. Don't run in the farm. <span style="color:var(--tx3);font-size:10px;">✓</span></button>
+      <button class="mc-opt" onclick="mcAns(this,false)">C. You can run in the farm.</button>
+    </div>
+  </div>
+  <div class="mc-card">
+    <div class="mc-q"><button class="mc-qspk" onclick="speak('Who is on duty today? We are.',this)">🔊</button><div><b>⑤</b> "Who's on duty today?" 的回答应该是？</div></div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,true)">A. We are. <span style="color:var(--tx3);font-size:10px;">✓</span></button>
+      <button class="mc-opt" onclick="mcAns(this,false)">B. It's 10 o'clock.</button>
+      <button class="mc-opt" onclick="mcAns(this,false)">C. Yes, you can.</button>
+    </div>
+  </div>
+  <div class="mc-card">
+    <div class="mc-q"><button class="mc-qspk" onclick="speak('These are tomatoes. They are round and red.',this)">🔊</button><div><b>⑥</b> 圆形红色的蔬菜是？</div></div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,false)">A. potatoes</button>
+      <button class="mc-opt" onclick="mcAns(this,true)">B. tomatoes <span style="color:var(--tx3);font-size:10px;">✓</span></button>
+      <button class="mc-opt" onclick="mcAns(this,false)">C. green beans</button>
+    </div>
+  </div>
+  <div class="score-area" id="sc">
+    <div class="score-num" id="scn"></div>
+    <div class="score-msg" id="scm"></div>
+    <button class="retry-btn" onclick="resetMc()">再来一次 🔄</button>
+  </div>
+</div>
+
+<div style="height:30px;"></div>
+<script>
+let spd=1,voices=[],vi=0,activBtn=null;
+function loadVoices(){voices=window.speechSynthesis.getVoices().filter(v=>v.lang.startsWith('en'));if(!voices.length)setTimeout(loadVoices,400);}
+if('speechSynthesis'in window){window.speechSynthesis.onvoiceschanged=loadVoices;loadVoices();}
+function speak(text,btn){
+  if(!window.speechSynthesis)return;
+  window.speechSynthesis.cancel();
+  if(btn && activBtn===btn){activBtn=null;return;}
+  if(activBtn){activBtn.classList.remove('playing');activBtn=null;}
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='en-US';u.rate=spd;u.pitch=1;
+  if(voices.length)u.voice=voices[vi%voices.length];
+  if(btn){btn.classList.add('playing');activBtn=btn;u.onend=()=>{btn.classList.remove('playing');activBtn=null;};u.onerror=()=>{btn.classList.remove('playing');activBtn=null;};}
+  window.speechSynthesis.speak(u);
+}
+function setSpd(s,btn){spd=s;document.querySelectorAll('.spd-btn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');}
+function cycleVoice(){if(!voices.length)return;vi=(vi+1)%voices.length;document.getElementById('vbtn').textContent='🗣 Voice '+(vi+1);speak('Welcome to the farm!',null);}
+function go(id,btn){document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));document.getElementById(id).classList.add('on');btn.classList.add('on');}
+let mcA=0,mcC=0,mcT=6;
+function mcAns(el,ok){
+  const opts=el.parentElement.querySelectorAll('.mc-opt');
+  let done=false;opts.forEach(o=>{if(o.classList.contains('correct')||o.classList.contains('wrong'))done=true;});
+  if(done)return;
+  el.classList.add(ok?'correct':'wrong');
+  if(!ok)opts.forEach(o=>{const f=o.getAttribute('onclick')||'';if(f.includes('true'))o.classList.add('correct');});
+  mcA++;if(ok)mcC++;
+  if(mcA===mcT){
+    const sa=document.getElementById('sc');sa.style.display='block';
+    document.getElementById('scn').textContent=mcC+'/'+mcT+' ⭐';
+    const m=['再复习一下！💪','不错，继续！😊','做得好！👍','很棒！','接近满分！','全对！研学小达人！🏆'];
+    document.getElementById('scm').textContent=m[Math.min(mcC,5)];
+    sa.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function resetMc(){document.querySelectorAll('.mc-opt').forEach(o=>o.classList.remove('correct','wrong'));document.getElementById('sc').style.display='none';mcA=0;mcC=0;}
+</script>
+</body>
+</html>
