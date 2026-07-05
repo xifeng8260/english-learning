@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>四下英语 · 暑假词汇通关</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system,"PingFang SC","Noto Sans SC",sans-serif; background: linear-gradient(160deg,#eef2ff 0%,#f5f3ff 45%,#fdf4ff 100%); min-height: 100vh; padding: 14px; padding-bottom: 40px; color:#1a1a2e; }
+
+.header { background: linear-gradient(135deg,#4f46e5,#9333ea); border-radius: 18px; padding: 20px 18px; color: white; margin-bottom: 13px; }
+.header-label { font-size: 0.62rem; opacity: .8; letter-spacing: 1px; margin-bottom: 4px; }
+.header-title { font-size: 1.15rem; font-weight: 800; margin-bottom: 3px; }
+.header-sub { font-size: 0.72rem; opacity: .85; line-height:1.5; }
+.header-stats { display:flex; gap:8px; margin-top:12px; }
+.hs-item { background: rgba(255,255,255,.18); border-radius: 10px; padding: 7px 6px; text-align:center; flex:1; }
+.hs-num { font-size:1.05rem; font-weight:900; line-height:1; }
+.hs-label { font-size:0.56rem; opacity:.85; margin-top:2px; }
+
+.tip-banner { background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 10px 14px; margin-bottom: 12px; font-size: 0.74rem; color: #92400e; line-height: 1.6; }
+
+.card { background: white; border-radius: 14px; padding: 12px 14px; margin-bottom: 12px; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+.voice-bar { display: flex; align-items: center; gap: 8px; }
+.voice-name { font-size: 0.75rem; font-weight: 700; color: #1a1a2e; flex: 1; }
+.rate-btns { display: flex; gap: 5px; }
+.rate-btn { padding: 4px 9px; border-radius: 8px; border: 1.5px solid #e2e8f0; background: white; color: #94a3b8; font-size: 0.65rem; cursor: pointer; font-family: inherit; }
+.rate-btn.active { border-color: #6d28d9; background: #f5f3ff; color: #6d28d9; font-weight: 700; }
+.voice-toggle { padding: 5px 10px; background: #f1f5f9; border: none; border-radius: 8px; cursor: pointer; font-size: 0.68rem; color: #475569; font-weight: 600; font-family: inherit; }
+.voice-list { display: none; flex-direction: column; gap: 5px; margin-top: 10px; max-height: 200px; overflow-y: auto; }
+.voice-list.open { display: flex; }
+.voice-item { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 9px; border: 1.5px solid #e2e8f0; background: #fafafa; cursor: pointer; }
+.voice-item.selected { border-color: #6d28d9; background: #f5f3ff; }
+.voice-dot { width: 7px; height: 7px; border-radius: 50%; background: #cbd5e1; flex-shrink: 0; }
+.voice-item.selected .voice-dot { background: #6d28d9; }
+.voice-item-name { font-size: 0.76rem; color: #334155; flex: 1; }
+.voice-item.selected .voice-item-name { font-weight: 700; color: #4c1d95; }
+.voice-item-lang { font-size: 0.62rem; color: #94a3b8; }
+
+/* control switches */
+.ctrl-row { display:flex; gap:8px; }
+.switch-card { flex:1; background:white; border-radius:14px; padding:11px 12px; box-shadow:0 2px 12px rgba(0,0,0,.06); display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.switch-label { font-size:0.72rem; font-weight:700; color:#334155; line-height:1.3; }
+.switch-sub { font-size:0.6rem; color:#94a3b8; margin-top:1px; }
+.toggle { width:38px; height:22px; border-radius:12px; background:#e2e8f0; position:relative; cursor:pointer; flex-shrink:0; transition:.2s; }
+.toggle.on { background:#7c3aed; }
+.toggle::after { content:''; position:absolute; width:18px; height:18px; border-radius:50%; background:white; top:2px; left:2px; transition:.2s; box-shadow:0 1px 3px rgba(0,0,0,.3); }
+.toggle.on::after { left:18px; }
+
+.group { background: white; border-radius: 16px; margin-bottom: 12px; overflow: hidden; box-shadow: 0 3px 16px rgba(0,0,0,.07); }
+.gh { padding: 12px 16px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; }
+.gh.indigo { background:#eef2ff; border-bottom:1px solid #c7d2fe; }
+.gh.orange { background: #fff7ed; border-bottom: 1px solid #fed7aa; }
+.gh.blue   { background: #eff6ff; border-bottom: 1px solid #bfdbfe; }
+.gh.green  { background: #f0fdf4; border-bottom: 1px solid #bbf7d0; }
+.gh.rose   { background: #fff1f2; border-bottom: 1px solid #fecdd3; }
+.gh.teal   { background: #f0fdfa; border-bottom: 1px solid #99f6e4; }
+.gh.amber  { background: #fffbeb; border-bottom: 1px solid #fde68a; }
+.gl { font-size: 0.85rem; font-weight: 700; }
+.gl.indigo{ color:#4f46e5; }
+.gl.orange { color: #ea580c; }
+.gl.blue   { color: #2563eb; }
+.gl.green  { color: #059669; }
+.gl.rose   { color: #e11d48; }
+.gl.teal   { color: #0d9488; }
+.gl.amber  { color: #b45309; }
+.gc { font-size: 0.63rem; color: #94a3b8; margin-top: 1px; }
+.garr { font-size: 0.75rem; color: #94a3b8; }
+.gb { padding: 10px 13px; }
+.gb.hidden { display: none; }
+
+.word-row { padding: 11px 4px; border-bottom: 1px solid #f1f5f9; }
+.word-row:last-child { border-bottom: none; }
+.word-row.hide-in-filter { display:none; }
+.wr-top { display:flex; align-items:center; gap:8px; }
+.wr-star { font-size:0.7rem; color:#f59e0b; flex-shrink:0; width:14px; }
+.wr-en { font-size: 0.92rem; font-weight: 700; color:#1e293b; }
+.wr-ph { font-size: 0.68rem; color:#94a3b8; margin-left:6px; }
+.wr-cn { font-size: 0.78rem; color:#475569; margin-left:auto; text-align:right; }
+.wr-page { font-size:0.58rem; color:#cbd5e1; margin-left:6px; flex-shrink:0; }
+.wr-detail { margin-top:6px; padding-left:22px; }
+.wr-phrase-row { display:flex; align-items:center; gap:6px; margin-bottom:5px; }
+.wr-phrase { font-size:0.72rem; color:#7c3aed; background:#f5f3ff; display:inline-block; padding:2px 8px; border-radius:6px; font-weight:600; }
+.wr-phrase span { color:#94a3b8; font-weight:400; margin-left:4px; }
+.wr-sent { display:flex; align-items:flex-start; gap:6px; background:#f8fafc; border-radius:8px; padding:7px 9px; border-left:3px solid #c4b5fd; }
+.wr-sent-txt { flex:1; }
+.wr-sent-en { font-size:0.76rem; color:#334155; line-height:1.5; }
+.wr-sent-cn { font-size:0.7rem; color:#94a3b8; margin-top:2px; }
+
+/* self-test mode: blur/hide word, phrase & sentence until tapped */
+.selftest .wr-en, .selftest .wr-cn, .selftest .wr-phrase, .selftest .wr-sent-en, .selftest .wr-sent-cn { filter: blur(5px); user-select:none; transition:filter .15s; cursor:pointer; }
+.selftest .word-row.revealed .wr-en, .selftest .word-row.revealed .wr-cn, .selftest .word-row.revealed .wr-phrase, .selftest .word-row.revealed .wr-sent-en, .selftest .word-row.revealed .wr-sent-cn { filter:none; }
+.selftest .wr-top::after { content:'点击显示全部'; font-size:0.58rem; color:#a78bfa; flex-shrink:0; margin-left:4px; }
+.selftest .word-row.revealed .wr-top::after { content:''; }
+
+.speak-btn { width: 26px; height: 26px; border-radius: 50%; border: none; cursor: pointer; font-size: 0.8rem; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all .15s; background:#f5f3ff; color:#7c3aed; }
+.speak-btn.playing { background:#7c3aed; color:white !important; }
+.speak-btn.sm { width:22px; height:22px; font-size:0.7rem; }
+
+/* scenario dialogue/passage */
+.scenario-box { background:#fdfcff; border:1px solid #ede9fe; border-radius:12px; padding:11px 12px; margin-bottom:12px; }
+.scenario-hd { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+.scenario-title { font-size:0.78rem; font-weight:700; color:#6d28d9; display:flex; align-items:center; gap:5px; }
+.scenario-playall { padding:5px 11px; background:#7c3aed; color:white; border:none; border-radius:16px; font-size:0.66rem; font-weight:700; cursor:pointer; font-family:inherit; flex-shrink:0; }
+.scenario-playall.playing { background:#4c1d95; }
+.sc-line { display:flex; align-items:flex-start; gap:7px; padding:6px 0; border-bottom:1px dashed #ede9fe; }
+.sc-line:last-child { border-bottom:none; }
+.sc-who { width:38px; flex-shrink:0; font-size:0.62rem; font-weight:800; color:white; background:#a78bfa; border-radius:6px; text-align:center; padding:3px 0; margin-top:1px; }
+.sc-who.b { background:#60a5fa; }
+.sc-txt { flex:1; min-width:0; }
+.sc-en { font-size:0.78rem; color:#1e293b; line-height:1.5; }
+.sc-en b { color:#7c3aed; }
+.sc-zh { font-size:0.68rem; color:#94a3b8; margin-top:2px; }
+.sc-line.active { background:#f5f3ff; border-radius:8px; }
+
+/* numbers grid */
+.num-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:6px; }
+.num-item { display:flex; align-items:center; gap:6px; background:#f8fafc; border-radius:9px; padding:7px 9px; }
+.num-val { font-size:0.7rem; font-weight:800; color:#7c3aed; width:22px; flex-shrink:0; }
+.num-en { font-size:0.78rem; font-weight:600; color:#1e293b; }
+.num-cn { font-size:0.68rem; color:#94a3b8; margin-left:auto; }
+
+/* quiz */
+.mc-card { background:#fafafe; border-radius:12px; padding:11px 12px; margin-bottom:10px; border:1px solid #ede9fe; }
+.mc-q { font-size:0.8rem; font-weight:700; color:#1e293b; margin-bottom:8px; }
+.mc-q .qn { color:#7c3aed; margin-right:4px; }
+.mc-opts { display:flex; flex-direction:column; gap:6px; }
+.mc-opt { text-align:left; padding:8px 10px; border-radius:9px; border:1.5px solid #e2e8f0; background:white; font-size:0.76rem; color:#334155; cursor:pointer; font-family:inherit; }
+.mc-opt:active { transform:scale(.98); }
+.mc-opt.correct { background:#dcfce7; border-color:#86efac; color:#15803d; font-weight:700; }
+.mc-opt.wrong { background:#fee2e2; border-color:#fca5a5; color:#dc2626; font-weight:700; }
+.mc-opt.disabled { pointer-events:none; }
+.quiz-score { text-align:center; padding:14px; font-size:0.85rem; font-weight:700; color:#7c3aed; }
+.quiz-reset { display:block; margin:10px auto 0; padding:8px 18px; background:#7c3aed; color:white; border:none; border-radius:20px; font-size:0.75rem; font-weight:700; cursor:pointer; font-family:inherit; }
+
+.footer { text-align: center; font-size: 0.72rem; color: #94a3b8; padding-top: 4px; }
+::-webkit-scrollbar { width: 3px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-label">四年级下册 · 暑假作业必做</div>
+  <div class="header-title">📖 词汇通关 · Unit 1-6 + Numbers</div>
+  <div class="header-sub">课本 P80-82 单元词汇表 · 逐词朗读 + 词组搭配 + 场景例句</div>
+  <div class="header-stats">
+    <div class="hs-item"><div class="hs-num" id="statTotal">-</div><div class="hs-label">总词数</div></div>
+    <div class="hs-item"><div class="hs-num" id="statStar">-</div><div class="hs-label">★四会词</div></div>
+    <div class="hs-item"><div class="hs-num">6+1</div><div class="hs-label">单元数</div></div>
+  </div>
+</div>
+
+<div class="tip-banner">
+  💡 加<b>★</b>的是《课标》二级词，要求<b>会读、会用、会默写</b>；没加★的词只要求认读理解。每个词配了一个常用<b>词组</b>和一句<b>场景例句</b>（例句由本页编写，帮助理解用法，不代表课本原文）。
+</div>
+
+<div class="card">
+  <div class="voice-bar">
+    <div><div class="voice-name" id="voiceName">🎙️ 加载声音中…</div></div>
+    <div class="rate-btns">
+      <button class="rate-btn" onclick="setRate(0.7,this)">慢</button>
+      <button class="rate-btn active" onclick="setRate(0.85,this)">正常</button>
+      <button class="rate-btn" onclick="setRate(1.1,this)">快</button>
+    </div>
+    <button class="voice-toggle" onclick="toggleVoiceList()">换声音</button>
+  </div>
+  <div class="voice-list" id="voiceList"></div>
+</div>
+
+<div class="ctrl-row">
+  <div class="switch-card">
+    <div><div class="switch-label">★ 只看重点词</div><div class="switch-sub">筛选四会词复习</div></div>
+    <div class="toggle" id="starToggle" onclick="toggleStarFilter()"></div>
+  </div>
+  <div class="switch-card">
+    <div><div class="switch-label">默写自测</div><div class="switch-sub">点击才显示答案</div></div>
+    <div class="toggle" id="testToggle" onclick="toggleSelfTest()"></div>
+  </div>
+</div>
+
+<div id="groupsRoot"></div>
+
+<div class="group" id="gQuiz">
+  <div class="gh amber" onclick="tog('gQuiz')">
+    <div><div class="gl amber">📝 小测验 · 重点词自测</div><div class="gc" id="quizCount">共 0 题</div></div>
+    <div class="garr" id="a_gQuiz">▼</div>
+  </div>
+  <div class="gb" id="b_gQuiz">
+    <div id="quizRoot"></div>
+    <div class="quiz-score" id="quizScore"></div>
+    <button class="quiz-reset" onclick="resetQuiz()">重新测试</button>
+  </div>
+</div>
+
+<div class="footer">四下英语 · 暑假词汇通关 · 点🔊听发音</div>
+
+<script>
+const UNITS = [
+{ id:"u1", color:"indigo", title:"Unit 1 · 校规与课堂", sub:"classroom & rules", words:[
+  {w:"sorry",p:"/ˈsɒri/",c:"对不起",star:false,pg:"p.4",ph:"say sorry",phz:"说对不起",se:"I'm sorry I'm late for class.",sez:"对不起，我上课迟到了。"},
+  {w:"hurry up",p:"/ˈhʌri ʌp/",c:"快点；赶快",star:false,pg:"p.4",ph:"hurry up and go",phz:"赶快走",se:"Hurry up! The bell is going to ring.",sez:"快点！铃声要响了。"},
+  {w:"late",p:"/leɪt/",c:"迟到；迟发生",star:true,pg:"p.4",ph:"be late for school",phz:"上学迟到",se:"Don't be late for school again.",sez:"不要再上学迟到了。"},
+  {w:"class",p:"/klɑːs/",c:"课；课程；班级",star:true,pg:"p.4",ph:"go to class",phz:"去上课",se:"We have an English class at nine.",sez:"我们九点有一节英语课。"},
+  {w:"ready",p:"/ˈredi/",c:"准备好",star:false,pg:"p.4",ph:"be ready for",phz:"为……做好准备",se:"Are you ready for the test?",sez:"你准备好考试了吗？"},
+  {w:"rule",p:"/ruːl/",c:"规则；规章",star:false,pg:"p.5",ph:"school rules",phz:"校规",se:"We must follow the school rules.",sez:"我们必须遵守校规。"},
+  {w:"classroom",p:"/ˈklɑːsruːm/",c:"教室",star:true,pg:"p.5",ph:"clean the classroom",phz:"打扫教室",se:"Don't run in the classroom.",sez:"不要在教室里跑。"},
+  {w:"turn off",p:"/tɜːn ɒf/",c:"关掉",star:true,pg:"p.5",ph:"turn off the light",phz:"关灯",se:"Please turn off the light when you leave.",sez:"离开时请关灯。"},
+  {w:"light",p:"/laɪt/",c:"灯；光",star:true,pg:"p.5",ph:"turn on the light",phz:"开灯",se:"Turn off the lights, please.",sez:"请把灯关掉。"},
+  {w:"blackboard",p:"/ˈblækbɔːd/",c:"黑板",star:true,pg:"p.7",ph:"clean the blackboard",phz:"擦黑板",se:"Can you clean the blackboard for me?",sez:"你能帮我擦一下黑板吗？"},
+  {w:"desk",p:"/desk/",c:"书桌；办公桌",star:true,pg:"p.7",ph:"keep the desk tidy",phz:"保持桌面整洁",se:"Keep your desk tidy, please.",sez:"请保持你的桌子整洁。"},
+  {w:"chair",p:"/tʃeə(r)/",c:"椅子",star:true,pg:"p.7",ph:"sit on the chair",phz:"坐在椅子上",se:"Put the chair under the desk.",sez:"把椅子放到桌子下面。"},
+  {w:"tidy",p:"/ˈtaɪdi/",c:"整洁的；整理",star:false,pg:"p.7",ph:"keep tidy",phz:"保持整洁",se:"My room is very tidy.",sez:"我的房间很整洁。"},
+  {w:"music",p:"/ˈmjuːzɪk/",c:"音乐",star:true,pg:"p.8",ph:"listen to music",phz:"听音乐",se:"I like listening to music after class.",sez:"我喜欢课后听音乐。"},
+  {w:"door",p:"/dɔː(r)/",c:"门",star:true,pg:"p.8",ph:"open the door",phz:"开门",se:"Please close the door quietly.",sez:"请轻轻关门。"},
+  {w:"window",p:"/ˈwɪndəʊ/",c:"窗",star:true,pg:"p.8",ph:"open the window",phz:"开窗",se:"Can you open the window? It's hot.",sez:"你能打开窗户吗？太热了。"},
+  {w:"fan",p:"/fæn/",c:"风扇",star:true,pg:"p.8",ph:"turn on the fan",phz:"开风扇",se:"Turn on the fan, please.",sez:"请打开风扇。"},
+  {w:"when",p:"/wen/",c:"当……时；什么时候",star:false,pg:"p.9",ph:"when do you...",phz:"你什么时候……",se:"When do you go to school?",sez:"你什么时候上学？"},
+  {w:"understand",p:"/ˌʌndəˈstænd/",c:"懂；理解",star:false,pg:"p.9",ph:"understand the rule",phz:"理解规则",se:"Do you understand the rules?",sez:"你理解这些规则吗？"},
+  {w:"wall",p:"/wɔːl/",c:"墙；壁",star:false,pg:"p.9",ph:"on the wall",phz:"在墙上",se:"There is a picture on the wall.",sez:"墙上有一幅画。"},
+  {w:"newspaper",p:"/ˈnjuːzpeɪpə(r)/",c:"报纸",star:false,pg:"p.9",ph:"read a newspaper",phz:"看报纸",se:"My father reads the newspaper every morning.",sez:"我爸爸每天早上看报纸。"},
+  {w:"hand out",p:"/hænd aʊt/",c:"分发",star:false,pg:"p.9",ph:"hand out the books",phz:"分发书本",se:"The teacher hands out the workbooks.",sez:"老师分发练习册。"},
+  {w:"workbook",p:"/ˈwɜːkbʊk/",c:"练习册；作业本",star:false,pg:"p.9",ph:"do the workbook",phz:"做练习册",se:"Please finish your workbook today.",sez:"请今天完成你的练习册。"},
+]},
+{ id:"u2", color:"blue", title:"Unit 2 · 家庭生活", sub:"home & house rules", words:[
+  {w:"watch",p:"/wɒtʃ/",c:"看",star:true,pg:"p.16",ph:"watch TV",phz:"看电视",se:"I watch TV after dinner.",sez:"我晚饭后看电视。"},
+  {w:"TV",p:"/ˌtiː ˈviː/",c:"电视",star:true,pg:"p.16",ph:"watch TV",phz:"看电视",se:"Don't watch too much TV.",sez:"不要看太多电视。"},
+  {w:"homework",p:"/ˈhəʊmwɜːk/",c:"家庭作业",star:true,pg:"p.16",ph:"do homework",phz:"做作业",se:"I do my homework first.",sez:"我先做作业。"},
+  {w:"first",p:"/fɜːst/",c:"首先；首次；第一",star:false,pg:"p.16",ph:"first of all",phz:"首先",se:"First, wash your hands.",sez:"首先，洗手。"},
+  {w:"wet",p:"/wet/",c:"湿的；未干的",star:false,pg:"p.16",ph:"wet hands",phz:"湿手",se:"Don't touch it with wet hands.",sez:"不要用湿手碰它。"},
+  {w:"run",p:"/rʌn/",c:"跑；奔跑",star:false,pg:"p.16",ph:"run fast",phz:"跑得快",se:"Don't run in the living room.",sez:"不要在客厅里跑。"},
+  {w:"living room",p:"/ˈlɪvɪŋ ruːm/",c:"客厅；起居室",star:true,pg:"p.16",ph:"in the living room",phz:"在客厅里",se:"We watch TV in the living room.",sez:"我们在客厅看电视。"},
+  {w:"safe",p:"/seɪf/",c:"安全的",star:true,pg:"p.16",ph:"stay safe",phz:"保持安全",se:"Be safe at home.",sez:"在家要注意安全。"},
+  {w:"word",p:"/wɜːd/",c:"言语；单词；字",star:true,pg:"p.17",ph:"new words",phz:"新单词",se:"I can spell ten new words.",sez:"我能拼写十个新单词。"},
+  {w:"wash",p:"/wɒʃ/",c:"洗",star:true,pg:"p.17",ph:"wash hands",phz:"洗手",se:"Wash your hands before dinner.",sez:"晚饭前洗手。"},
+  {w:"helpful",p:"/ˈhelpfl/",c:"有帮助的；有用的",star:false,pg:"p.17",ph:"be helpful",phz:"很有帮助",se:"It's helpful to make a plan.",sez:"制定计划很有帮助。"},
+  {w:"loud",p:"/laʊd/",c:"说话太大声的；吵闹的",star:false,pg:"p.19",ph:"too loud",phz:"太大声",se:"Don't be so loud in the library.",sez:"在图书馆里不要太大声。"},
+  {w:"sleep",p:"/sliːp/",c:"睡觉",star:true,pg:"p.19",ph:"go to sleep",phz:"去睡觉",se:"I sleep for nine hours every night.",sez:"我每晚睡九个小时。"},
+  {w:"bedroom",p:"/ˈbedruːm/",c:"卧室",star:true,pg:"p.19",ph:"clean the bedroom",phz:"打扫卧室",se:"My bedroom is small but tidy.",sez:"我的卧室虽小但整洁。"},
+  {w:"kitchen",p:"/ˈkɪtʃɪn/",c:"厨房",star:true,pg:"p.19",ph:"in the kitchen",phz:"在厨房里",se:"Mum is cooking in the kitchen.",sez:"妈妈在厨房做饭。"},
+  {w:"study",p:"/ˈstʌdi/",c:"书房；学习",star:true,pg:"p.20",ph:"study hard",phz:"努力学习",se:"I do my homework in the study.",sez:"我在书房做作业。"},
+  {w:"bathroom",p:"/ˈbɑːθruːm/",c:"浴室；洗手间",star:true,pg:"p.20",ph:"clean the bathroom",phz:"打扫浴室",se:"Please keep the bathroom clean.",sez:"请保持浴室干净。"},
+  {w:"think",p:"/θɪŋk/",c:"想；思考",star:true,pg:"p.21",ph:"think about",phz:"考虑；思考",se:"I think it's a good rule.",sez:"我认为这是个好规则。"},
+  {w:"work",p:"/wɜːk/",c:"工作；花时间和精力做某事",star:true,pg:"p.21",ph:"work hard",phz:"努力工作",se:"My parents work in the city.",sez:"我父母在城里工作。"},
+  {w:"hard",p:"/hɑːd/",c:"努力地；费力地",star:true,pg:"p.21",ph:"work hard",phz:"努力工作/学习",se:"Study hard and you will do well.",sez:"努力学习，你会做得很好。"},
+  {w:"follow",p:"/ˈfɒləʊ/",c:"遵循；听从",star:false,pg:"p.21",ph:"follow the rules",phz:"遵守规则",se:"We should follow the rules at home.",sez:"我们应该遵守家规。"},
+]},
+{ id:"u3", color:"green", title:"Unit 3 · 我的一天", sub:"daily routine & timetable", words:[
+  {w:"over",p:"/ˈəʊvə(r)/",c:"结束（的）",star:true,pg:"p.28",ph:"be over",phz:"结束了",se:"School is over at four.",sez:"四点放学。"},
+  {w:"kid",p:"/kɪd/",c:"小孩",star:true,pg:"p.28",ph:"a little kid",phz:"一个小孩",se:"The kids are playing outside.",sez:"孩子们在外面玩。"},
+  {w:"dinner",p:"/ˈdɪnə(r)/",c:"（中午或晚上吃的）正餐",star:true,pg:"p.28",ph:"have dinner",phz:"吃晚饭",se:"We have dinner at six.",sez:"我们六点吃晚饭。"},
+  {w:"art",p:"/ɑːt/",c:"美术；艺术",star:true,pg:"p.29",ph:"an art class",phz:"一节美术课",se:"I like my art class best.",sez:"我最喜欢我的美术课。"},
+  {w:"lunch",p:"/lʌntʃ/",c:"午餐",star:true,pg:"p.29",ph:"have lunch",phz:"吃午饭",se:"It's time for lunch.",sez:"午饭时间到了。"},
+  {w:"maths",p:"/mæθs/",c:"数学",star:true,pg:"p.29",ph:"a maths test",phz:"一场数学测验",se:"We have a maths test tomorrow.",sez:"我们明天有数学测验。"},
+  {w:"get up",p:"/ɡet ʌp/",c:"起床",star:false,pg:"p.31",ph:"get up early",phz:"早起",se:"I get up at seven every morning.",sez:"我每天早上七点起床。"},
+  {w:"go to school",p:"/ɡəʊ tə skuːl/",c:"上学",star:false,pg:"p.31",ph:"go to school on time",phz:"按时上学",se:"I go to school at eight.",sez:"我八点上学。"},
+  {w:"go home",p:"/ɡəʊ həʊm/",c:"回家",star:false,pg:"p.32",ph:"go home after school",phz:"放学回家",se:"We go home at four thirty.",sez:"我们四点半回家。"},
+  {w:"go to bed",p:"/ɡəʊ tə bed/",c:"上床睡觉",star:false,pg:"p.32",ph:"go to bed early",phz:"早睡",se:"I go to bed at nine.",sez:"我九点睡觉。"},
+  {w:"want",p:"/wɒnt/",c:"想要",star:false,pg:"p.33",ph:"want to do",phz:"想要做……",se:"I want to play football.",sez:"我想踢足球。"},
+  {w:"clock",p:"/klɒk/",c:"时钟",star:true,pg:"p.33",ph:"look at the clock",phz:"看钟",se:"Look at the clock on the wall.",sez:"看墙上的钟。"},
+  {w:"just",p:"/dʒʌst/",c:"只是；仅仅；正好",star:false,pg:"p.33",ph:"just now",phz:"刚才",se:"It's just five minutes to nine.",sez:"还有五分钟就九点了。"},
+  {w:"minute",p:"/ˈmɪnɪt/",c:"分钟",star:true,pg:"p.33",ph:"wait a minute",phz:"等一分钟",se:"Wait a minute, please.",sez:"请等一分钟。"},
+]},
+{ id:"u4", color:"rose", title:"Unit 4 · 逛街购物", sub:"clothes & shopping", words:[
+  {w:"trousers",p:"/ˈtraʊzəz/",c:"裤子",star:true,pg:"p.40",ph:"a pair of trousers",phz:"一条裤子",se:"These trousers are too long for me.",sez:"这条裤子对我来说太长了。"},
+  {w:"pair",p:"/peə(r)/",c:"一条；一副",star:false,pg:"p.40",ph:"a pair of shoes",phz:"一双鞋",se:"I need a pair of new shoes.",sez:"我需要一双新鞋。"},
+  {w:"clothes",p:"/kləʊðz/",c:"衣服；服装",star:true,pg:"p.40",ph:"try on clothes",phz:"试穿衣服",se:"These clothes are too expensive.",sez:"这些衣服太贵了。"},
+  {w:"those",p:"/ðəʊz/",c:"那些",star:false,pg:"p.40",ph:"those shoes",phz:"那些鞋",se:"How much are those shoes?",sez:"那双鞋多少钱？"},
+  {w:"shorts",p:"/ʃɔːts/",c:"短裤",star:true,pg:"p.40",ph:"a pair of shorts",phz:"一条短裤",se:"I wear shorts in summer.",sez:"我夏天穿短裤。"},
+  {w:"jacket",p:"/ˈdʒækɪt/",c:"夹克衫；短上衣",star:false,pg:"p.41",ph:"a warm jacket",phz:"一件保暖的夹克",se:"Can I try on this jacket?",sez:"我能试穿这件夹克吗？"},
+  {w:"skirt",p:"/skɜːt/",c:"裙子",star:false,pg:"p.41",ph:"a long skirt",phz:"一条长裙",se:"She is wearing a red skirt.",sez:"她穿着一条红色的裙子。"},
+  {w:"dear",p:"/dɪə(r)/",c:"亲爱的",star:false,pg:"p.43",ph:"Dear Mum",phz:"亲爱的妈妈",se:"Dear Sir, this hat is too small.",sez:"亲爱的先生，这顶帽子太小了。"},
+  {w:"expensive",p:"/ɪkˈspensɪv/",c:"昂贵的；价格高的",star:false,pg:"p.43",ph:"too expensive",phz:"太贵了",se:"This skirt is too expensive for me.",sez:"这条裙子对我来说太贵了。"},
+  {w:"take",p:"/teɪk/",c:"买下；拿",star:false,pg:"p.43",ph:"I'll take it",phz:"我买下它",se:"I like it. I'll take it.",sez:"我喜欢它，我买下它。"},
+  {w:"cheap",p:"/tʃiːp/",c:"便宜的",star:false,pg:"p.44",ph:"cheap and nice",phz:"物美价廉",se:"This hat is cheap and nice.",sez:"这顶帽子既便宜又好看。"},
+  {w:"shoe",p:"/ʃuː/",c:"鞋",star:true,pg:"p.44",ph:"a pair of shoes",phz:"一双鞋",se:"My shoes are too small now.",sez:"我的鞋现在太小了。"},
+  {w:"beautiful",p:"/ˈbjuːtɪfl/",c:"美丽的",star:true,pg:"p.44",ph:"a beautiful dress",phz:"一条漂亮的裙子",se:"What a beautiful skirt!",sez:"多漂亮的裙子啊！"},
+  {w:"hat",p:"/hæt/",c:"帽子",star:true,pg:"p.44",ph:"wear a hat",phz:"戴帽子",se:"I want to buy a big hat.",sez:"我想买一顶大帽子。"},
+  {w:"sunglasses",p:"/ˈsʌnɡlɑːsɪz/",c:"太阳镜；墨镜",star:false,pg:"p.44",ph:"a pair of sunglasses",phz:"一副太阳镜",se:"These sunglasses look cool.",sez:"这副太阳镜看起来很酷。"},
+  {w:"free",p:"/friː/",c:"免费的",star:true,pg:"p.45",ph:"for free",phz:"免费",se:"Buy one, get one free.",sez:"买一送一。"},
+  {w:"large",p:"/lɑːdʒ/",c:"（服装、食物等）大型号的",star:false,pg:"p.45",ph:"a large size",phz:"大号",se:"Do you have a large size?",sez:"你们有大号的吗？"},
+  {w:"size",p:"/saɪz/",c:"尺码；号",star:false,pg:"p.45",ph:"what size",phz:"什么尺码",se:"What size do you want?",sez:"你想要多大号的？"},
+  {w:"list",p:"/lɪst/",c:"清单；目录",star:false,pg:"p.45",ph:"a shopping list",phz:"购物清单",se:"Here is my shopping list.",sez:"这是我的购物清单。"},
+  {w:"try on",p:"/traɪ ɒn/",c:"试穿",star:false,pg:"p.45",ph:"try on the shoes",phz:"试穿鞋子",se:"Can I try on these shoes?",sez:"我能试穿这双鞋吗？"},
+  {w:"any",p:"/ˈeni/",c:"任何的；任一的",star:false,pg:"p.45",ph:"any size",phz:"任何尺码",se:"Do you have any small ones?",sez:"你们有小号的吗？"},
+]},
+{ id:"u5", color:"teal", title:"Unit 5 · 农场与餐桌", sub:"farm animals, food & market", words:[
+  {w:"cow",p:"/kaʊ/",c:"奶牛",star:true,pg:"p.52",ph:"milk the cow",phz:"给奶牛挤奶",se:"The cow gives us milk.",sez:"奶牛为我们提供牛奶。"},
+  {w:"horse",p:"/hɔːs/",c:"马",star:true,pg:"p.52",ph:"ride a horse",phz:"骑马",se:"Can you ride a horse?",sez:"你会骑马吗？"},
+  {w:"sheep",p:"/ʃiːp/",c:"羊；绵羊",star:true,pg:"p.52",ph:"a flock of sheep",phz:"一群羊",se:"There are many sheep on the farm.",sez:"农场里有很多羊。"},
+  {w:"pig",p:"/pɪɡ/",c:"猪",star:true,pg:"p.52",ph:"feed the pig",phz:"喂猪",se:"The pig is sleeping in the sun.",sez:"猪在阳光下睡觉。"},
+  {w:"chicken",p:"/ˈtʃɪkɪn/",c:"鸡；鸡肉",star:true,pg:"p.52",ph:"fried chicken",phz:"炸鸡",se:"I like eating chicken.",sez:"我喜欢吃鸡肉。"},
+  {w:"tomato",p:"/təˈmɑːtəʊ/",c:"西红柿",star:true,pg:"p.55",ph:"a red tomato",phz:"一个红西红柿",se:"Tomatoes are good for you.",sez:"西红柿对身体有好处。"},
+  {w:"bee",p:"/biː/",c:"蜜蜂",star:true,pg:"p.55",ph:"a busy bee",phz:"一只忙碌的蜜蜂",se:"The bee flies from flower to flower.",sez:"蜜蜂在花丛中飞来飞去。"},
+  {w:"mouse",p:"/maʊs/",c:"老鼠（复数mice）",star:true,pg:"p.56",ph:"a little mouse",phz:"一只小老鼠",se:"The mouse is under the table.",sez:"老鼠在桌子下面。"},
+  {w:"carrot",p:"/ˈkærət/",c:"胡萝卜",star:false,pg:"p.56",ph:"eat carrots",phz:"吃胡萝卜",se:"Rabbits like eating carrots.",sez:"兔子喜欢吃胡萝卜。"},
+  {w:"potato",p:"/pəˈteɪtəʊ/",c:"土豆",star:true,pg:"p.56",ph:"a big potato",phz:"一个大土豆",se:"I'd like some potatoes.",sez:"我想要一些土豆。"},
+  {w:"green bean",p:"/ɡriːn biːn/",c:"青刀豆；四季豆",star:false,pg:"p.57",ph:"fresh green beans",phz:"新鲜的四季豆",se:"I don't like green beans.",sez:"我不喜欢吃四季豆。"},
+  {w:"can",p:"/kæn/",c:"（盛食品或饮料的）金属罐",star:true,pg:"p.57",ph:"a can of coke",phz:"一罐可乐",se:"There is a can of juice on the table.",sez:"桌上有一罐果汁。"},
+  {w:"a box of",p:"/ə bɒks ɒv/",c:"一盒，一箱（东西）",star:false,pg:"p.57",ph:"a box of apples",phz:"一箱苹果",se:"I bought a box of tomatoes.",sez:"我买了一箱西红柿。"},
+  {w:"waste",p:"/weɪst/",c:"浪费；废品",star:false,pg:"p.67",ph:"don't waste food",phz:"不要浪费食物",se:"Don't waste any food.",sez:"不要浪费任何食物。"},
+  {w:"food",p:"/fuːd/",c:"菜肴；食物",star:true,pg:"p.67",ph:"delicious food",phz:"美味的食物",se:"The food here is very delicious.",sez:"这里的食物很美味。"},
+  {w:"delicious",p:"/dɪˈlɪʃəs/",c:"美味的；可口的",star:false,pg:"p.67",ph:"taste delicious",phz:"尝起来很美味",se:"This soup is delicious.",sez:"这汤很好喝。"},
+  {w:"clear the table",p:"/klɪə ðə ˈteɪbl/",c:"收拾餐桌",star:false,pg:"p.67",ph:"help clear the table",phz:"帮忙收拾餐桌",se:"Can you help me clear the table?",sez:"你能帮我收拾餐桌吗？"},
+  {w:"set the table",p:"/set ðə ˈteɪbl/",c:"摆放餐具",star:false,pg:"p.68",ph:"set the table for dinner",phz:"为晚饭摆餐具",se:"It's your turn to set the table.",sez:"轮到你摆餐具了。"},
+  {w:"bowl",p:"/bəʊl/",c:"碗",star:true,pg:"p.68",ph:"a bowl of rice",phz:"一碗米饭",se:"I'd like a bowl of rice.",sez:"我想要一碗米饭。"},
+  {w:"spoon",p:"/spuːn/",c:"勺；匙；调羹",star:true,pg:"p.68",ph:"use a spoon",phz:"用勺子",se:"Can I have a spoon, please?",sez:"请给我一个勺子好吗？"},
+  {w:"supermarket",p:"/ˈsuːpəmɑːkɪt/",c:"超市",star:true,pg:"p.69",ph:"go to the supermarket",phz:"去超市",se:"We go to the supermarket every weekend.",sez:"我们每个周末都去超市。"},
+  {w:"herself",p:"/hɜːˈself/",c:"她自己",star:false,pg:"p.69",ph:"by herself",phz:"她独自",se:"She did it all by herself.",sez:"她自己一个人做的。"},
+  {w:"week",p:"/wiːk/",c:"周；星期",star:true,pg:"p.69",ph:"this week",phz:"这个星期",se:"We go shopping once a week.",sez:"我们一周去购物一次。"},
+  {w:"salad",p:"/ˈsæləd/",c:"蔬菜沙拉",star:true,pg:"p.69",ph:"a fruit salad",phz:"一份水果沙拉",se:"I'd like a fruit salad, please.",sez:"我想要一份水果沙拉。"},
+]},
+{ id:"u6", color:"orange", title:"Unit 6 · 餐具与劳动", sub:"tableware & farm work", words:[
+  {w:"feed",p:"/fiːd/",c:"给（人或动物）食物；饲养",star:true,pg:"p.64",ph:"feed the animals",phz:"喂养动物",se:"I feed the chickens every morning.",sez:"我每天早上喂鸡。"},
+  {w:"pass",p:"/pɑːs/",c:"给；递",star:true,pg:"p.64",ph:"pass me the bowl",phz:"把碗递给我",se:"Can you pass me the bowl?",sez:"你能把碗递给我吗？"},
+  {w:"pick",p:"/pɪk/",c:"采；摘",star:true,pg:"p.65",ph:"pick tomatoes",phz:"摘西红柿",se:"We pick tomatoes on the farm.",sez:"我们在农场摘西红柿。"},
+  {w:"milk",p:"/mɪlk/",c:"挤奶；牛奶",star:true,pg:"p.65",ph:"milk the cow",phz:"给奶牛挤奶",se:"My grandpa milks the cow every day.",sez:"我爷爷每天给奶牛挤奶。"},
+  {w:"knife",p:"/naɪf/",c:"刀",star:true,pg:"p.67",ph:"a sharp knife",phz:"一把锋利的刀",se:"Be careful with the knife.",sez:"小心那把刀。"},
+  {w:"fork",p:"/fɔːk/",c:"餐叉",star:true,pg:"p.67",ph:"use a fork",phz:"用叉子",se:"I eat with a fork.",sez:"我用叉子吃饭。"},
+  {w:"chopstick",p:"/ˈtʃɒpstɪk/",c:"筷子（常用复数）",star:true,pg:"p.67",ph:"use chopsticks",phz:"用筷子",se:"Chinese people eat with chopsticks.",sez:"中国人用筷子吃饭。"},
+]},
+];
+
+const NUMBERS = { title:"Numbers · 数词", sub:"1-20 及整十数、hundred", items:[
+  ["one","/wʌn/","一"],["two","/tuː/","二"],["three","/θriː/","三"],["four","/fɔː(r)/","四"],
+  ["five","/faɪv/","五"],["six","/sɪks/","六"],["seven","/ˈsevn/","七"],["eight","/eɪt/","八"],
+  ["nine","/naɪn/","九"],["ten","/ten/","十"],["eleven","/ɪˈlevn/","十一"],["twelve","/twelv/","十二"],
+  ["thirteen","/ˌθɜːˈtiːn/","十三"],["fourteen","/ˌfɔːˈtiːn/","十四"],["fifteen","/ˌfɪfˈtiːn/","十五"],["sixteen","/ˌsɪksˈtiːn/","十六"],
+  ["seventeen","/ˌsevnˈtiːn/","十七"],["eighteen","/ˌeɪˈtiːn/","十八"],["nineteen","/ˌnaɪnˈtiːn/","十九"],["twenty","/ˈtwenti/","二十"],
+  ["thirty","/ˈθɜːti/","三十"],["forty","/ˈfɔːti/","四十"],["fifty","/ˈfɪfti/","五十"],["sixty","/ˈsɪksti/","六十"],
+  ["seventy","/ˈsevnti/","七十"],["eighty","/ˈeɪti/","八十"],["ninety","/ˈnaɪnti/","九十"],["hundred","/ˈhʌndrəd/","百"],
+]};
+
+const SCENARIOS = {
+  u1: { title:"教室里的一天", type:"dialogue", lines:[
+    {who:"师", en:"Tom, you are <b>late</b> again!", zh:"Tom，你又迟到了！"},
+    {who:"生", en:"Sorry, Miss Li. I'm <b>sorry</b> I'm late for <b>class</b>.", zh:"对不起，李老师。我上课迟到了。"},
+    {who:"师", en:"Please <b>hurry up</b> and get <b>ready</b> for class.", zh:"请快点，准备好上课。"},
+    {who:"生", en:"OK. What are the <b>classroom</b> <b>rules</b>?", zh:"好的。教室里有什么规矩？"},
+    {who:"师", en:"First, <b>turn off</b> the <b>lights</b> when you leave, and keep your <b>desk</b> and <b>chair</b> <b>tidy</b>.", zh:"首先，离开教室要关灯，并且保持桌椅整洁。"},
+    {who:"师", en:"Don't <b>run</b> in the classroom, and always clean the <b>blackboard</b> after class.", zh:"不要在教室里跑，下课后要擦黑板。"},
+    {who:"生", en:"I <b>understand</b>. Can you <b>hand out</b> the <b>workbooks</b> now?", zh:"我懂了。您现在能分发练习册吗？"},
+    {who:"师", en:"Sure. Open the <b>window</b> first, it's a bit hot.", zh:"好的。先开窗，有点热。"},
+    {who:"生", en:"Should I turn on the <b>fan</b> too?", zh:"我要不要也打开风扇？"},
+    {who:"师", en:"Yes, please. Now let's listen to some <b>music</b> before class.", zh:"好的，请打开。现在上课前我们先听点音乐。"},
+  ]},
+  u2: { title:"我家的家规", type:"dialogue", lines:[
+    {who:"妈", en:"Can you do your <b>homework</b> before you <b>watch</b> <b>TV</b>?", zh:"你能先做作业再看电视吗？"},
+    {who:"孩", en:"OK, Mum. Homework first, then TV.", zh:"好的妈妈，先做作业，再看电视。"},
+    {who:"妈", en:"Good. And <b>wash</b> your hands before dinner.", zh:"好的，晚饭前要洗手。"},
+    {who:"孩", en:"I will. I want to learn some new <b>words</b> tonight too.", zh:"我会的。今晚我还想学些新单词。"},
+    {who:"妈", en:"Sure, that's <b>helpful</b>. But don't be too <b>loud</b>, your brother is trying to <b>sleep</b> in the <b>bedroom</b>.", zh:"当然，这很有帮助。但是不要太吵，你弟弟正在卧室睡觉。"},
+    {who:"孩", en:"OK. I'll go to the <b>kitchen</b> and get some water first.", zh:"好的，我先去厨房拿点水。"},
+    {who:"妈", en:"Don't <b>run</b> in the <b>living room</b>, walking is <b>safe</b>r.", zh:"不要在客厅里跑，走着更安全。"},
+    {who:"孩", en:"Got it. Then I'll go to the <b>study</b> and <b>think</b> about my <b>maths</b> homework.", zh:"知道了。之后我要去书房思考我的数学作业。"},
+    {who:"妈", en:"Great. <b>Work</b> <b>hard</b> and you'll finish quickly. Clean the <b>bathroom</b> before bed too.", zh:"太好了，努力一点，你会很快完成的。睡觉前也打扫一下浴室。"},
+    {who:"孩", en:"OK, I'll <b>follow</b> all the rules!", zh:"好的，我会遵守所有规则！"},
+  ]},
+  u3: { title:"我的一天（日记）", type:"narrative", lines:[
+    {en:"I <b>get up</b> at seven every morning.", zh:"我每天早上七点起床。"},
+    {en:"After I get up, I <b>go to school</b> at eight.", zh:"起床后，我八点去上学。"},
+    {en:"My favourite class is <b>art</b>, but we also have a <b>maths</b> class.", zh:"我最喜欢的课是美术课，但我们也有数学课。"},
+    {en:"At twelve, it's time for <b>lunch</b>.", zh:"十二点是午饭时间。"},
+    {en:"School is <b>over</b> at four, and then I <b>go home</b>.", zh:"四点放学，然后我回家。"},
+    {en:"When I get home, I look at the <b>clock</b> — it's <b>just</b> four thirty!", zh:"到家后我看了看钟，才四点半！"},
+    {en:"I play with the <b>kids</b> next door for a while.", zh:"我和邻居的孩子们玩了一会儿。"},
+    {en:"We have <b>dinner</b> at six.", zh:"我们六点吃晚饭。"},
+    {en:"\"Wait a <b>minute</b>,\" I say, \"let me finish my homework first.\"", zh:"“等一下，”我说，“让我先做完作业。”"},
+    {en:"I <b>go to bed</b> at nine every night. This is my day!", zh:"我每晚九点睡觉。这就是我的一天！"},
+  ]},
+  u4: { title:"服装店购物", type:"dialogue", lines:[
+    {who:"店员", en:"Good morning! Can I help you?", zh:"早上好！需要帮忙吗？"},
+    {who:"女孩", en:"Yes, please. I want a <b>pair</b> of <b>trousers</b> and some <b>shorts</b> for summer.", zh:"好的，我想要一条裤子，还有一些夏天穿的短裤。"},
+    {who:"店员", en:"How about this <b>jacket</b>, too? It's warm and <b>beautiful</b>.", zh:"再看看这件夹克怎么样？很保暖也很漂亮。"},
+    {who:"女孩", en:"I like it, but it looks <b>expensive</b>.", zh:"我喜欢，不过看起来很贵。"},
+    {who:"店员", en:"Don't worry, it's on sale, quite <b>cheap</b>. Do you want to <b>try on</b> <b>those</b> <b>clothes</b>?", zh:"别担心，正在打折，很便宜。你想试穿那些衣服吗？"},
+    {who:"女孩", en:"Yes, please. Can I try on this pair of <b>shoes</b> too?", zh:"好的，麻烦了。我也能试试这双鞋吗？"},
+    {who:"店员", en:"Sure. What <b>size</b> do you want?", zh:"当然，你想要多大号的？"},
+    {who:"女孩", en:"A <b>large</b> size, please. Oh, I love this <b>hat</b> and the <b>sunglasses</b>!", zh:"大号的，谢谢。哦，我还很喜欢这顶帽子和这副太阳镜！"},
+    {who:"店员", en:"They're <b>free</b> if you buy the jacket today!", zh:"今天买夹克的话它们是免费送的！"},
+    {who:"女孩", en:"Great, I'll <b>take</b> everything on my <b>list</b>!", zh:"太好了，我清单上的东西都买了！"},
+  ]},
+  u5: { title:"农场一日游（短文）", type:"narrative", lines:[
+    {en:"Last weekend, my family visited a farm.", zh:"上周末，我们全家去了一个农场。"},
+    {en:"We saw a <b>cow</b>, a <b>horse</b> and some <b>sheep</b> in the field, and a <b>pig</b> sleeping in the sun.", zh:"我们在田野里看到了一头奶牛、一匹马和一些羊，还有一头在阳光下睡觉的猪。"},
+    {en:"A <b>bee</b> flew past a red <b>tomato</b>, and I even found a little <b>mouse</b> under a basket of <b>potatoes</b>!", zh:"一只蜜蜂飞过一个红色的西红柿，我甚至在一篮子土豆下面发现了一只小老鼠！"},
+    {en:"We picked some <b>carrots</b> and <b>green beans</b> together.", zh:"我们一起摘了一些胡萝卜和四季豆。"},
+    {en:"Then Mum went to the <b>supermarket</b> by <b>herself</b> and bought a <b>can</b> of juice and <b>a box of</b> tomatoes.", zh:"然后妈妈自己去了超市，买了一罐果汁和一箱西红柿。"},
+    {en:"At home, we didn't <b>waste</b> any <b>food</b> — the chicken and the <b>salad</b> were <b>delicious</b>!", zh:"在家里，我们没有浪费任何食物——鸡肉和沙拉都很美味！"},
+    {en:"I helped <b>set the table</b>, and after dinner, I helped <b>clear the table</b> too.", zh:"我帮忙摆放餐具，晚饭后也帮忙收拾了餐桌。"},
+    {en:"Everyone ate with a <b>bowl</b> and a <b>spoon</b>. We do this almost every <b>week</b>!", zh:"每个人都用碗和勺子吃饭。我们几乎每周都这样。"},
+  ]},
+  u6: { title:"跟爷爷做农活", type:"dialogue", lines:[
+    {who:"爷爷", en:"Can you help me <b>feed</b> the chickens this morning?", zh:"你今天早上能帮我喂鸡吗？"},
+    {who:"男孩", en:"Sure, Grandpa! Should I feed the pig too?", zh:"好的，爷爷！我要不要也喂猪？"},
+    {who:"爷爷", en:"Yes, please. After that, let's go <b>milk</b> the cow together.", zh:"好的，谢谢。之后我们一起去给奶牛挤奶吧。"},
+    {who:"男孩", en:"OK! Can I <b>pick</b> some tomatoes first?", zh:"好的！我能先摘一些西红柿吗？"},
+    {who:"爷爷", en:"Go ahead. Then <b>pass</b> me the basket, please.", zh:"去吧，然后把篮子递给我。"},
+    {who:"男孩", en:"Here you are. What are we having for lunch?", zh:"给你。我们午饭吃什么？"},
+    {who:"爷爷", en:"Let's use a <b>knife</b> and a <b>fork</b> today, not <b>chopsticks</b> — we're eating outside!", zh:"今天我们用刀叉，不用筷子——我们在外面吃！"},
+    {who:"男孩", en:"Sounds fun! I'll pass you the fork.", zh:"听起来真有趣！我把叉子递给你。"},
+  ]},
+};
+
+let currentVoice=null, currentRate=0.85, playingBtn=null, allVoices=[];
+let starFilterOn=false, selfTestOn=false;
+
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;'); }
+function stripTags(s){ return (s||'').replace(/<[^>]+>/g,''); }
+
+function tog(id){
+  const b=document.getElementById('b_'+id);
+  const a=document.getElementById('a_'+id);
+  b.classList.toggle('hidden');
+  a.textContent=b.classList.contains('hidden')?'▶':'▼';
+}
+
+function buildGroups(){
+  const root=document.getElementById('groupsRoot');
+  let html='';
+  let totalWords=0, totalStar=0;
+  UNITS.forEach((u,ui)=>{
+    totalWords += u.words.length;
+    totalStar += u.words.filter(w=>w.star).length;
+    const rows = u.words.map(w=>{
+      const starMark = w.star ? '<span class="wr-star">★</span>' : '<span class="wr-star"></span>';
+      return `<div class="word-row" data-star="${w.star?1:0}" onclick="revealRow(this,event)">
+        <div class="wr-top">
+          ${starMark}
+          <span class="wr-en">${esc(w.w)}</span>
+          <span class="wr-ph">${esc(w.p)}</span>
+          <button class="speak-btn sm" data-text="${esc(w.w)}" onclick="event.stopPropagation();speakIt(this)">🔊</button>
+          <span class="wr-cn">${esc(w.c)}</span>
+          <span class="wr-page">${esc(w.pg)}</span>
+        </div>
+        <div class="wr-detail">
+          <div class="wr-phrase-row">
+            <div class="wr-phrase">${esc(w.ph)}<span>${esc(w.phz)}</span></div>
+            <button class="speak-btn sm" data-text="${esc(w.ph)}" onclick="event.stopPropagation();speakIt(this)">🔊</button>
+          </div>
+          <div class="wr-sent">
+            <div class="wr-sent-txt">
+              <div class="wr-sent-en">${esc(w.se)}</div>
+              <div class="wr-sent-cn">${esc(w.sez)}</div>
+            </div>
+            <button class="speak-btn sm" data-text="${esc(w.se)}" onclick="event.stopPropagation();speakIt(this)">🔊</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+    const scen = SCENARIOS[u.id];
+    let scenHtml = '';
+    if(scen){
+      const lineHtml = scen.lines.map((l,li)=>`
+        <div class="sc-line" id="scl_${u.id}_${li}">
+          ${l.who?`<div class="sc-who ${li%2===1?'b':''}">${esc(l.who)}</div>`:''}
+          <div class="sc-txt">
+            <div class="sc-en">${l.en}</div>
+            <div class="sc-zh">${esc(l.zh)}</div>
+          </div>
+          <button class="speak-btn sm" data-text="${esc(stripTags(l.en))}" onclick="speakIt(this)">🔊</button>
+        </div>`).join('');
+      scenHtml = `<div class="scenario-box">
+        <div class="scenario-hd">
+          <div class="scenario-title">🎬 ${esc(scen.title)}</div>
+          <button class="scenario-playall" id="pa_${u.id}" onclick="playAllScenario('${u.id}')">▶ 整段播放</button>
+        </div>
+        ${lineHtml}
+      </div>`;
+    }
+    html += `<div class="group" id="g_${u.id}">
+      <div class="gh ${u.color}" onclick="tog('${u.id}')">
+        <div><div class="gl ${u.color}">${esc(u.title)}</div><div class="gc">${esc(u.sub)} · 共${u.words.length}词</div></div>
+        <div class="garr" id="a_${u.id}">${ui===0?'▼':'▶'}</div>
+      </div>
+      <div class="gb ${ui===0?'':'hidden'}" id="b_${u.id}">${scenHtml}${rows}</div>
+    </div>`;
+  });
+  // numbers group
+  const numRows = NUMBERS.items.map((n,i)=>`<div class="num-item">
+      <div class="num-val">${i+1}</div>
+      <button class="speak-btn sm" data-text="${esc(n[0])}" onclick="speakIt(this)">🔊</button>
+      <div class="num-en">${esc(n[0])} <span style="color:#94a3b8;font-weight:400;">${esc(n[1])}</span></div>
+      <div class="num-cn">${esc(n[2])}</div>
+    </div>`).join('');
+  html += `<div class="group" id="g_num">
+      <div class="gh amber" onclick="tog('num')">
+        <div><div class="gl amber">🔢 ${esc(NUMBERS.title)}</div><div class="gc">${esc(NUMBERS.sub)}</div></div>
+        <div class="garr" id="a_num">▶</div>
+      </div>
+      <div class="gb hidden" id="b_num"><div class="num-grid">${numRows}</div></div>
+    </div>`;
+  root.innerHTML=html;
+  document.getElementById('statTotal').textContent=totalWords;
+  document.getElementById('statStar').textContent=totalStar;
+}
+
+function revealRow(el){
+  if(!selfTestOn) return;
+  el.classList.toggle('revealed');
+}
+
+function toggleStarFilter(){
+  starFilterOn=!starFilterOn;
+  document.getElementById('starToggle').classList.toggle('on',starFilterOn);
+  document.querySelectorAll('.word-row').forEach(r=>{
+    if(starFilterOn && r.getAttribute('data-star')==='0'){ r.classList.add('hide-in-filter'); }
+    else { r.classList.remove('hide-in-filter'); }
+  });
+}
+
+function toggleSelfTest(){
+  selfTestOn=!selfTestOn;
+  document.getElementById('testToggle').classList.toggle('on',selfTestOn);
+  document.body.classList.toggle('selftest',selfTestOn);
+  document.querySelectorAll('.word-row.revealed').forEach(r=>r.classList.remove('revealed'));
+}
+
+function speakIt(btn){
+  const text=btn.getAttribute('data-text');
+  if(!text||!window.speechSynthesis)return;
+  if(playingBtn===btn){window.speechSynthesis.cancel();btn.classList.remove('playing');btn.textContent='🔊';playingBtn=null;return;}
+  if(playingBtn){window.speechSynthesis.cancel();playingBtn.classList.remove('playing');playingBtn.textContent='🔊';}
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='en-US';u.rate=currentRate;u.pitch=1.05;
+  if(currentVoice)u.voice=currentVoice;
+  u.onstart=()=>{btn.classList.add('playing');btn.textContent='⏹';playingBtn=btn;};
+  u.onend=u.onerror=()=>{btn.classList.remove('playing');btn.textContent='🔊';if(playingBtn===btn)playingBtn=null;};
+  window.speechSynthesis.speak(u);
+}
+let scenarioPlaying=null;
+function playAllScenario(uid){
+  const btn=document.getElementById('pa_'+uid);
+  if(scenarioPlaying===uid){ window.speechSynthesis.cancel(); resetScenarioBtn(uid); return; }
+  if(scenarioPlaying){ window.speechSynthesis.cancel(); resetScenarioBtn(scenarioPlaying); }
+  const scen=SCENARIOS[uid];
+  scenarioPlaying=uid;
+  btn.textContent='⏹ 停止';
+  btn.classList.add('playing');
+  let i=0;
+  function next(){
+    document.querySelectorAll('.sc-line.active').forEach(el=>el.classList.remove('active'));
+    if(i>=scen.lines.length || scenarioPlaying!==uid){ resetScenarioBtn(uid); return; }
+    const lineEl=document.getElementById('scl_'+uid+'_'+i);
+    if(lineEl) lineEl.classList.add('active');
+    const u=new SpeechSynthesisUtterance(stripTags(scen.lines[i].en));
+    u.lang='en-US'; u.rate=currentRate; u.pitch=1.05;
+    if(currentVoice) u.voice=currentVoice;
+    u.onend=u.onerror=()=>{ i++; next(); };
+    window.speechSynthesis.speak(u);
+  }
+  next();
+}
+function resetScenarioBtn(uid){
+  const btn=document.getElementById('pa_'+uid);
+  if(btn){ btn.textContent='▶ 整段播放'; btn.classList.remove('playing'); }
+  document.querySelectorAll('.sc-line.active').forEach(el=>el.classList.remove('active'));
+  if(scenarioPlaying===uid) scenarioPlaying=null;
+}
+function setRate(r,btn){currentRate=r;document.querySelectorAll('.rate-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+function toggleVoiceList(){document.getElementById('voiceList').classList.toggle('open');}
+function buildVoiceList(){document.getElementById('voiceList').innerHTML=allVoices.map((v,i)=>`<div class="voice-item ${currentVoice&&currentVoice.name===v.name?'selected':''}" onclick="selectVoice(${i})"><div class="voice-dot"></div><div class="voice-item-name">${v.name}</div><div class="voice-item-lang">${v.lang}</div></div>`).join('');}
+function selectVoice(i){currentVoice=allVoices[i];document.getElementById('voiceName').textContent='🎙️ '+currentVoice.name;buildVoiceList();document.getElementById('voiceList').classList.remove('open');const u=new SpeechSynthesisUtterance("Let's learn new words together!");u.lang='en-US';u.rate=currentRate;u.voice=currentVoice;window.speechSynthesis.cancel();window.speechSynthesis.speak(u);}
+function loadVoices(){const raw=window.speechSynthesis.getVoices();const en=raw.filter(v=>v.lang.startsWith('en'));if(!en.length)return;allVoices=en;const prefer=['Samantha','Zira','Jenny','Aria','Emma','Karen','Moira','Fiona','Nicky'];let p=null;for(const n of prefer){p=en.find(v=>v.name.includes(n));if(p)break;}if(!p)p=en.find(v=>v.lang==='en-US')||en[0];currentVoice=p;document.getElementById('voiceName').textContent='🎙️ '+p.name;buildVoiceList();}
+
+/* ---------- Quiz ---------- */
+let QUIZ=[], quizAnswered=0, quizCorrect=0;
+
+function buildQuizPool(){
+  const starWords=[];
+  UNITS.forEach(u=>u.words.forEach(w=>{ if(w.star) starWords.push(w); }));
+  return starWords;
+}
+function shuffle(arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+function makeQuiz(n){
+  const pool=shuffle(buildQuizPool()).slice(0,n);
+  QUIZ = pool.map(w=>{
+    const wrong = shuffle(buildQuizPool().filter(x=>x.c!==w.c)).slice(0,2).map(x=>x.c);
+    const opts = shuffle([w.c, ...wrong]);
+    return { q: w.w, ph: w.p, correct: w.c, opts };
+  });
+}
+
+function buildQuiz(){
+  makeQuiz(15);
+  quizAnswered=0; quizCorrect=0;
+  document.getElementById('quizCount').textContent = '共 '+QUIZ.length+' 题';
+  document.getElementById('quizScore').textContent='';
+  const root=document.getElementById('quizRoot');
+  root.innerHTML = QUIZ.map((item,i)=>`
+    <div class="mc-card">
+      <div class="mc-q"><span class="qn">Q${i+1}.</span>${esc(item.q)} <span style="color:#94a3b8;font-weight:400;">${esc(item.ph)}</span> 是什么意思？</div>
+      <div class="mc-opts">
+        ${item.opts.map(o=>`<button class="mc-opt" onclick="answerQuiz(${i},this,'${esc(o).replace(/'/g,"\\'")}')">${esc(o)}</button>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+function answerQuiz(i,btn,chosen){
+  const item=QUIZ[i];
+  const group=btn.parentElement;
+  if(group.dataset.done) return;
+  group.dataset.done='1';
+  quizAnswered++;
+  const ok = chosen===item.correct;
+  if(ok) quizCorrect++;
+  [...group.children].forEach(b=>{
+    b.classList.add('disabled');
+    if(b.textContent===item.correct) b.classList.add('correct');
+    else if(b===btn && !ok) b.classList.add('wrong');
+  });
+  if(quizAnswered===QUIZ.length){
+    document.getElementById('quizScore').textContent = `🎉 完成！得分 ${quizCorrect} / ${QUIZ.length}`;
+  }
+}
+
+function resetQuiz(){ buildQuiz(); }
+
+buildGroups();
+buildQuiz();
+if(window.speechSynthesis){window.speechSynthesis.addEventListener('voiceschanged',loadVoices);loadVoices();}
+else document.getElementById('voiceName').textContent='⚠️ 浏览器不支持语音';
+</script>
+</body>
+</html>
