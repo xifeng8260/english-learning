@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Friends & Abilities · 英语学习</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+ --bg:#f3f6fb;--s:#fff;--s2:#f8fafc;--b:rgba(0,0,0,.09);--bm:rgba(0,0,0,.16);
+ --tx:#182033;--tx2:#4b5563;--tx3:#8a93a5;--ac:#4668b8;--acb:#eaf0ff;--act:#27407e;
+ --gr:#166534;--grb:#dcfce7;--rd:#991b1b;--rdb:#fee2e2;--am:#92400e;--amb:#fef3c7;
+}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--tx);min-height:100vh}
+.hdr{background:linear-gradient(135deg,#3557a8,#5e7bd4);color:#fff;padding:22px 18px 17px;text-align:center}
+.hdr-unit{font-size:11px;opacity:.75;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.hdr-title{font-size:25px;font-weight:800;margin-bottom:4px}
+.hdr-sub{font-size:12px;opacity:.82}
+.back-link{display:inline-flex;align-items:center;gap:6px;margin:10px 14px;padding:6px 14px;background:var(--s);border-radius:20px;border:.5px solid var(--bm);font-size:12px;color:var(--tx2);text-decoration:none}
+.spd-bar{background:var(--s);border-bottom:.5px solid var(--b);padding:7px 14px;display:flex;align-items:center;gap:7px;position:sticky;top:0;z-index:50;flex-wrap:wrap}
+.spd-label{font-size:11px;color:var(--tx3)}
+.spd-btn,.voice-btn{padding:4px 10px;border-radius:20px;border:.5px solid var(--bm);background:transparent;font-size:11px;cursor:pointer;color:var(--tx2);font-family:inherit}
+.spd-btn.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.voice-btn{margin-left:auto}
+.tabs{display:flex;background:var(--s);border-bottom:.5px solid var(--b);overflow-x:auto;position:sticky;top:39px;z-index:40}
+.tab{flex-shrink:0;padding:10px 13px;font-size:12px;font-weight:700;border:none;background:transparent;cursor:pointer;color:var(--tx3);border-bottom:2px solid transparent;white-space:nowrap}
+.tab.on{color:var(--ac);border-bottom-color:var(--ac)}
+.page{display:none;padding:14px 14px 34px;max-width:760px;margin:0 auto}.page.on{display:block}
+.sec-hdr{display:flex;align-items:center;gap:8px;margin:4px 0 12px}
+.sec-dot{width:12px;height:12px;border-radius:50%;background:var(--ac)}
+.sec-title{font-size:15px;font-weight:800}.sec-sub{font-size:11px;color:var(--tx3)}
+.passage{display:flex;flex-direction:column;gap:7px;margin-bottom:15px}
+.sent-card{display:flex;align-items:flex-start;gap:10px;background:var(--s);border-radius:10px;border:.5px solid var(--bm);padding:10px 13px}
+.sent-spk{background:none;border:none;cursor:pointer;font-size:17px;flex-shrink:0}
+.sent-spk.playing{animation:pulse .6s infinite alternate}
+@keyframes pulse{from{opacity:.45}to{opacity:1;transform:scale(1.08)}}
+.sent-body{flex:1}.sent-en{font-size:14px;font-weight:600;line-height:1.65}.sent-zh{font-size:11px;color:var(--tx3);margin-top:2px;line-height:1.6}.hi{color:var(--ac);font-weight:800}
+.vocab-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px}
+.vocab-card{background:var(--s);border-radius:10px;border:.5px solid var(--bm);padding:11px 10px;display:flex;gap:9px;align-items:center}
+.vocab-spk{background:none;border:none;cursor:pointer;font-size:16px}.vocab-en{font-size:14px;font-weight:800}.vocab-zh{font-size:12px;color:var(--tx3)}
+.tip{background:linear-gradient(135deg,#edf3ff,#f5f7ff);border-left:3px solid var(--ac);border-radius:0 8px 8px 0;padding:11px 12px;font-size:12px;color:var(--act);line-height:1.8;margin:10px 0 14px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 14px}
+.chip{padding:5px 10px;border-radius:18px;background:var(--acb);color:var(--act);font-size:12px;font-weight:700;cursor:pointer;border:.5px solid rgba(70,104,184,.18)}
+.mc-card{background:var(--s);border-radius:10px;border:.5px solid var(--bm);padding:13px;margin-bottom:9px}
+.mc-q{font-size:13px;font-weight:600;line-height:1.6;margin-bottom:9px}
+.mc-opts{display:flex;flex-direction:column;gap:6px}
+.mc-opt{padding:8px 12px;border-radius:8px;border:.5px solid var(--bm);font-size:12px;cursor:pointer;background:var(--s2);text-align:left;font-family:inherit}
+.mc-opt.correct{background:var(--grb);border-color:#16a34a;color:var(--gr);font-weight:700}
+.mc-opt.wrong{background:var(--rdb);border-color:#dc2626;color:var(--rd)}
+.score-area{display:none;background:var(--acb);border-radius:10px;padding:15px;text-align:center;margin-top:10px}
+.score-num{font-size:26px;font-weight:800;color:var(--ac)}.score-msg{font-size:12px;color:var(--act);margin-top:4px}
+.retry-btn{margin-top:10px;padding:7px 20px;border-radius:20px;border:none;background:var(--ac);color:#fff;font-family:inherit;cursor:pointer}
+.phonics{background:var(--s);border:.5px solid var(--bm);border-radius:12px;padding:14px;margin-bottom:12px}
+.phonics-title{font-size:22px;font-weight:900;color:#d44d4d;text-align:center;margin-bottom:10px}
+.phonics-line{padding:7px 0;font-size:15px;line-height:1.7;border-bottom:.5px solid var(--b)}
+.phonics-line:last-child{border-bottom:none}
+.mini-title{font-size:13px;font-weight:800;margin:14px 0 8px}
+@media(max-width:520px){.vocab-grid{grid-template-columns:1fr}.tabs{top:73px}.page{padding-left:10px;padding-right:10px}}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="hdr-unit">Friends & Abilities · 教材学习页</div>
+  <div class="hdr-title">👫 How are your friends different?</div>
+  <div class="hdr-sub">朋友特点 · 能力表达 · ai / ay 发音 · 阅读与项目</div>
+  <div style="font-size:11px;opacity:.72;margin-top:6px;">已优化为纯学习页 · 不依赖教材图片文件</div>
+</div>
+
+<a class="back-link" href="index.html">← 返回主页</a>
+
+<div class="spd-bar">
+  <span class="spd-label">🔊 语速：</span>
+  <button class="spd-btn" onclick="setSpd(.7,this)">慢</button>
+  <button class="spd-btn on" onclick="setSpd(1,this)">正常</button>
+  <button class="spd-btn" onclick="setSpd(1.3,this)">快</button>
+  <button class="voice-btn" id="vbtn" onclick="cycleVoice()">🗣 Voice 1</button>
+</div>
+
+<div class="tabs">
+  <button class="tab on" onclick="go('a',this)">A 朋友特点</button>
+  <button class="tab" onclick="go('b',this)">B 能力</button>
+  <button class="tab" onclick="go('p',this)">ai / ay</button>
+  <button class="tab" onclick="go('t',this)">Talent show</button>
+  <button class="tab" onclick="go('r',this)">Reading time</button>
+  <button class="tab" onclick="go('q',this)">综合练习</button>
+</div>
+
+<section class="page on" id="a">
+  <div class="sec-hdr"><div class="sec-dot"></div><div class="sec-title">A · How are your friends different?</div><div class="sec-sub">Let's talk + Let's learn</div></div>
+<div class="passage">
+    <div class="sent-card"><button class="sent-spk" onclick="speak(`Hi, class. You'll have a new classmate. He's from Australia. His name is Oliver.`,this)">🔊</button><div class="sent-body"><div class="sent-en">Hi, class. You'll have a new <span class="hi">classmate</span>. He's from Australia. His name is Oliver.</div><div class="sent-zh">同学们好。你们将有一位新同学。他来自澳大利亚，他叫 Oliver。</div></div></div>
+    <div class="sent-card"><button class="sent-spk" onclick="speak(`What's he like?`,this)">🔊</button><div class="sent-body"><div class="sent-en">What's he like?</div><div class="sent-zh">他是什么样的人？</div></div></div>
+    <div class="sent-card"><button class="sent-spk" onclick="speak(`He's tall and strong.`,this)">🔊</button><div class="sent-body"><div class="sent-en">He's <span class="hi">tall</span> and <span class="hi">strong</span>.</div><div class="sent-zh">他又高又强壮。</div></div></div>
+    <div class="sent-card"><button class="sent-spk" onclick="speak(`Is he good at football?`,this)">🔊</button><div class="sent-body"><div class="sent-en">Is he <span class="hi">good at</span> football?</div><div class="sent-zh">他擅长踢足球吗？</div></div></div>
+    <div class="sent-card"><button class="sent-spk" onclick="speak(`Yes, I think he is. He can run very fast.`,this)">🔊</button><div class="sent-body"><div class="sent-en">Yes, I think he is. He can run very fast.</div><div class="sent-zh">是的，我觉得他很擅长。他跑得很快。</div></div></div>
+    <div class="sent-card"><button class="sent-spk" onclick="speak(`Oliver can't speak Chinese. Would you like to help him, Zhang Peng?`,this)">🔊</button><div class="sent-body"><div class="sent-en">Oliver can't speak Chinese. Would you like to help him, Zhang Peng?</div><div class="sent-zh">Oliver 不会说中文。张鹏，你愿意帮助他吗？</div></div></div>
+  </div>
+<div class="mini-title">人物特点词汇 · 点 🔊 发音</div>
+  <div class="vocab-grid">
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('lovely',this)">🔊</button><div><div class="vocab-en">lovely</div><div class="vocab-zh">可爱的</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('clever',this)">🔊</button><div><div class="vocab-en">clever</div><div class="vocab-zh">聪明的</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('young',this)">🔊</button><div><div class="vocab-en">young</div><div class="vocab-zh">年轻的</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('hard-working',this)">🔊</button><div><div class="vocab-en">hard-working</div><div class="vocab-zh">勤奋的</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('friendly',this)">🔊</button><div><div class="vocab-en">friendly</div><div class="vocab-zh">友好的</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('quiet',this)">🔊</button><div><div class="vocab-en">quiet</div><div class="vocab-zh">安静的</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('kind',this)">🔊</button><div><div class="vocab-en">kind</div><div class="vocab-zh">友善的</div></div></div>
+    <div class="vocab-card"><button class="vocab-spk" onclick="speak('strong',this)">🔊</button><div><div class="vocab-en">strong</div><div class="vocab-zh">强壮的</div></div></div>
+  </div>
+  <div class="tip"><b>核心句型：</b><br>What's he / she like? = 他 / 她是什么样的人？<br>He / She is ... = 他 / 她……<br>Is he / she good at ...? = 他 / 她擅长……吗？</div>
+</section>
+
+<section class="page" id="b">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#d45a43"></div><div class="sec-title">B · What can you do?</div><div class="sec-sub">Let's talk + Let's learn</div></div>
+<div class="passage">
+    <div class="sent-card"><button class="sent-spk" onclick="speak(`The Science and Art Festival is in two weeks.`,this)">🔊</button><div class="sent-body"><div class="sent-en">The Science and Art Festival is in two weeks.</div><div class="sent-zh">科技艺术节两周后举行。</div></div></div>
+    <div class="sent-card"><button class="sent-spk" onclick="speak(`What can you do for the festival?`,this)">🔊</button><div class="sent-body"><div class="sent-en">What can you do for the festival?</div><div class="sent-zh">你能为艺术节做什么？</div></div></div>
+    <div class="sent-card"><button class="sent-spk" onclick="speak(`I can make a robot.`,this)">🔊</button><div class="sent-body"><div class="sent-en">I can <span class="hi">make a robot</span>.</div><div class="sent-zh">我会制作机器人。</div></div></div>
+    <div class="sent-card"><button class="sent-spk" onclick="speak(`Can you make robots, Sarah?`,this)">🔊</button><div class="sent-body"><div class="sent-en">Can you make robots, Sarah?</div><div class="sent-zh">Sarah，你会制作机器人吗？</div></div></div>
+    <div class="sent-card"><button class="sent-spk" onclick="speak(`No, I can't.`,this)">🔊</button><div class="sent-body"><div class="sent-en">No, I can't.</div><div class="sent-zh">不，我不会。</div></div></div>
+    <div class="sent-card"><button class="sent-spk" onclick="speak(`I can dance.`,this)">🔊</button><div class="sent-body"><div class="sent-en">I can dance.</div><div class="sent-zh">我会跳舞。</div></div></div>
+  </div>
+<div class="mini-title">能力词组 · 点一下听</div>
+  <div class="chips">
+    <button class="chip" onclick="speak('jump rope',null)">jump rope · 跳绳</button>
+    <button class="chip" onclick="speak('play the piano',null)">play the piano · 弹钢琴</button>
+    <button class="chip" onclick="speak('play Chinese chess',null)">play Chinese chess · 下中国象棋</button>
+    <button class="chip" onclick="speak('make robots',null)">make robots · 制作机器人</button>
+    <button class="chip" onclick="speak('dance',null)">dance · 跳舞</button>
+    <button class="chip" onclick="speak('sing',null)">sing · 唱歌</button>
+  </div>
+  <div class="tip"><b>核心句型：</b><br>What can you do? → I can ...<br>Can you ...? → Yes, I can. / No, I can't.</div>
+</section>
+
+<section class="page" id="p">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#d34b4b"></div><div class="sec-title">Let's spell · ai / ay</div><div class="sec-sub">Listen, repeat and chant</div></div>
+<div class="phonics">
+    <div class="phonics-title">ai &nbsp;&nbsp; ay</div>
+
+    <div class="phonics-line">
+      <div><button class="sent-spk" onclick="speak('The dog likes to play in the rain.',this)">🔊</button>
+      The dog likes to pl<span class="hi">ay</span> in the r<span class="hi">ai</span>n.</div>
+      <div class="sent-zh">这只狗喜欢在雨中玩耍。</div>
+    </div>
+
+    <div class="phonics-line">
+      <div><button class="sent-spk" onclick="speak('He waits for the boy to come and play.',this)">🔊</button>
+      He w<span class="hi">ai</span>ts for the boy to come and pl<span class="hi">ay</span>.</div>
+      <div class="sent-zh">它等着男孩过来一起玩。</div>
+    </div>
+
+    <div class="phonics-line">
+      <div><button class="sent-spk" onclick="speak('The happy little dog wags his tail.',this)">🔊</button>
+      The happy little dog wags his t<span class="hi">ai</span>l.</div>
+      <div class="sent-zh">这只快乐的小狗摇着它的尾巴。</div>
+    </div>
+
+    <div class="phonics-line">
+      <div><button class="sent-spk" onclick="speak('They play games on a happy wet day.',this)">🔊</button>
+      They pl<span class="hi">ay</span> games on a happy wet d<span class="hi">ay</span>.</div>
+      <div class="sent-zh">他们在一个快乐的雨天一起玩游戏。</div>
+    </div>
+  </div>
+  <div class="chips">
+    <button class="chip" onclick="speak('day',null)">day</button>
+    <button class="chip" onclick="speak('play',null)">play</button>
+    <button class="chip" onclick="speak('rain',null)">rain</button>
+    <button class="chip" onclick="speak('say',null)">say</button>
+    <button class="chip" onclick="speak('tail',null)">tail</button>
+    <button class="chip" onclick="speak('train',null)">train</button>
+    <button class="chip" onclick="speak('wait',null)">wait</button>
+    <button class="chip" onclick="speak('way',null)">way</button>
+  </div>
+  <div class="tip"><b>发音观察：</b>教材这一页把 <b>ai</b> 与 <b>ay</b> 放在一起练习。多听 rain / wait / tail 和 play / day / say 的发音。</div>
+</section>
+
+<section class="page" id="t">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#d45a43"></div><div class="sec-title">School Talent Show</div><div class="sec-sub">阅读 + 表演者信息</div></div>
+<div class="passage">
+    <div class="sent-card"><button class="sent-spk" onclick="speak(`Everyone can draw pictures. But can you make your pictures come to life?`,this)">🔊</button><div class="sent-body"><div class="sent-en">Everyone can draw pictures. But can you make your pictures come to life?</div><div class="sent-zh">每个人都会画画。但是你能让画面“活起来”吗？</div></div></div>
+    <div class="sent-card"><button class="sent-spk" onclick="speak(`Jumping rope is easy and fun. Meet the jumping stars: John and Amy.`,this)">🔊</button><div class="sent-body"><div class="sent-en">Jumping rope is easy and fun. Meet the jumping stars: John and Amy.</div><div class="sent-zh">跳绳简单又有趣。来认识跳绳明星 John 和 Amy。</div></div></div>
+    <div class="sent-card"><button class="sent-spk" onclick="speak(`Binbin loves music. He can play the piano and the pipa.`,this)">🔊</button><div class="sent-body"><div class="sent-en">Binbin loves music. He can play the piano and the pipa.</div><div class="sent-zh">Binbin 喜欢音乐。他会弹钢琴和弹琵琶。</div></div></div>
+    <div class="sent-card"><button class="sent-spk" onclick="speak(`Robin is a clever robot. He is good at playing Chinese chess.`,this)">🔊</button><div class="sent-body"><div class="sent-en">Robin is a clever robot. He is good at playing Chinese chess.</div><div class="sent-zh">Robin 是一个聪明的机器人。他擅长下中国象棋。</div></div></div>
+  </div>
+
+<div class="tip"><b>项目表达：</b><br>This is my friend ...<br>He / She is ...<br>He / She can ...<br>He / She is good at ...</div>
+</section>
+
+<section class="page" id="r">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#4f8f55"></div><div class="sec-title">Reading time · Grace</div><div class="sec-sub">阅读理解</div></div>
+
+<div class="passage">
+    <div class="sent-card"><button class="sent-spk" onclick="speak(`We have a new student in our class today. Her name's Grace.`,this)">🔊</button><div class="sent-body"><div class="sent-en">We have a new student in our class today. Her name's Grace.</div><div class="sent-zh">今天我们班来了一位新同学。她叫 Grace。</div></div></div>
+    <div class="sent-card"><button class="sent-spk" onclick="speak(`Hi, everyone. Nice to meet you all!`,this)">🔊</button><div class="sent-body"><div class="sent-en">Hi, everyone. Nice to meet you all!</div><div class="sent-zh">大家好！很高兴认识大家！</div></div></div>
+    <div class="sent-card"><button class="sent-spk" onclick="speak(`Grace is so lovely and friendly.`,this)">🔊</button><div class="sent-body"><div class="sent-en">Grace is so lovely and friendly.</div><div class="sent-zh">Grace 很可爱，也很友好。</div></div></div>
+    <div class="sent-card"><button class="sent-spk" onclick="speak(`Yes, I can draw really well.`,this)">🔊</button><div class="sent-body"><div class="sent-en">Yes, I can draw really well.</div><div class="sent-zh">是的，我画画画得很好。</div></div></div>
+    <div class="sent-card"><button class="sent-spk" onclick="speak(`Thank you for your help, Grace.`,this)">🔊</button><div class="sent-body"><div class="sent-en">Thank you for your help, Grace.</div><div class="sent-zh">谢谢你的帮助，Grace。</div></div></div>
+    <div class="sent-card"><button class="sent-spk" onclick="speak(`You're welcome.`,this)">🔊</button><div class="sent-body"><div class="sent-en">You're welcome.</div><div class="sent-zh">不客气。</div></div></div>
+  </div>
+  <div class="tip"><b>阅读要点：</b>Grace 虽然不能和同学们一起踢足球，但她能画画，并为足球比赛画了海报。教材用这个故事继续练习 “人物特点 + 能力”。</div>
+</section>
+
+<section class="page" id="q">
+  <div class="sec-hdr"><div class="sec-dot" style="background:#7b61b4"></div><div class="sec-title">综合练习</div><div class="sec-sub">点选答案 · 自动批改</div></div>
+  <div class="mc-card">
+    <div class="mc-q">1. What's Oliver like?</div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,false)">A. He is quiet and small.</button>
+      <button class="mc-opt" onclick="mcAns(this,true)">B. He is tall and strong.</button>
+      <button class="mc-opt" onclick="mcAns(this,false)">C. He is young and lovely.</button>
+    </div>
+  </div>
+  <div class="mc-card">
+    <div class="mc-q">2. What can Sarah do?</div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,true)">A. She can dance.</button>
+      <button class="mc-opt" onclick="mcAns(this,false)">B. She can make robots.</button>
+      <button class="mc-opt" onclick="mcAns(this,false)">C. She can play Chinese chess.</button>
+    </div>
+  </div>
+  <div class="mc-card">
+    <div class="mc-q">3. Which word has “ai”?</div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,false)">A. play</button>
+      <button class="mc-opt" onclick="mcAns(this,true)">B. rain</button>
+      <button class="mc-opt" onclick="mcAns(this,false)">C. day</button>
+    </div>
+  </div>
+  <div class="mc-card">
+    <div class="mc-q">4. What is Robin good at?</div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,false)">A. Playing football.</button>
+      <button class="mc-opt" onclick="mcAns(this,true)">B. Playing Chinese chess.</button>
+      <button class="mc-opt" onclick="mcAns(this,false)">C. Singing.</button>
+    </div>
+  </div>
+  <div class="mc-card">
+    <div class="mc-q">5. What can Grace do really well?</div>
+    <div class="mc-opts">
+      <button class="mc-opt" onclick="mcAns(this,true)">A. Draw.</button>
+      <button class="mc-opt" onclick="mcAns(this,false)">B. Play football.</button>
+      <button class="mc-opt" onclick="mcAns(this,false)">C. Jump rope.</button>
+    </div>
+  </div>
+  <div class="score-area" id="score">
+    <div class="score-num" id="scoreNum"></div>
+    <div class="score-msg" id="scoreMsg"></div>
+    <button class="retry-btn" onclick="resetMc()">再来一次 🔄</button>
+  </div>
+</section>
+
+<script>
+let spd=1,voices=[],vi=0,activBtn=null;
+function loadVoices(){voices=window.speechSynthesis.getVoices().filter(v=>v.lang.startsWith('en'));if(!voices.length)setTimeout(loadVoices,400);}
+if('speechSynthesis'in window){window.speechSynthesis.onvoiceschanged=loadVoices;loadVoices();}
+function speak(text,btn){
+ if(!window.speechSynthesis)return;
+ window.speechSynthesis.cancel();
+ if(btn && activBtn===btn){btn.classList.remove('playing');activBtn=null;return;}
+ if(activBtn){activBtn.classList.remove('playing');activBtn=null;}
+ const u=new SpeechSynthesisUtterance(text);u.lang='en-US';u.rate=spd;u.pitch=1;
+ if(voices.length)u.voice=voices[vi%voices.length];
+ if(btn){btn.classList.add('playing');activBtn=btn;u.onend=()=>{btn.classList.remove('playing');activBtn=null};u.onerror=()=>{btn.classList.remove('playing');activBtn=null}}
+ window.speechSynthesis.speak(u);
+}
+function setSpd(s,btn){spd=s;document.querySelectorAll('.spd-btn').forEach(b=>b.classList.remove('on'));btn.classList.add('on')}
+function cycleVoice(){if(!voices.length)return;vi=(vi+1)%voices.length;document.getElementById('vbtn').textContent='🗣 Voice '+(vi+1);speak('How are your friends different?',null)}
+function go(id,btn){document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));document.getElementById(id).classList.add('on');btn.classList.add('on');window.scrollTo({top:0,behavior:'smooth'})}
+let answered=0,correct=0,total=5;
+function mcAns(el,isCorrect){
+ const opts=el.parentElement.querySelectorAll('.mc-opt');let done=false;
+ opts.forEach(o=>{if(o.classList.contains('correct')||o.classList.contains('wrong'))done=true});if(done)return;
+ el.classList.add(isCorrect?'correct':'wrong');
+ if(!isCorrect)opts.forEach(o=>{const fn=o.getAttribute('onclick')||'';if(fn.includes('true'))o.classList.add('correct')});
+ answered++;if(isCorrect)correct++;
+ if(answered===total){
+   const s=document.getElementById('score');s.style.display='block';
+   document.getElementById('scoreNum').textContent=correct+'/'+total+' ⭐';
+   document.getElementById('scoreMsg').textContent=correct===5?'全对！太棒了！🏆':correct>=4?'做得很好！👍':'再读一遍课文，继续加油！💪';
+   s.scrollIntoView({behavior:'smooth',block:'center'});
+ }
+}
+function resetMc(){document.querySelectorAll('.mc-opt').forEach(o=>o.classList.remove('correct','wrong'));document.getElementById('score').style.display='none';answered=0;correct=0}
+</script>
+</body>
+</html>
